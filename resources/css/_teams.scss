@@ -1,0 +1,38 @@
+.teams {
+    max-width: 1440px;
+    width: 100%;
+    margin: 0 auto;
+    .list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: start;
+        align-items: center;
+        padding: 0;
+        gap: 20px;
+        .team-item {
+            width: 200px;
+            a {
+                text-decoration: none;
+                color: #000;
+            }
+            .team-img {
+                margin-bottom: 10px;
+                text-align: center;
+                img {
+                    width: 150px;
+                }
+            }
+
+            .team-title {
+                text-align: center;
+                font-size: 14px;
+                font-weight: bold;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                -webkit-line-clamp: 2;
+            }
+
+        }
+    }
+}

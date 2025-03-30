@@ -1,0 +1,74 @@
+.seminar {
+    max-width: 1240px;
+    width: 100%;
+    margin: 0 auto;
+    .seminar-section {
+        .seminar-header {
+            .seminar-header-title {
+                border-bottom: 2px solid #1376bc;
+            }
+        }
+        .seminar-list {
+            .empty-calendar {
+                text-align: center;
+                img {
+                    width: 250px;
+                }
+            }
+
+            .seminar-item {
+                border-bottom: 1px solid #ccc;
+                padding-bottom: 20px;
+                display: flex;
+                overflow: hidden;
+                padding-top: 10px;
+
+                .date_stamp {
+                    width: 55px;
+                    text-align: center;
+                    margin-right: 7px;
+                    margin-top: 6px;
+
+                    .date_stamp_top {
+                        color: #fff;
+                        font-size: 12px;
+                        background: #1376bc;
+                        padding: 2px 0 2px 0;
+                        .weekday {
+                            font-size: 11px;
+                            color: #fff;
+                            text-transform: capitalize;
+
+                        }
+                        .event_date {
+                            font-size: 18px;
+                            font-weight: 700;
+                            color: #fff;
+                        }
+                    }
+                    .date_time_bottom {
+                        padding: 2px 0 2px 0;
+                        font-size: 12px;
+                        border-bottom: 1px solid #ccc;
+                        border-right: 1px solid #ccc;
+                        border-left: 1px solid #ccc;
+                    }
+                }
+
+                .seminar_item_right {
+                    .article-title {
+                        font-size: 1.3em !important;
+                        font-weight: normal;
+                        a {
+                            font-size: 16px;
+                            font-weight: 700;
+                            color: #000;
+                        }
+                    }
+                }
+            }
+        }
+
+
+    }
+}

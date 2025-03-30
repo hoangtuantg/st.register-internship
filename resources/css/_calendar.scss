@@ -1,0 +1,65 @@
+.calendar-create {
+    .list-day-of-week {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 10px;
+        .item-day-of-week {
+            &.disabled {
+                color: #e5e5e5;
+                cursor: not-allowed;
+            }
+
+            &.active {
+                .card {
+                    background: #0c83ff;
+                    color: #ffffff;
+                }
+            }
+
+            cursor: pointer;
+            display: inline-block;
+            width: 110px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            color: #4b5563;
+            .card-body {
+                padding: 10px 5px;
+            }
+        }
+    }
+
+    .input-group {
+        .disabled {
+            cursor: not-allowed;
+        }
+    }
+
+}
+
+.note-calendar {
+    margin-top: 10px;
+    .note-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        .bullet {
+            width: 10px;
+            height: 10px;
+
+            &.note-work {
+                background: #1376bc;
+            }
+
+            &.note-seminar {
+                background: #FF9800;
+            }
+
+            &.note-other {
+                background: gray;
+            }
+        }
+    }
+}
