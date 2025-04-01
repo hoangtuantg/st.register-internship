@@ -2,15 +2,22 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Enums\UserRoleEnum;
+use App\Enums\StatusEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Session;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
+    //use HasApiTokens;
+    use HasFactory;
+    use Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -18,9 +25,8 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'sso_id',
+        'status',
     ];
 
     /**
@@ -28,21 +34,47 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    
+    // protected $hidden = [
+    //     'remember_token',
+    // ];
 
     /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>
      */
-    protected function casts(): array
+    protected $casts = [
+        'status' => StatusEnum::class,
+    ];
+
+    protected $appends = ['role_name'];
+
+    public function userRoles(): BelongsToMany
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        return $this->belongsToMany(Role::class, 'user_role');
+    }
+
+    public function hasPermission(string $permissionCode): bool
+    {
+        $userData = Session::get('userData');
+
+        if (!$userData) {
+            return false;
+        }
+
+        if ($userData['role'] === UserRoleEnum::SuperAdmin->value) {
+            return true;
+        }
+
+        return $this->userRoles()->whereHas('permissions', function ($query) use ($permissionCode): void {
+            $query->where('code', $permissionCode);
+        })->exists();
+    }
+
+
+    public function getRoleNameAttribute(): string
+    {
+        return $this->userRoles()->pluck('name')->implode(', ');
     }
 }

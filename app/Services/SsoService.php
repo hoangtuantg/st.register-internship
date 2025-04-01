@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Throwable;
+use App\Enums\StatusEnum;
+use App\Enums\UserRoleEnum;
 
 class SsoService
 {
@@ -69,17 +71,17 @@ class SsoService
         return $userData;
     }
 
-    // public function getFacultyId()
-    // {
+    public function getFacultyId()
+    {
 
-    //     $userData = $this->getDataUser();
+        $userData = $this->getDataUser();
 
 
-    //     return  $userData['role'] === Role::SuperAdmin->value
-    //         ? Session::get('facultyId')
-    //     : $userData['faculty_id'] ?? null;
+        return  $userData['role'] === UserRoleEnum::SuperAdmin->value
+            ? Session::get('facultyId')
+        : $userData['faculty_id'] ?? null;
 
-    // }
+    }
 
     private function handleError(int $codeError): void
     {

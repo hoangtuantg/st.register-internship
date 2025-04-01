@@ -16,7 +16,13 @@ Route::get('/auth/callback', [AuthenticateController::class, 'handleCallback'])-
 Route::get('/auth/redirect', [AuthenticateController::class, 'redirectToSSO'])->name('sso.redirect');
 Route::post('/logout', [AuthenticateController::class, 'logout'])->name('handleLogout');
 
-Route::middleware('auth.sso')->get('/', [CampaignController::class, 'index']); 
+Route::middleware('auth.sso')->get('/', [CampaignController::class, 'index'])->name('dashboard');
+Route::middleware('auth.sso')->group(function (): void {
+    Route::get('/', [CampaignController::class, 'index'])->name('dashboard');
+    Route::get('/faculty/select', function () {
+        return view('livewire.commons.faculty-selected');
+    })->name('faculty.select');
+});
 
 
 

@@ -12,7 +12,9 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Throwable;
-
+use App\Enums\StatusEnum;
+use App\Enums\UserRoleEnum;
+use App\Models\Role;
 
 class AuthenticateController extends Controller
 {
@@ -32,7 +34,6 @@ class AuthenticateController extends Controller
     {
         try {
             $data = $this->getAccessToken($request->code);
-
             if (! isset($data['access_token'])) {
                 return abort(401);
             }
@@ -40,9 +41,12 @@ class AuthenticateController extends Controller
             Session::put('access_token', $data['access_token']);
 
             $userData = $this->getUserData($data['access_token']);
-
-            // Auth::login($user);
-
+            $user = $this->findOrCreateUser($userData);
+            $this->storeSessionData($userData);
+            Auth::login($user);
+            if ($userData['role'] === UserRoleEnum::SuperAdmin->value && empty($userData['faculty_id'])) {
+                return redirect()->route('faculty.select');
+            }
             return redirect()->route('dashboard');
         } catch (Throwable $th) {
             Log::error($th->getMessage());
@@ -78,40 +82,65 @@ class AuthenticateController extends Controller
         return $response->json();
     }
 
-    // private function findOrCreateUser(array $userData): User
-    // {
-    //     $user =  User::firstOrCreate(
-    //         ['sso_id' => $userData['id']],
-    //         ['status' => Status::Active]
-    //     );
+    private function findOrCreateUser(array $userData): User
+    {
+        $user =  User::firstOrCreate(
+            ['sso_id' => $userData['id']],
+            ['status' => StatusEnum::Active]
+        );
 
-    //     if ($user['role'] === Role::Student->value) {
-    //         Student::updateOrCreate([
-    //             'code' => $userData['code'],
-    //             'email' => $userData['email']
-    //         ], [
-    //             'user_id' => $user->id,
-    //             'first_name' => $userData['first_name'],
-    //             'last_name' => $userData['last_name'],
-    //             'email' => $userData['email'],
-    //             'phone' => $userData['phone'],
-    //             'code' => $userData['code']
-    //         ]);
-    //     }
-    //     return $user;
-    // }
+        // if ($user['role'] === UserRoleEnum::Student->value) {
+        //     Student::updateOrCreate([
+        //         'code' => $userData['code'],
+        //         'email' => $userData['email']
+        //     ], [
+        //         'user_id' => $user->id,
+        //         'first_name' => $userData['first_name'],
+        //         'last_name' => $userData['last_name'],
+        //         'email' => $userData['email'],
+        //         'phone' => $userData['phone'],
+        //         'code' => $userData['code']
+        //     ]);
+        // }
 
-    // private function storeSessionData(array $userData): void
-    // {
-    //     Session::put('userData', $userData);
+        if (!empty($userData['faculty_id'])) {
+            try {
+                // Cách 1: Sử dụng pluck với tên cột đầy đủ
+                $roleIds = $user->userRoles()->pluck('roles.id')->toArray();
+                
+                // Hoặc cách 2: Sử dụng role_id từ bảng pivot
+                // $roleIds = $user->userRoles()->pluck('role_id')->toArray();
+                
+                Role::whereIn('id', $roleIds)
+                    ->update(['faculty_id' => $userData['faculty_id']]);
+            } catch (\Exception $e) {
+                Log::error('Error updating faculty_id: ' . $e->getMessage());
+            }
+        }
 
-    //     if ($userData['role'] !== Role::SuperAdmin->value && empty($userData['faculty_id'])) {
-    //         abort(403);
-    //     }
+        if (
+            (User::count() === 1 && $userData['role'] === UserRoleEnum::Officer->value) ||
+            ($userData['role'] === UserRoleEnum::SuperAdmin->value)
+        ) {
+            $superAdminRole = Role::firstOrCreate(
+                ['name' => UserRoleEnum::SuperAdmin->value]
+            );
+            if (!$user->userRoles()->where('role_id', $superAdminRole->id)->exists()) {
+                $user->userRoles()->attach($superAdminRole->id);
+            }
+        }
+        
+        return $user;
+    }
 
-    //     if ($userData['role'] !== Role::SuperAdmin->value) {
-    //         Session::put('facultyId', $userData['facultyId']);
-    //     }
-    // }
-
+    private function storeSessionData(array $userData): void
+    {
+        Session::put('userData', $userData);
+        if ($userData['role'] !== UserRoleEnum::SuperAdmin->value && empty($userData['faculty_id'])) {
+            abort(403);
+        }
+        if ($userData['role'] !== UserRoleEnum::SuperAdmin->value) {
+            Session::put('faculty_id', $userData['faculty_id']);
+        }
+    }
 }
