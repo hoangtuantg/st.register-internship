@@ -40,5 +40,6 @@
 
 
     <div class="content">
+        <livewire:admin.campaign.campaign-index />
     </div>
 </x-layouts.admin-layout>

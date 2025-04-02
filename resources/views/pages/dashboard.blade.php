@@ -1,4 +1,4 @@
-<x-admin-layout>
+<x-layouts.admin-layout>
     <x-slot name="header">
         <div class="page-header page-header-light shadow">
             <div class="page-header-content d-lg-flex">
@@ -35,4 +35,4 @@
     <div class="content">
         Hello
     </div>
-</x-admin-layout>
+</x-layouts.admin-layout>

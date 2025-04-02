@@ -36,10 +36,10 @@ class Role extends Model
         return $this->belongsToMany(User::class, 'user_role');
     }
 
-    // public function permissions(): BelongsToMany
-    // {
-    //     return $this->belongsToMany(Permission::class, 'role_permission');
-    // }
+    public function permissions(): BelongsToMany
+    {
+        return $this->belongsToMany(Permission::class, 'role_permission');
+    }
 
     public function scopeSearch($query, $search)
     {

@@ -32,8 +32,8 @@
                     <i class="ph-dots-three sidebar-resize-show"></i>
                 </li>
                 <li class="nav-item">
-                    <a href=""
-                       class="nav-link">
+                    <a href="{{route('admin.campaigns.index')}}"
+                       class="nav-link {{ request()->routeIs('admin.campaigns.index') ? 'active' : '' }}">
                         <i class="ph-telegram-logo"></i>
                         <span>Đợt đăng ký</span>
                     </a>
