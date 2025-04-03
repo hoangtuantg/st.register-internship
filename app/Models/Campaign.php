@@ -13,7 +13,7 @@ class Campaign extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'start', 'end', 'max_student_group', 'official_end', 'plan_template_id', 'faculty_id'];
+    protected $fillable = ['name', 'start', 'end', 'max_student_group', 'official_end', 'plan_id', 'faculty_id'];
 
     // public function students(): HasMany
     // {
@@ -25,10 +25,10 @@ class Campaign extends Model
     //     return $this->hasMany(Group::class);
     // }
 
-    // public function planTemplate(): BelongsTo
-    // {
-    //     return $this->belongsTo(Plan::class, 'plan_template_id');
-    // }
+    public function planTemplate(): BelongsTo
+    {
+        return $this->belongsTo(Plan::class, 'plan_id');
+    }
 
     // public function companies(): BelongsToMany
     // {

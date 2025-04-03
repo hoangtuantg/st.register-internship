@@ -14,6 +14,7 @@ use Illuminate\Routing\Redirector;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\Validate;
+use App\Services\SsoService;
 
 
 class CampaignUpdate extends Component
@@ -52,8 +53,11 @@ class CampaignUpdate extends Component
 
     public function render()
     {
-        // $planTemplates = Plan::all();
-        return view('livewire.admin.campaign.campaign-update');
+        $facultyId = app(SsoService::class)->getFacultyId();
+        $planTemplates = Plan::where('faculty_id', $facultyId)->get();
+        return view('livewire.admin.campaign.campaign-update', [
+            'planTemplates' => $planTemplates,
+        ]);
     }
 
     public function mount($id)
@@ -66,7 +70,7 @@ class CampaignUpdate extends Component
         $this->official_end = Carbon::make($campaign->official_end ?? now())->format(Constants::FORMAT_DATE);
         $this->report_deadline = Carbon::make($campaign->report_deadline ?? now())->format(Constants::FORMAT_DATE);
         $this->max_student_group = $campaign->max_student_group;
-        // $this->planId = $campaign->plan_template_id;
+        $this->planId = $campaign->plan_id;
         $this->status = $campaign->status;
     }
 
@@ -131,10 +135,10 @@ class CampaignUpdate extends Component
         $this->report_deadline = str_replace('/', '-', $value);
     }
 
-    // public function updatePlan($id): void
-    // {
-    //     $this->planId = $id;
-    // }
+    public function updatePlan($id): void
+    {
+        $this->planId = $id;
+    }
 
     public function submit(): RedirectResponse|Redirector|null
     {
@@ -153,10 +157,9 @@ class CampaignUpdate extends Component
                     'official_end' => Carbon::make($this->official_end),
                     'report_deadline' => Carbon::make($this->report_deadline),
                     'max_student_group' => $this->max_student_group,
-                    // 'plan_template_id' => $this->planId ?? null,
+                    'plan_id' => $this->planId ?? null,
                     'status' => $this->status
                 ]);
-                // $this->dispatch('alert', type: 'success', message: 'Cập nhật thành công!');
                 session()->flash('success', 'Chỉnh sửa thành công!');
                 $this->isLoading = false;
                 return redirect()->route('admin.campaigns.index');

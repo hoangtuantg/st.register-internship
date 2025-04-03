@@ -38,6 +38,14 @@
                         <span>Đợt đăng ký</span>
                     </a>
                 </li>
+
+                <li class="nav-item">
+                    <a href="{{ route('admin.plans.index') }}"
+                       class="nav-link {{ request()->routeIs('admin.plans.*') ? 'active' : '' }}">
+                        <i class="ph-calendar"></i>
+                        <span>Kế hoạch</span>
+                    </a>
+                </li>
             </ul>
         </div>
         <!-- /main navigation -->

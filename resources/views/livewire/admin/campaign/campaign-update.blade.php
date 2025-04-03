@@ -157,14 +157,14 @@
                             Chọn mẫu kế hoạch
                         </label>
                     </div>
-                    {{-- <select id="planTemplate" class="form-select" wire:model="planId">
+                    <select id="planTemplate" class="form-select" wire:model="planId">
                         <option value=""></option>
                         @foreach($planTemplates as $planTemplate)
                             <option value="{{ $planTemplate->id }}" {{ $planTemplate->id == $planId ? 'selected' : '' }}>
                                 {{ $planTemplate->name }}
                             </option>
                         @endforeach
-                    </select> --}}
+                    </select>
                 </div>
 
             </div>

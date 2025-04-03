@@ -14,7 +14,8 @@ use Illuminate\Support\Str;
 use Livewire\Attributes\Validate;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-
+use App\Models\Plan;
+use App\Services\SsoService;
 
 class CampaignCreate extends Component
 {
@@ -82,10 +83,10 @@ class CampaignCreate extends Component
         $this->end = str_replace('/', '-', $value);
     }
 
-    // public function updatePlan($id): void
-    // {
-    //     $this->planId = $id;
-    // }
+    public function updatePlan($id): void
+    {
+        $this->planId = $id;
+    }
 
     public function submit()
     {
@@ -98,8 +99,8 @@ class CampaignCreate extends Component
             try {
                 $user = Auth::user();
                 $userRole = DB::table('user_role')
-                ->where('user_id', $user->id)
-                ->first();
+                    ->where('user_id', $user->id)
+                    ->first();
                 if ($userRole) {
                     $role = DB::table('roles')->find($userRole->role_id);
                     $faculty_id = $role ? $role->faculty_id : null;
@@ -111,7 +112,7 @@ class CampaignCreate extends Component
                     'start' => Carbon::make($this->start),
                     'end' => Carbon::make($this->end),
                     'max_student_group' => $this->max_student_group,
-                    // 'plan_template_id' => $this->planId ?? null,
+                    'plan_id' => $this->planId ?? null,
                     'status' => CampaignStatusEnum::Active->value,
                     'faculty_id' => $faculty_id,
                 ]);
@@ -130,11 +131,12 @@ class CampaignCreate extends Component
         return null;
     }
 
-    // public function render()
-    // {
-    //     $planTemplates = Plan::all();
-    //     return view('livewire.admin.campaign.campaign-create')->with([
-    //         'planTemplates' => $planTemplates
-    //     ]);
-    // }
+    public function render()
+    {
+        $facultyId = app(SsoService::class)->getFacultyId();
+        $planTemplates = Plan::where('faculty_id', $facultyId)->get();
+        return view('livewire.admin.campaign.campaign-create')->with([
+            'planTemplates' => $planTemplates
+        ]);
+    }
 }

@@ -83,7 +83,7 @@
             </div>
         </div>
 
-        {{-- <div class="card container-plan-template" wire:ignore>
+        <div class="card container-plan-template" wire:ignore>
             <div class="card-header bold">
                 <i class="ph-calendar"></i>
                 Mẫu kế hoạch
@@ -96,7 +96,7 @@
                     @endforeach
                 </select>
             </div>
-        </div> --}}
+        </div>
 
     </div>
     <div class="col-md-3 col-12">
@@ -158,7 +158,6 @@
             allowClear: true,
             dropdownParent: $('.container-plan-template')
         }).change(function() {
-            alert(1);
             Livewire.dispatch('selectedPlan', [$(this).val()]);
         });
     });
