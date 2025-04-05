@@ -30,15 +30,14 @@ class Campaign extends Model
         return $this->belongsTo(Plan::class, 'plan_id');
     }
 
-    // public function companies(): BelongsToMany
-    // {
-    //     return $this->belongsToMany(Company::class, 'campaign_company')
-    //         ->withPivot([
-    //             'amount',
-    //             'job_description',
-    //             'amount_recruited',
-    //         ]);
-    // }
+    public function companies(): BelongsToMany
+    {
+        return $this->belongsToMany(Company::class, 'campaign_company')
+            ->withPivot([
+                'amount',
+                'job_description',
+            ]);
+    }
 
     public function scopeSearch($query, $search)
     {

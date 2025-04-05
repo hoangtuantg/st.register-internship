@@ -18,7 +18,6 @@
 <script src="{{ asset('assets/js/vendor/editors/ckeditor/ckeditor_classic.js') }}"></script>
 <script src="{{ asset('assets/js/vendor/forms/selects/select2.min.js') }}"></script>
 
-
 {{--<!-- /theme JS files -->--}}
 
 

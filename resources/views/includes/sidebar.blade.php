@@ -40,10 +40,31 @@
                 </li>
 
                 <li class="nav-item">
+                    <a href="{{ route('admin.company-campaign.index') }}"
+                       class="nav-link {{ request()->routeIs('admin.company-campaigns.*') ? 'active' : '' }}">
+                        <i class="ph-share-network"></i>
+                        <span>Phân công công ty thực tập</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
                     <a href="{{ route('admin.plans.index') }}"
                        class="nav-link {{ request()->routeIs('admin.plans.*') ? 'active' : '' }}">
                         <i class="ph-calendar"></i>
                         <span>Kế hoạch</span>
+                    </a>
+                </li>
+
+                <li class="nav-item-header">
+                    <div class="text-uppercase fs-sm lh-sm opacity-50 sidebar-resize-hide">Quản lý công ty thực tập</div>
+                    <i class="ph-dots-three sidebar-resize-show"></i>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{route('admin.companies.index')}}"
+                       class="nav-link {{ request()->routeIs('admin.companies.*') ? 'active' : '' }}">
+                        <i class="ph-briefcase"></i>
+                        <span>Danh sách công ty thực tập</span>
                     </a>
                 </li>
             </ul>

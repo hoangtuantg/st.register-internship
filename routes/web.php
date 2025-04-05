@@ -5,14 +5,8 @@ use App\Http\Controllers\Admin\CampaignController;
 use App\Http\Controllers\Auth\AuthenticateController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Admin\PlanController;
+use App\Http\Controllers\Admin\CompanyController;
 
-
-// Route::prefix('admin')->group(function (): void {
-//     Route::get('/', fn () => redirect()->route('admin.campaigns.index'));
-//     Route::prefix('campaigns')->group(function (): void {
-//         Route::get('/', [CampaignController::class, 'index'])->name('admin.campaigns.index');
-//     });
-// });
 
 Route::get('/auth/callback', [AuthenticateController::class, 'handleCallback'])->name('sso.callback');
 Route::get('/auth/redirect', [AuthenticateController::class, 'redirectToSSO'])->name('sso.redirect');
@@ -36,7 +30,18 @@ Route::middleware('auth.sso')->group(function (): void {
             Route::get('/{plan}/detail/create', [PlanController::class, 'createPlanDetail'])->name('admin.plans.createPlanDetail');
             Route::get('/{planDetail}/detail/edit', [PlanController::class, 'editPlanDetail'])->name('admin.plans.editPlanDetail');
         });
-        
+
+        Route::prefix('companies')->group(function (): void {
+            Route::get('/', [CompanyController::class, 'index'])->name('admin.companies.index');
+            Route::get('/create', [CompanyController::class, 'create'])->name('admin.companies.create');
+            Route::get('/edit/{company}', [CompanyController::class, 'edit'])->name('admin.companies.edit');
+        });
+
+        Route::prefix('company-campaigns')->group(function (): void {
+            Route::get('/', [CompanyController::class, 'companyCampaignIndex'])->name('admin.company-campaign.index');
+            Route::get('/{campaign}/show', [CompanyController::class, 'companyCampaignShow'])->name('admin.company-campaign.show');
+            Route::get('/{campaign}/edit/{company}', [CompanyController::class, 'companyCampaignEdit'])->name('admin.company-campaign.edit');
+        });
     });
 
     Route::get('/faculty/select', function () {
