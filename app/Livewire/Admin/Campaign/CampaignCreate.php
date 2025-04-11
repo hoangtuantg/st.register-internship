@@ -12,7 +12,6 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Validate;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\Plan;
 use App\Services\SsoService;
@@ -97,16 +96,17 @@ class CampaignCreate extends Component
             $this->start = str_replace('/', '-', $this->start);
             $this->end = str_replace('/', '-', $this->end);
             try {
-                $user = Auth::user();
-                $userRole = DB::table('user_role')
-                    ->where('user_id', $user->id)
-                    ->first();
-                if ($userRole) {
-                    $role = DB::table('roles')->find($userRole->role_id);
-                    $faculty_id = $role ? $role->faculty_id : null;
-                } else {
-                    $faculty_id = null;
-                }
+                // $user = Auth::user();
+                // $userRole = DB::table('user_role')
+                //     ->where('user_id', $user->id)
+                //     ->first();
+                // if ($userRole) {
+                //     $role = DB::table('roles')->find($userRole->role_id);
+                //     $faculty_id = $role ? $role->faculty_id : null;
+                // } else {
+                //     $faculty_id = null;
+                // }
+                $facultyId = app(SsoService::class)->getFacultyId();
                 Campaign::create([
                     'name' => $this->name,
                     'start' => Carbon::make($this->start),
@@ -114,7 +114,7 @@ class CampaignCreate extends Component
                     'max_student_group' => $this->max_student_group,
                     'plan_id' => $this->planId ?? null,
                     'status' => CampaignStatusEnum::Active->value,
-                    'faculty_id' => $faculty_id,
+                    'faculty_id' => $facultyId,
                 ]);
                 session()->flash('success', 'Tạo mới thành công!');
                 $this->isLoading = false;

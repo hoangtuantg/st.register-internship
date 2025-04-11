@@ -36,7 +36,7 @@
                     @forelse($campaigns as $campaign)
                         <tr>
                             <td>{{ $loop->index + 1 + $campaigns->perPage() * ($campaigns->currentPage() - 1) }}</td>
-                            <td><a href="">{{ $campaign->name }}</a>
+                            <td><a href="{{route('admin.campaigns.show', $campaign->id)}}">{{ $campaign->name }}</a>
                             </td>
                             <td>{{ \Carbon\Carbon::make($campaign->start)->format('d/m/Y') }}</td>
                             <td>{{ \Carbon\Carbon::make($campaign->end)->format('d/m/Y') }}</td>

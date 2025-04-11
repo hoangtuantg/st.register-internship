@@ -4,7 +4,7 @@
             <div class="page-header-content d-lg-flex">
                 <div class="d-flex">
                     <h4 class="mb-0 page-title">
-                       Đợt đăng ký - <span class="fw-normal">Thông tin</span>
+                        Vai trò - <span class="fw-normal">Chỉnh sửa </span>
                     </h4>
                 </div>
 
@@ -14,8 +14,8 @@
                 <div class="d-flex">
                     <div class="py-2 breadcrumb">
                         <a href="{{ route('dashboard') }}" class="breadcrumb-item"><i class="ph-house"></i></a>
-                        <a href="{{ route('admin.campaigns.index') }}" class="breadcrumb-item">Chiến dịch</a>
-                        <span class="breadcrumb-item active">Thông tin</span>
+                        <a href="" class="breadcrumb-item">Vai trò</a>
+                        <span class="breadcrumb-item active">Chỉnh sửa</span>
                     </div>
 
                     <a href="#breadcrumb_elements" class="p-0 border-transparent btn btn-light align-self-center collapsed d-lg-none rounded-pill ms-auto" data-bs-toggle="collapse">
@@ -27,6 +27,6 @@
         </div>
     </x-slot>
     <div class="content">
-        <livewire:admin.campaign.campaign-show :id="$id" />
+        <livewire:admin.role.role-update :role="$role" />
     </div>
 </x-layouts.admin-layout>

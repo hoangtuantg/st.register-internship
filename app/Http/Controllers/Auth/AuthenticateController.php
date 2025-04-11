@@ -16,6 +16,7 @@ use App\Enums\StatusEnum;
 use App\Enums\UserRoleEnum;
 use App\Models\Role;
 
+
 class AuthenticateController extends Controller
 {
     public function redirectToSSO()
@@ -103,27 +104,25 @@ class AuthenticateController extends Controller
         //     ]);
         // }
 
-        if (!empty($userData['faculty_id'])) {
-            try {
-                // Cách 1: Sử dụng pluck với tên cột đầy đủ
-                $roleIds = $user->userRoles()->pluck('roles.id')->toArray();
+        // if (!empty($userData['faculty_id'])) {
+        //     try {
+        //         // Cách 1: Sử dụng pluck với tên cột đầy đủ
+        //         $roleIds = $user->userRoles()->pluck('roles.id')->toArray();
                 
-                // Hoặc cách 2: Sử dụng role_id từ bảng pivot
-                // $roleIds = $user->userRoles()->pluck('role_id')->toArray();
-                
-                Role::whereIn('id', $roleIds)
-                    ->update(['faculty_id' => $userData['faculty_id']]);
-            } catch (\Exception $e) {
-                Log::error('Error updating faculty_id: ' . $e->getMessage());
-            }
-        }
+        //         Role::whereIn('id', $roleIds)
+        //             ->update(['faculty_id' => $userData['faculty_id']]);
+        //     } catch (\Exception $e) {
+        //         Log::error('Error updating faculty_id: ' . $e->getMessage());
+        //     }
+        // }
 
         if (
             (User::count() === 1 && $userData['role'] === UserRoleEnum::Officer->value) ||
             ($userData['role'] === UserRoleEnum::SuperAdmin->value)
         ) {
             $superAdminRole = Role::firstOrCreate(
-                ['name' => UserRoleEnum::SuperAdmin->value]
+                // ['name' => UserRoleEnum::SuperAdmin->value]
+                ['name' => 'Super Admin'],
             );
             if (!$user->userRoles()->where('role_id', $superAdminRole->id)->exists()) {
                 $user->userRoles()->attach($superAdminRole->id);

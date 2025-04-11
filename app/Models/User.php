@@ -34,7 +34,7 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
-    
+
     // protected $hidden = [
     //     'remember_token',
     // ];
@@ -67,11 +67,20 @@ class User extends Authenticatable
             return true;
         }
 
+        //Nếu role trong hệ thống là Super Admin => full quyền
+        if ($this->isSuperAdmin()) {
+            return true;
+        }
+
         return $this->userRoles()->whereHas('permissions', function ($query) use ($permissionCode): void {
             $query->where('code', $permissionCode);
         })->exists();
     }
 
+    public function isSuperAdmin(): bool
+    {
+        return $this->userRoles()->where('name', 'Super Admin')->exists();
+    }
 
     public function getRoleNameAttribute(): string
     {

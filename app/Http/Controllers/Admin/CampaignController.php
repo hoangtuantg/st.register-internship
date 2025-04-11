@@ -27,14 +27,14 @@ class CampaignController extends Controller
         ]);
     }
 
-    // public function show(Campaign $campaign): View|Application|Factory
-    // {
-    //     return view('pages.campaign.show')->with([
-    //         'id' => $campaign->id,
-    //     ]);
-    // }
+    public function show(Campaign $campaign)
+    {
+        return view('pages.admin.campaign.show')->with([
+            'id' => $campaign->id,
+        ]);
+    }
 
-    // public function downloadTemplateStudent(): BinaryFileResponse
+    // public function downloadTemplateStudent()
     // {
     //     $filePath = public_path('templates/student.xlsx');
     //     return response()->download($filePath);

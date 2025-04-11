@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\AuthenticateController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\CompanyController;
+use App\Http\Controllers\Admin\RoleController;
 
 
 Route::get('/auth/callback', [AuthenticateController::class, 'handleCallback'])->name('sso.callback');
@@ -20,6 +21,7 @@ Route::middleware('auth.sso')->group(function (): void {
             Route::get('/', [CampaignController::class, 'index'])->name('admin.campaigns.index');
             Route::get('/create', [CampaignController::class, 'create'])->name('admin.campaigns.create');
             Route::get('/{campaign}/edit', [CampaignController::class, 'edit'])->name('admin.campaigns.edit');
+            Route::get('/{campaign}', [CampaignController::class, 'show'])->name('admin.campaigns.show');
         });
 
         Route::prefix('plans')->group(function (): void {
@@ -42,6 +44,7 @@ Route::middleware('auth.sso')->group(function (): void {
             Route::get('/{campaign}/show', [CompanyController::class, 'companyCampaignShow'])->name('admin.company-campaign.show');
             Route::get('/{campaign}/edit/{company}', [CompanyController::class, 'companyCampaignEdit'])->name('admin.company-campaign.edit');
         });
+        Route::resource('roles', RoleController::class)->only(['index','create','edit']);
     });
 
     Route::get('/faculty/select', function () {

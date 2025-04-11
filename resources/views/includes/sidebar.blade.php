@@ -67,6 +67,18 @@
                         <span>Danh sách công ty thực tập</span>
                     </a>
                 </li>
+
+                <li class="nav-item-header">
+                    <div class="text-uppercase fs-sm lh-sm opacity-50 sidebar-resize-hide">Quản lý</div>
+                    <i class="ph-dots-three sidebar-resize-show"></i>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('roles.index')}}"
+                       class="nav-link {{ request()->routeIs('roles.*') ? 'active' : '' }}">
+                        <i class="ph-gear"></i>
+                        <span>Vai trò</span>
+                    </a>
+                </li>
             </ul>
         </div>
         <!-- /main navigation -->
