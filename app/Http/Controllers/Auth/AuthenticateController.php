@@ -15,6 +15,7 @@ use Throwable;
 use App\Enums\StatusEnum;
 use App\Enums\UserRoleEnum;
 use App\Models\Role;
+use Illuminate\Support\Facades\DB;
 
 
 class AuthenticateController extends Controller
@@ -121,11 +122,20 @@ class AuthenticateController extends Controller
             ($userData['role'] === UserRoleEnum::SuperAdmin->value)
         ) {
             $superAdminRole = Role::firstOrCreate(
-                // ['name' => UserRoleEnum::SuperAdmin->value]
                 ['name' => 'Super Admin'],
             );
+            // DB::table('user_role')->updateOrInsert(
+            //     ['is_super_admin' => true]
+            // );
+            // if (!$user->userRoles()->where('role_id', $superAdminRole->id)->exists()) {
+            //     $user->userRoles()->attach($superAdminRole->id);
+            // }
             if (!$user->userRoles()->where('role_id', $superAdminRole->id)->exists()) {
-                $user->userRoles()->attach($superAdminRole->id);
+                // Gán role + is_super_admin = true qua bảng trung gian
+                $user->userRoles()->attach($superAdminRole->id, ['is_super_admin' => true]);
+            } else {
+                // Đảm bảo cập nhật lại cờ is_super_admin nếu đã tồn tại role
+                $user->userRoles()->updateExistingPivot($superAdminRole->id, ['is_super_admin' => true]);
             }
         }
         

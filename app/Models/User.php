@@ -52,7 +52,8 @@ class User extends Authenticatable
 
     public function userRoles(): BelongsToMany
     {
-        return $this->belongsToMany(Role::class, 'user_role');
+        return $this->belongsToMany(Role::class, 'user_role')
+            ->withPivot('is_super_admin');
     }
 
     public function hasPermission(string $permissionCode): bool
@@ -66,8 +67,7 @@ class User extends Authenticatable
         if ($userData['role'] === UserRoleEnum::SuperAdmin->value) {
             return true;
         }
-
-        //Nếu role trong hệ thống là Super Admin => full quyền
+        //is_super_admin_true ==> full quyền
         if ($this->isSuperAdmin()) {
             return true;
         }
@@ -79,8 +79,9 @@ class User extends Authenticatable
 
     public function isSuperAdmin(): bool
     {
-        return $this->userRoles()->where('name', 'Super Admin')->exists();
+        return $this->userRoles()->wherePivot('is_super_admin', true)->exists();
     }
+
 
     public function getRoleNameAttribute(): string
     {
