@@ -144,4 +144,21 @@ return [
         'code' => 'company-campaign.modify',
         'group' => 'company-campaign'
     ],
+
+    //Người dùng
+    [
+        'name' => 'Xem danh sách',
+        'code' => 'user.index',
+        'group' => 'user'
+    ],
+    [
+        'name' => 'Xem người dùng',
+        'code' => 'user.show',
+        'group' => 'user'
+    ],
+    [
+        'name' => 'Phân quyền người dùng',
+        'code' => 'user.assign-role',
+        'group' => 'user'
+    ],
 ];

@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\ReportController;
+use App\Http\Controllers\Admin\UserController;
 
 
 Route::get('/auth/callback', [AuthenticateController::class, 'handleCallback'])->name('sso.callback');
@@ -51,6 +52,7 @@ Route::middleware('auth.sso')->group(function (): void {
             Route::get('/', [ReportController::class, 'index'])->name('admin.reports.index');
             Route::get('/{campaignId}/show', [ReportController::class, 'show'])->name('admin.reports.show');
         });
+        Route::resource('users', UserController::class)->only(['index', 'show']);
     });
 
     Route::get('/faculty/select', function () {

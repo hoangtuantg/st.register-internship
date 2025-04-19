@@ -59,7 +59,7 @@
                     <livewire:group.group-official-index :campaignId="$campaignId"/>
                 </div> --}}
 {{-- test --}}
-                {{-- <div class="tab-pane fade active show" id="js-tab1" role="tabpanel">
+                <div class="tab-pane fade active show" id="js-tab1" role="tabpanel">
                     <livewire:admin.company.company-index/>
                 </div>
 
@@ -68,7 +68,7 @@
                 </div>
                 <div class="tab-pane fade" id="js-tab3" role="tabpanel">
                     <livewire:admin.campaign.campaign-index />
-                </div> --}}
+                </div>
             </div>
         </div>
     </div>

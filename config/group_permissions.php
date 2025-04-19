@@ -7,10 +7,10 @@ return  [
     //     'name' => 'Sinh viên',
     //     'code' => 'student'
     // ],
-    // [
-    //     'name' => 'Người dùng',
-    //     'code' => 'user'
-    // ],
+    [
+        'name' => 'Người dùng',
+        'code' => 'user'
+    ],
     [
         'name' => 'Đợt đăng ký',
         'code' => 'campaign'

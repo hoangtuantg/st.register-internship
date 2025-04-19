@@ -72,6 +72,19 @@
                     </a>
                 </li>
 
+                <li class="nav-item-header">
+                    <div class="text-uppercase fs-sm lh-sm opacity-50 sidebar-resize-hide">Quản lý giảng viên</div>
+                    <i class="ph-dots-three sidebar-resize-show"></i>
+                </li>
+
+                <li class="nav-item">
+                    <a href=""
+                        class="nav-link">
+                        <i class="ph-chalkboard-teacher"></i>
+                        <span>Giảng viên</span>
+                    </a>
+                </li>
+
                 @if(Auth::user()->can('viewAny', \App\Models\Company::class) )
                 <li class="nav-item-header">
                     <div class="text-uppercase fs-sm lh-sm opacity-50 sidebar-resize-hide">
@@ -86,10 +99,23 @@
                     <a href="{{ route('admin.companies.index') }}"
                         class="nav-link {{ request()->routeIs('admin.companies.*') ? 'active' : '' }}">
                         <i class="ph-briefcase"></i>
-                        <span>Danh sách công ty thực tập</span>
+                        <span>Công ty thực tập</span>
                     </a>
                 </li>
                 @endcan
+
+                <li class="nav-item-header">
+                    <div class="text-uppercase fs-sm lh-sm opacity-50 sidebar-resize-hide">Quản lý người dùng</div>
+                    <i class="ph-dots-three sidebar-resize-show"></i>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{ route('users.index') }}"
+                        class="nav-link {{ request()->routeIs('users.*') ? 'active' : '' }}">
+                        <i class="ph-users"></i>
+                        <span>Người dùng</span>
+                    </a>
+                </li>
 
                 @if(Auth::user()->can('viewAny', \App\Models\Role::class) )
                 <li class="nav-item-header">
