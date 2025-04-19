@@ -8,9 +8,11 @@
             </div>
             <div class="d-flex gap-2">
                 <div>
+                    @can('create', \App\Models\Campaign::class)
                     <a href="{{route('admin.campaigns.create')}}" type="button" class="btn btn-primary btn-icon px-2">
                         <i class="ph-plus-circle px-1"></i><span>Thêm mới</span>
                     </a>
+                    @endcan
                 </div>
                 <div>
                     <button type="button" class="btn btn-light btn-icon px-2" @click="$wire.$refresh">
@@ -47,16 +49,21 @@
                                         <i class="ph-list"></i>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-end">
+                                        @can('update',$campaign)
                                         <a href="{{ route('admin.campaigns.edit', $campaign->id) }}"
                                             class="dropdown-item">
                                             <i class="ph-note-pencil px-1"></i>
                                             Chỉnh sửa
                                         </a>
+                                        @endcan
+
+                                        @can('delete',$campaign)
                                         <a type="button" wire:click="openDeleteModal({{ $campaign->id }})"
                                             class="dropdown-item">
                                             <i class="ph-trash px-1"></i>
                                             Xóa
                                         </a>
+                                        @endcan
                                     </div>
                                 </div>
                             </td>

@@ -9,6 +9,7 @@ use App\Models\PlanDetail;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\Validate;
+use Illuminate\Support\Facades\Gate;
 
 class PlanDetailUpdate extends Component
 {
@@ -82,6 +83,9 @@ class PlanDetailUpdate extends Component
 
     public function submit()
     {
+        $plan = Plan::findOrFail($this->planTemplateId);
+        Gate::authorize('editDetail', $plan);
+
         $this->validate();
 
         if (!$this->isLoading) {

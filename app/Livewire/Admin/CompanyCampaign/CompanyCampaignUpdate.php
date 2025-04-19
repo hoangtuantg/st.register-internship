@@ -5,11 +5,17 @@ namespace App\Livewire\Admin\CompanyCampaign;
 use Livewire\Component;
 use App\Models\Company;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
+use Livewire\Attributes\Validate;
+use App\Services\SsoService;
+
 
 class CompanyCampaignUpdate extends Component
 {
     public $companyId;
     public $campaignId;
+
+    #[Validate(as: 'số lượng tuyển dụng')]
     public $amount;
     public $jobDescription;
 
@@ -35,10 +41,29 @@ class CompanyCampaignUpdate extends Component
         ]);
     }
 
+    protected $rules = [
+        'amount' => [
+            'required',
+            'numeric',
+            'min:1'
+        ]
+    ];
+
+    public function updatedAmount()
+    {
+        $this->validateOnly('amount');
+    }
+
     public function update()
     {
+        $company = Company::findOrFail($this->companyId);
+        Gate::authorize('updateCompanyCampaign', $company);
+
+        $this->validate();
+
         DB::table('campaign_company')
             ->where('company_id', $this->companyId)
+            ->where('campaign_id', $this->campaignId)
             ->update([
                 'amount' => $this->amount,
                 'job_description' => $this->jobDescription,

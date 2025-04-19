@@ -11,6 +11,8 @@ use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\Validate;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Gate;
+
 
 class PlanDetailCreate extends Component
 {
@@ -80,6 +82,9 @@ class PlanDetailCreate extends Component
 
     public function submit(): RedirectResponse|Redirector|null
     {
+        $plan = Plan::findOrFail($this->planId);
+        Gate::authorize('createDetail', $plan);
+
         $this->validate();
         if (!$this->isLoading) {
             $this->isLoading = true;

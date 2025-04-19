@@ -15,6 +15,8 @@ use Livewire\Attributes\Validate;
 use Illuminate\Support\Facades\DB;
 use App\Models\Plan;
 use App\Services\SsoService;
+use Illuminate\Support\Facades\Gate;
+
 
 class CampaignCreate extends Component
 {
@@ -89,6 +91,8 @@ class CampaignCreate extends Component
 
     public function submit()
     {
+        Gate::authorize('create', Campaign::class);
+
         $this->validate();
 
         if (!$this->isLoading) {

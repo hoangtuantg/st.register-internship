@@ -7,6 +7,7 @@ use App\Models\Plan;
 use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\Validate;
 use App\Services\SsoService;
+use Illuminate\Support\Facades\Gate;
 
 class PlanCreate extends Component
 {
@@ -33,6 +34,8 @@ class PlanCreate extends Component
 
     public function submit()
     {
+        Gate::authorize('create', Plan::class);
+
         $this->validate();
 
         if (!$this->isLoading) {

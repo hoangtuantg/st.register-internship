@@ -5,6 +5,8 @@ namespace App\Policies;
 use App\Models\Campaign;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
+use App\Enums\UserRoleEnum;
+use App\Services\SsoService;
 
 class CampaignPolicy
 {
@@ -19,10 +21,10 @@ class CampaignPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Campaign $campaign): bool
-    {
-        return false;
-    }
+    // public function view(User $user, Campaign $campaign): bool
+    // {
+    //     return false;
+    // }
 
     /**
      * Determine whether the user can create models.
@@ -37,7 +39,12 @@ class CampaignPolicy
      */
     public function update(User $user, Campaign $campaign): bool
     {
-        return $user->hasPermission('campaign.edit');
+        $userData = app(SsoService::class)->getDataUser();
+
+        if ($userData['role'] === UserRoleEnum::SuperAdmin->value) {
+            return true;
+        }
+        return $user->hasPermission('campaign.edit') && $campaign->faculty_id === $userData['faculty_id'];
     }
 
     /**
@@ -45,22 +52,19 @@ class CampaignPolicy
      */
     public function delete(User $user, Campaign $campaign): bool
     {
-        return $user->hasPermission('campaign.delete');
+        $userData = app(SsoService::class)->getDataUser();
+
+        if ($userData['role'] === UserRoleEnum::SuperAdmin->value) {
+            return true;
+        }
+        return $user->hasPermission('campaign.delete')  && $campaign->faculty_id === $userData['faculty_id'];
     }
 
     /**
-     * Determine whether the user can restore the model.
+     * Quyền xem danh sách đợt đăng ký (CompanyCampaignPolicy)
      */
-    // public function restore(User $user, Campaign $campaign): bool
-    // {
-    //     return false;
-    // }
-
-    // /**
-    //  * Determine whether the user can permanently delete the model.
-    //  */
-    // public function forceDelete(User $user, Campaign $campaign): bool
-    // {
-    //     return false;
-    // }
+    public function viewCompanyCampaign(User $user, Campaign $campaign): bool
+    {
+        return $user->hasPermission('company-campaign.show');
+    }
 }

@@ -6,9 +6,11 @@
                     id="user-search-input">
             </div>
             <div class="ms-auto">
+                @can('create', \App\Models\Company::class)
                 <a href="{{ route('admin.companies.create') }}" type="button" class="btn btn-success btn-icon px-2">
                     <i class="ph-plus-circle px-1"></i><span>Thêm mới</span>
                 </a>
+                @endcan
             </div>
         </div>
 
@@ -66,16 +68,21 @@
                                             Xem chi tiết
                                         </button>
 
+                                        @can('update', $company)
                                         <a href="{{ route('admin.companies.edit', ['company' => $company->id]) }}"
                                             class="dropdown-item">
                                             <i class="ph-pencil me-2"></i>
                                             Chỉnh sửa
                                         </a>
+                                        @endcan
+
+                                        @can('delete',$company)
                                         <button type="button" wire:click="openDeleteModal({{ $company->id }})"
                                             class="dropdown-item text-danger">
                                             <i class="ph-trash me-2"></i>
                                             Xóa
                                         </button>
+                                        @endcan
                                     </div>
                                 </div>
                             </td>

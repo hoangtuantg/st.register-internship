@@ -15,6 +15,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\Validate;
 use App\Services\SsoService;
+use Illuminate\Support\Facades\Gate;
 
 
 class CampaignUpdate extends Component
@@ -142,6 +143,9 @@ class CampaignUpdate extends Component
 
     public function submit(): RedirectResponse|Redirector|null
     {
+        $campaign = Campaign::findOrFail($this->campaignId);
+
+        Gate::authorize('update',$campaign);
         $this->validate();
 
         if (!$this->isLoading) {
@@ -150,7 +154,7 @@ class CampaignUpdate extends Component
             $this->end = str_replace('/', '-', $this->end);
             $this->official_end = str_replace('/', '-', $this->official_end);
             try {
-                Campaign::where('id', $this->campaignId)->update([
+                $campaign->update([
                     'name' => $this->name,
                     'start' => Carbon::make($this->start),
                     'end' => Carbon::make($this->end),
@@ -158,8 +162,9 @@ class CampaignUpdate extends Component
                     'report_deadline' => Carbon::make($this->report_deadline),
                     'max_student_group' => $this->max_student_group,
                     'plan_id' => $this->planId ?? null,
-                    'status' => $this->status
+                    'status' => $this->status,
                 ]);
+    
                 session()->flash('success', 'Chỉnh sửa thành công!');
                 $this->isLoading = false;
                 return redirect()->route('admin.campaigns.index');

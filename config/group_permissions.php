@@ -11,12 +11,25 @@ return  [
     //     'name' => 'Người dùng',
     //     'code' => 'user'
     // ],
-    // [
-    //     'name' => 'Đợt đăng ký',
-    //     'code' => 'campaign'
-    // ],  
+    [
+        'name' => 'Đợt đăng ký',
+        'code' => 'campaign'
+    ],  
     [
         'name' => 'Vai trò',
         'code' => 'role'
     ],
+    [
+        'name' => 'Công ty',
+        'code' => 'company'
+    ],
+    [
+        'name' => 'Kế hoạch',
+        'code' => 'plan'
+    ],
+    [
+        'name' => 'Phân công công ty theo đợt',
+        'code' => 'company-campaign'
+    ],
+    
 ];

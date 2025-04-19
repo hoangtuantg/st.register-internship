@@ -5,6 +5,7 @@ namespace App\Livewire\Admin\Company;
 use Livewire\Component;
 use Livewire\Attributes\Validate;
 use App\Models\Company;
+use Illuminate\Support\Facades\Gate;
 
 class CompanyUpdate extends Component
 {
@@ -47,8 +48,11 @@ class CompanyUpdate extends Component
 
     public function update()
     {
+        $company = Company::findOrFail($this->companyId);
+        Gate::authorize('update', $company);
+
         $this->validate();
-        Company::find($this->companyId)->update([
+        $company->update([
             'name' => $this->name,
             'address' => $this->address,
             'phone' => $this->phone,

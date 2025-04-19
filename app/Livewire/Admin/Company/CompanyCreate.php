@@ -6,6 +6,7 @@ use Livewire\Component;
 use Livewire\Attributes\Validate;
 use App\Models\Company;
 use App\Services\SsoService;
+use Illuminate\Support\Facades\Gate;
 
 class CompanyCreate extends Component
 {
@@ -31,6 +32,7 @@ class CompanyCreate extends Component
 
     public function store()
     {
+        Gate::authorize('create', Company::class);
         $this->validate();
         $facultyId = app(SsoService::class)->getFacultyId();
         Company::create([

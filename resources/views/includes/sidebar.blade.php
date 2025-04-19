@@ -27,10 +27,14 @@
         <!-- Main navigation -->
         <div class="sidebar-section">
             <ul class="nav nav-sidebar" data-nav-type="accordion">
+                @if(Auth::user()->can('viewAny', \App\Models\Campaign::class) || Auth::user()->can('viewAny', \App\Models\Plan::class) )
                 <li class="nav-item-header">
                     <div class="text-uppercase fs-sm lh-sm opacity-50 sidebar-resize-hide">Quản lý đợt đăng ký</div>
                     <i class="ph-dots-three sidebar-resize-show"></i>
                 </li>
+                @endif
+
+                @can('viewAny', \App\Models\Campaign::class)
                 <li class="nav-item">
                     <a href="{{ route('admin.campaigns.index') }}"
                         class="nav-link {{ request()->routeIs('admin.campaigns.*') ? 'active' : '' }}">
@@ -38,6 +42,7 @@
                         <span>Đợt đăng ký</span>
                     </a>
                 </li>
+                @endcan
 
                 <li class="nav-item">
                     <a href="{{ route('admin.company-campaign.index') }}"
@@ -47,6 +52,7 @@
                     </a>
                 </li>
 
+                @can('viewAny', \App\Models\Plan::class)
                 <li class="nav-item">
                     <a href="{{ route('admin.plans.index') }}"
                         class="nav-link {{ request()->routeIs('admin.plans.*') ? 'active' : '' }}">
@@ -54,6 +60,7 @@
                         <span>Kế hoạch</span>
                     </a>
                 </li>
+                @endcan
 
                 <li class="nav-item">
                     <a href="{{ route('admin.reports.index') }}"
@@ -63,12 +70,16 @@
                     </a>
                 </li>
 
+                @if(Auth::user()->can('viewAny', \App\Models\Company::class) )
                 <li class="nav-item-header">
-                    <div class="text-uppercase fs-sm lh-sm opacity-50 sidebar-resize-hide">Quản lý công ty thực tập
+                    <div class="text-uppercase fs-sm lh-sm opacity-50 sidebar-resize-hide">
+                        Quản lý công ty thực tập
                     </div>
                     <i class="ph-dots-three sidebar-resize-show"></i>
                 </li>
+                @endif
 
+                @can('viewAny', \App\Models\Company::class)
                 <li class="nav-item">
                     <a href="{{ route('admin.companies.index') }}"
                         class="nav-link {{ request()->routeIs('admin.companies.*') ? 'active' : '' }}">
@@ -76,11 +87,16 @@
                         <span>Danh sách công ty thực tập</span>
                     </a>
                 </li>
+                @endcan
 
+                @if(Auth::user()->can('viewAny', \App\Models\Role::class) )
                 <li class="nav-item-header">
                     <div class="text-uppercase fs-sm lh-sm opacity-50 sidebar-resize-hide">Quản lý vai trò</div>
                     <i class="ph-dots-three sidebar-resize-show"></i>
                 </li>
+                @endif
+
+                @can('viewAny', \App\Models\Role::class)
                 <li class="nav-item">
                     <a href="{{ route('roles.index') }}"
                         class="nav-link {{ request()->routeIs('roles.*') ? 'active' : '' }}">
@@ -88,6 +104,7 @@
                         <span>Vai trò</span>
                     </a>
                 </li>
+                @endcan
             </ul>
         </div>
         <!-- /main navigation -->

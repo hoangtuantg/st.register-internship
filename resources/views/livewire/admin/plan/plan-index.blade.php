@@ -8,9 +8,11 @@
             </div>
             <div class="d-flex gap-2">
                 <div>
+                    @can('create', \App\Models\Plan::class)
                     <a href="{{ route('admin.plans.create') }}" type="button" class="btn btn-primary btn-icon px-2">
                         <i class="ph-plus-circle px-1"></i><span>Thêm mới</span>
                     </a>
+                    @endcan
                 </div>
                 <div>
                     <button type="button" class="btn btn-light btn-icon px-2" @click="$wire.$refresh">
@@ -34,7 +36,11 @@
                     @forelse($plans as $plan)
                         <tr>
                             <td>{{ $loop->index + 1 + $plans->perPage() * ($plans->currentPage() - 1) }}</td>
-                            <td><a href="{{ route('admin.plans.show', $plan->id) }}}">{{ $plan->name }}</a></td>
+                            <td><a href="
+                                @can('view', $plan)
+                                {{ route('admin.plans.show', $plan->id) }}}
+                                @endcan
+                                 ">{{ $plan->name }}</a></td>
                             <td>{{ $plan->description }}</td>
                             <td class="text-center">
                                 <div class="dropdown ">
@@ -42,16 +48,21 @@
                                         <i class="ph-list"></i>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-end">
+                                        @can('update', $plan)
                                         <a href="{{ route('admin.plans.edit', ['plan' => $plan->id]) }}"
                                             class="dropdown-item">
                                             <i class="ph-note-pencil px-1"></i>
                                             Chỉnh sửa
                                         </a>
+                                        @endcan
+
+                                        @can('delete', $plan)
                                         <a type="button" wire:click="openDeleteModal({{ $plan->id }})"
                                             class="dropdown-item text-danger">
                                             <i class="ph-trash px-1"></i>
                                             Xóa
                                         </a>
+                                        @endcan
                                         <a type="button" wire:click="copy({{ $plan->id }})" class="dropdown-item">
                                             <i class="ph-copy px-1"></i>
                                             Sao chép

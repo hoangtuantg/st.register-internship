@@ -9,7 +9,10 @@
                 <div class="row">
                     <div class="col">
                         <label class="form-label">Số lượng tuyển dụng </label>
-                        <input wire:model.live="amount" type="number" class="form-control">
+                        <input wire:model.live="amount" type="number" class="form-control @error('amount') is-invalid @enderror">
+                        @error('amount')
+                            <label class="text-danger mt-1">{{ $message }}</label>
+                        @enderror
                     </div>
                 </div>
 
@@ -39,10 +42,11 @@
             <div class="card-body d-flex justify-content-center gap-3">
                 <button class="btn btn-primary flex-fill" wire:click="update"><i class="ph-floppy-disk"></i> Chỉnh
                     sửa</button>
-                    <a href="{{ route('admin.company-campaign.show', ['campaign' => $campaignId]) }}" type="button" class="btn btn-warning flex-fill">
-                        <i class="ph-arrow-counter-clockwise"></i> Trở lại
-                    </a>
-                    
+                <a href="{{ route('admin.company-campaign.show', ['campaign' => $campaignId]) }}" type="button"
+                    class="btn btn-warning flex-fill">
+                    <i class="ph-arrow-counter-clockwise"></i> Trở lại
+                </a>
+
             </div>
         </div>
     </div>

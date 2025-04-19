@@ -5,6 +5,7 @@ namespace App\Livewire\Admin\Plan;
 use App\Models\Plan;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
+use Illuminate\Support\Facades\Gate;
 
 class PlanUpdate extends Component
 {
@@ -40,13 +41,14 @@ class PlanUpdate extends Component
 
     public function submit()
     {
+        $plan = Plan::findOrFail($this->planId);
+        Gate::authorize('update', $plan);
         $this->validate();
 
         if (!$this->isLoading) {
             $this->isLoading = true;
-
             try {
-                Plan::find($this->planId)->update([
+                $plan->update([
                     'name' => $this->name,
                     'description' => $this->description,
                 ]);

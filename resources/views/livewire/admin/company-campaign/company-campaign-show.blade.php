@@ -12,10 +12,12 @@
                     </p>
                 </div>
                 <div class="col-md-3 col-12 d-flex justify-content-end">
+                    @can('modifyCompanyCampaign',\App\Models\Company::class)
                     <button type="button" class="btn btn-success collapsed" style="height: max-content"
                         data-bs-toggle="collapse" data-bs-target="#collapsed_item1">
                         <i class="px-1 ph-plus-minus"></i><span>Thay đổi</span>
                     </button>
+                    @endcan
                 </div>
             </div>
         </div>
@@ -62,7 +64,6 @@
                     <tr>
                         <th>STT</th>
                         <th>Tên công ty</th>
-                        <th>Mô tả công việc</th>
                         <th>Số lượng nhận thực tập sinh</th>
                         <th>Xem chi tiết</th>
                     </tr>
@@ -70,16 +71,18 @@
                 <tbody>
                     @foreach ($campaign->companies as $company)
                         <tr>
-                            <td>{{ $loop->index + 1 }}</td>
-                            <td>
-                                <a
-                                    href="{{ route('admin.company-campaign.edit', ['campaign' => $campaign->id, 'company' => $company->id]) }}">
+                            <td width="5%">{{ $loop->index + 1 }}</td>
+                            <td width="40%">
+                                <a href="
+                                @can('updateCompanyCampaign',$company)
+                                {{ route('admin.company-campaign.edit', ['campaign' => $campaign->id, 'company' => $company->id]) }}
+                                @endcan
+                                ">
                                     {{ $company->name }}
                                 </a>
                             </td>
-                            <td>{!! \Illuminate\Support\Str::limit($company->pivot->job_description, 100) !!}</td>
-                            <td class="text-center">{{ $company->pivot->amount }}</td>
-                            <td class="text-center align-middle">
+                            <td width="20%">{{ $company->pivot->amount }}</td>
+                            <td width="15%">
                                 <button type="button" wire:click="showCompanyDetail({{ $company->id }})"
                                     class="btn btn-link p-0" data-bs-toggle="modal" data-bs-target="#companyModal">
                                     <i class="ph-eye text-primary fs-5"></i>
