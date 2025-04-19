@@ -64,4 +64,12 @@ class CompanyPolicy
     {
         return $user->hasPermission('company-campaign.modify');
     }
+
+    /**
+     * Quyền xem danh sách các đợt đăng ký
+     */
+    public function viewCampaignList(User $user): bool
+    {
+        return $user->hasPermission('company-campaign.index');
+    }
 }

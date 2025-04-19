@@ -61,7 +61,7 @@ class CampaignPolicy
     }
 
     /**
-     * Quyền xem danh sách đợt đăng ký (CompanyCampaignPolicy)
+     * Quyền xem danh sách công ty trong đợt đăng ký (CompanyCampaignPolicy)
      */
     public function viewCompanyCampaign(User $user, Campaign $campaign): bool
     {

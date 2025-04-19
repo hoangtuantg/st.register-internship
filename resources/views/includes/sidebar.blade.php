@@ -44,6 +44,7 @@
                 </li>
                 @endcan
 
+                @can('viewCampaignList', \App\Models\Company::class)
                 <li class="nav-item">
                     <a href="{{ route('admin.company-campaign.index') }}"
                         class="nav-link {{ request()->routeIs('admin.company-campaign.*') ? 'active' : '' }}">
@@ -51,6 +52,7 @@
                         <span>Phân công công ty thực tập</span>
                     </a>
                 </li>
+                @endcan
 
                 @can('viewAny', \App\Models\Plan::class)
                 <li class="nav-item">

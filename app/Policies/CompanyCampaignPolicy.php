@@ -11,10 +11,10 @@ class CompanyCampaignPolicy
     /**
      * Quyền xem danh sách các đợt đăng ký
      */
-    public function viewCampaignList(User $user): bool
-    {
-        return $user->hasPermission('company-campaign.index');
-    }
+    // public function viewCampaignList(User $user): bool
+    // {
+    //     return $user->hasPermission('company-campaign.index');
+    // }
 
     /**
      * Quyền xem danh sách công ty trong đợt đăng ký
