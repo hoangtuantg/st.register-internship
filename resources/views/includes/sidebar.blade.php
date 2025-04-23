@@ -78,8 +78,8 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href=""
-                        class="nav-link">
+                    <a href="{{ route('teachers.index') }}"
+                        class="nav-link {{ request()->routeIs('teachers.*') ? 'active' : '' }}">
                         <i class="ph-chalkboard-teacher"></i>
                         <span>Giảng viên</span>
                     </a>

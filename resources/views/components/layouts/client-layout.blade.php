@@ -4,18 +4,10 @@
 @include('includes.head')
 
 <body>
-
-
-
-
     <!-- Page content -->
     <div class="page-content">
-
-
-
         <!-- Main content -->
         <div class="content-wrapper">
-
             <!-- Inner content -->
             <div class="content-inner">
 
@@ -24,13 +16,9 @@
                     {{ $header }}
                 @endif
                 <!-- /page header -->
-
-
                 <!-- Content area -->
                 {{ $slot }}
                 <!-- /content area -->
-
-
                 <!-- Footer -->
                 @include('includes.footer')
                 <!-- /footer -->
