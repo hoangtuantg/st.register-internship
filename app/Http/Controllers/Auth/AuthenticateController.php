@@ -49,7 +49,10 @@ class AuthenticateController extends Controller
             if ($userData['role'] === UserRoleEnum::SuperAdmin->value && empty($userData['faculty_id'])) {
                 return redirect()->route('faculty.select');
             }
-            return redirect()->route('admin.campaigns.index');
+            if ($userData['role'] === UserRoleEnum::Student->value) {
+                return redirect()->route('client.dashboard');
+            }
+            return redirect()->route('dashboard');
         } catch (Throwable $th) {
             Log::error($th->getMessage());
 

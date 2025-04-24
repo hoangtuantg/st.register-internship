@@ -4,9 +4,15 @@
 @include('includes.head')
 
 <body>
+    <!-- Main navbar -->
+    @include('includes.header')
+    <!-- /main navbar -->
     <!-- Page content -->
     <div class="page-content">
         <!-- Main content -->
+        <!-- Main sidebar -->
+        @include('includes.sidebar_student')
+        <!-- /main sidebar -->
         <div class="content-wrapper">
             <!-- Inner content -->
             <div class="content-inner">
