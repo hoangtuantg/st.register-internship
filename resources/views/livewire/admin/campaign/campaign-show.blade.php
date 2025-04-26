@@ -48,19 +48,10 @@
             </ul>
 
             <div class="tab-content">
-                {{-- <div class="tab-pane fade active show" id="js-tab1" role="tabpanel">
-                    <livewire:student.student-index :campaignId="$campaignId"/>
-                </div>
-
-                <div class="tab-pane fade" id="js-tab2" role="tabpanel">
-                    <livewire:group.group-index :campaignId="$campaignId"/>
-                </div>
-                <div class="tab-pane fade" id="js-tab3" role="tabpanel">
-                    <livewire:group.group-official-index :campaignId="$campaignId"/>
-                </div> --}}
-{{-- test --}}
                 <div class="tab-pane fade active show" id="js-tab1" role="tabpanel">
-                    <livewire:admin.company.company-index/>
+                    <div class="tab-pane fade active show" id="js-tab1" role="tabpanel">
+                        <livewire:admin.student.student-index :campaignId="$campaignId" />
+                    </div>
                 </div>
 
                 <div class="tab-pane fade" id="js-tab2" role="tabpanel">

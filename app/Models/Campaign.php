@@ -15,10 +15,10 @@ class Campaign extends Model
 
     protected $fillable = ['name', 'start', 'end', 'max_student_group', 'official_end', 'plan_id', 'faculty_id'];
 
-    // public function students(): HasMany
-    // {
-    //     return $this->hasMany(Student::class);
-    // }
+    public function students(): HasMany
+    {
+        return $this->hasMany(Student::class);
+    }
 
     // public function groups(): HasMany
     // {

@@ -26,6 +26,7 @@ Route::middleware('auth.sso')->group(function (): void {
             Route::get('/create', [CampaignController::class, 'create'])->name('admin.campaigns.create');
             Route::get('/{campaign}/edit', [CampaignController::class, 'edit'])->name('admin.campaigns.edit');
             Route::get('/{campaign}', [CampaignController::class, 'show'])->name('admin.campaigns.show');
+            Route::get('/download-template-student', [CampaignController::class, 'downloadTemplateStudent'])->name('admin.campaigns.downloadTemplateStudent');
         });
 
         Route::prefix('plans')->group(function (): void {

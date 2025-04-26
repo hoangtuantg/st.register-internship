@@ -70,7 +70,6 @@
                         </tr>
                     @empty
                         <x-table.table-empty :colspan="6" />
-
                     @endforelse
                 </tbody>
             </table>
