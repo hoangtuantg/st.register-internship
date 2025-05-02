@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Services;
 
 use App\Enums\Role;
@@ -79,8 +80,7 @@ class SsoService
 
         return  $userData['role'] === UserRoleEnum::SuperAdmin->value
             ? Session::get('facultyId')
-        : $userData['faculty_id'] ?? null;
-
+            : $userData['faculty_id'] ?? null;
     }
 
     private function handleError(int $codeError): void
@@ -102,6 +102,12 @@ class SsoService
         if (403 === $codeError) {
             abort(403);
         }
+    }
 
+    public function getStudentCode()
+    {
+        $userData = $this->getDataUser();
+
+        return $userData['code'] ?? null;
     }
 }

@@ -14,7 +14,7 @@ class Student extends Model
     protected $fillable = [
         'campaign_id', 'name', 'code', 'dob', 'class',
         'course_id', 'credit',
-        'condition', 'note', 'group_id', 'group_official_id', 'email', 'phone'
+        'condition', 'note', 'group_id', 'group_official_id', 'email', 'phone', 'faculty_id',
     ];
 
     public function campaign(): BelongsTo

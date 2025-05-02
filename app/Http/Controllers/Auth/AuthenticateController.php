@@ -15,8 +15,6 @@ use Throwable;
 use App\Enums\StatusEnum;
 use App\Enums\UserRoleEnum;
 use App\Models\Role;
-use Illuminate\Support\Facades\DB;
-
 
 class AuthenticateController extends Controller
 {
@@ -35,35 +33,49 @@ class AuthenticateController extends Controller
     public function handleCallback(Request $request)
     {
         try {
+            Log::info('SSO Callback: Received code', ['code' => $request->code]);
+
             $data = $this->getAccessToken($request->code);
+            Log::info('Access token response', $data);
+
             if (! isset($data['access_token'])) {
-                return abort(401);
+                Log::error('Access token not received.');
+                abort(401, 'Không lấy được access token từ SSO');
             }
 
             Session::put('access_token', $data['access_token']);
 
             $userData = $this->getUserData($data['access_token']);
+            Log::info('User data from SSO', $userData);
+
+            if (empty($userData['id']) || empty($userData['role'])) {
+                Log::error('Invalid user data from SSO.');
+                abort(401, 'Dữ liệu người dùng không hợp lệ từ SSO');
+            }
+
             $user = $this->findOrCreateUser($userData);
             $this->storeSessionData($userData);
+
             Auth::login($user);
+
             if ($userData['role'] === UserRoleEnum::SuperAdmin->value && empty($userData['faculty_id'])) {
                 return redirect()->route('faculty.select');
             }
+
             if ($userData['role'] === UserRoleEnum::Student->value) {
                 return redirect()->route('client.dashboard');
             }
+
             return redirect()->route('dashboard');
         } catch (Throwable $th) {
-            Log::error($th->getMessage());
-
-            return abort(401);
+            Log::error('Lỗi đăng nhập SSO: ' . $th->getMessage());
+            abort(401, 'Đã xảy ra lỗi khi xử lý đăng nhập SSO');
         }
     }
 
     public function logout()
     {
         app(SsoService::class)->clearAuth();
-
         return redirect(config('auth.sso.uri'));
     }
 
@@ -83,74 +95,64 @@ class AuthenticateController extends Controller
     private function getUserData(string $accessToken): array
     {
         $response = Http::withToken($accessToken)->get(config('auth.sso.uri') . '/api/user');
-
         return $response->json();
     }
 
     private function findOrCreateUser(array $userData): User
     {
-        $user =  User::firstOrCreate(
+        $user = User::firstOrCreate(
             ['sso_id' => $userData['id']],
             ['status' => StatusEnum::Active]
         );
 
-        // if ($user['role'] === UserRoleEnum::Student->value) {
-        //     Student::updateOrCreate([
-        //         'code' => $userData['code'],
-        //         'email' => $userData['email']
-        //     ], [
-        //         'user_id' => $user->id,
-        //         'first_name' => $userData['first_name'],
-        //         'last_name' => $userData['last_name'],
-        //         'email' => $userData['email'],
-        //         'phone' => $userData['phone'],
-        //         'code' => $userData['code']
-        //     ]);
-        // }
+        if ($userData['role'] === UserRoleEnum::Student->value) {
+            Student::updateOrCreate([
+                'code' => $userData['code'],
+            ], [
+                'user_id' => $user->id,
+                'email' => $userData['email'] ?? '',
+                'phone' => $userData['phone'] ?? '',
+                'code' => $userData['code'],
+                'name' => ($userData['full_name']),
+                'faculty_id' => $userData['faculty_id'] ?? null,
+            ]);
+        }
 
-        // if (!empty($userData['faculty_id'])) {
-        //     try {
-        //         // Cách 1: Sử dụng pluck với tên cột đầy đủ
-        //         $roleIds = $user->userRoles()->pluck('roles.id')->toArray();
-                
-        //         Role::whereIn('id', $roleIds)
-        //             ->update(['faculty_id' => $userData['faculty_id']]);
-        //     } catch (\Exception $e) {
-        //         Log::error('Error updating faculty_id: ' . $e->getMessage());
-        //     }
-        // }
+        if (!empty($userData['faculty_id'])) {
+            try {
+                $roleIds = $user->userRoles()->pluck('roles.id')->toArray();
+                Role::whereIn('id', $roleIds)
+                    ->update(['faculty_id' => $userData['faculty_id']]);
+            } catch (\Exception $e) {
+                Log::error('Error updating faculty_id: ' . $e->getMessage());
+            }
+        }
 
         if (
             (User::count() === 1 && $userData['role'] === UserRoleEnum::Officer->value) ||
             ($userData['role'] === UserRoleEnum::SuperAdmin->value)
         ) {
-            $superAdminRole = Role::firstOrCreate(
-                ['name' => 'Super Admin'],
-            );
-            // DB::table('user_role')->updateOrInsert(
-            //     ['is_super_admin' => true]
-            // );
-            // if (!$user->userRoles()->where('role_id', $superAdminRole->id)->exists()) {
-            //     $user->userRoles()->attach($superAdminRole->id);
-            // }
+            $superAdminRole = Role::firstOrCreate(['name' => 'Super Admin']);
+
             if (!$user->userRoles()->where('role_id', $superAdminRole->id)->exists()) {
-                // Gán role + is_super_admin = true qua bảng trung gian
                 $user->userRoles()->attach($superAdminRole->id, ['is_super_admin' => true]);
             } else {
-                // Đảm bảo cập nhật lại cờ is_super_admin nếu đã tồn tại role
                 $user->userRoles()->updateExistingPivot($superAdminRole->id, ['is_super_admin' => true]);
             }
         }
-        
+
         return $user;
     }
 
     private function storeSessionData(array $userData): void
     {
         Session::put('userData', $userData);
-        if ($userData['role'] !== UserRoleEnum::SuperAdmin->value && empty($userData['faculty_id'])) {
-            abort(403);
-        }
+
+        // if ($userData['role'] !== UserRoleEnum::SuperAdmin->value && empty($userData['faculty_id'])) {
+        //     Log::error('faculty_id bị thiếu với role không phải SuperAdmin');
+        //     abort(403, 'Không tìm thấy thông tin khoa');
+        // }
+
         if ($userData['role'] !== UserRoleEnum::SuperAdmin->value) {
             Session::put('faculty_id', $userData['faculty_id']);
         }

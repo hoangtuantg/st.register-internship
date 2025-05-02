@@ -33,7 +33,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="" class="nav-link">
+                    <a href="{{route('client.campaigns.index')}}" class="nav-link {{ request()->routeIs('client.campaigns.*') ? 'active' : '' }}">
                         <i class="ph-calendar-check"></i>
                         <span>Đợt đăng ký</span>
                     </a>
