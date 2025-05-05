@@ -40,14 +40,14 @@
                     <tr>
                         <td>{{ $loop->index + 1 + $students->perPage() * ($students->currentPage() - 1) }}</td>
                         <td>{{ $student->name }}</td>
-                        <td>{{ \Carbon\Carbon::make($student->dob)->format('d/m/Y') }}</td>
+                        <td>{{ $student->dob ? \Carbon\Carbon::make($student->dob)->format('d/m/Y') : '' }}</td>
 
                         <td>{{ $student->code }}</td>
                         <td>{{ $student->class }}</td>
                         <td>{{ $student->email }}</td>
                         <td>{{ $student->phone }}</td>
-                        <td>{{ $student->course->code }}</td>
-                        <td>{{ $student->course->name }}</td>
+                        <td>{{ $student->course->code ?? ''}}</td>
+                        <td>{{ $student->course->name ?? ''}}</td>
                         <td class="text-center">{{ $student->credit }}</td>
                     </tr>
                 @empty

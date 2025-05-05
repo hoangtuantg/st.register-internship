@@ -21,4 +21,6 @@ class CampaignIndex extends Component
             'campaigns' => $campaigns,
         ]);
     }
+
+    
 }

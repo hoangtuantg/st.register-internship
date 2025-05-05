@@ -55,10 +55,10 @@
                 </div>
 
                 <div class="tab-pane fade" id="js-tab2" role="tabpanel">
-                    <livewire:admin.company.company-index />
+                    <livewire:admin.group.group-index :campaignId="$campaignId"/>
                 </div>
                 <div class="tab-pane fade" id="js-tab3" role="tabpanel">
-                    <livewire:admin.campaign.campaign-index />
+                    <livewire:admin.group.group-official-index :campaignId="$campaignId"/>
                 </div>
             </div>
         </div>

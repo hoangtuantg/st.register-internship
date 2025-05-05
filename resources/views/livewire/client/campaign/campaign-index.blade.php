@@ -28,6 +28,7 @@
                     @else
                         <div class="list-group">
                             @foreach ($campaigns as $campaign)
+                            <a href="{{ route('internship.register', $campaign->id) }}">
                                 <div class="list-group-item list-group-item-action shadow-sm mb-2" style="border-radius: 12px;">
                                     <div class="card-body p-2">
                                         <div class="card-item">
@@ -35,6 +36,7 @@
                                         </div>
                                     </div>
                                 </div>
+                            </a>
                             @endforeach
                         </div>
                     @endif
