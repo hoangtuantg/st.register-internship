@@ -37,7 +37,7 @@
     <div class="content d-flex justify-content-center align-items-center">
 
         <livewire:client.internship.internship-register campaignId="{{ $campaignId }}" />
-        {{-- <livewire:client.teacher-modal campaignId="{{ $campaignId }}" />
-        <livewire:client.company-modal /> --}}
+        <livewire:client.modal.teacher-modal campaignId="{{ $campaignId }}" />
+        <livewire:client.modal.company-modal />
     </div>
 </x-layouts.client-layout>

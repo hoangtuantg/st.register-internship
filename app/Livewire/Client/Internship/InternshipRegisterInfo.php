@@ -102,4 +102,64 @@ class InternshipRegisterInfo extends Component
             $this->dispatch('preStepTwo')->to(InternshipRegister::class);
         }
     }
+
+    public function nextStepFinish()
+    {
+        $this->validate();
+        DB::beginTransaction();
+        try {
+
+            // $supervisorName = null;
+            // if ($this->supervisor !== 'none' && $this->supervisor !== '') {
+            //     $teacher = Teacher::where('code', $this->supervisor)->first();
+            //     if ($teacher) {
+            //         $supervisorName = $teacher->name;
+            //     }
+            // }
+
+            // $teacher = Teacher::where('code', $this->supervisor)->first();
+
+            $group = Group::create([
+                'topic' => $this->topic,
+                    // 'supervisor' => $supervisorName,
+                'campaign_id' => $this->campaignId,
+            ]);
+            $captainCode = app(SsoService::class)->getStudentCode();
+
+            foreach ($this->dataStudent as $code =>  $item) {
+                $student = Student::query()->where('code', $code)
+                    ->where('campaign_id', $this->campaignId)
+                    ->first();
+
+                if ($student->group_id) {
+                    $this->dispatch('alert', type: "error", message: "Tạo nhóm thực tập thất bại! Sinh viên " . $student . " đã có nhóm thực tập");
+                    DB::rollBack();
+                    throw new \Exception();
+                }
+
+                $student->group_id = $group->id;
+                $student->save();
+
+                // Kiểm tra nếu là sinh viên đang đăng nhập và tạo nhóm ->nhóm trưởng
+                $isCaptain = ($code == $captainCode) ? 1 : 0;
+
+                GroupStudent::create([
+                    'email' => $item['email'],
+                    'phone' => $item['phone'],
+                    'phone_family' => $item['phone_family'],
+                    'internship_company' => $item['internship_company'],
+                    'student_id' => $student->id,
+                    'is_captain' => $isCaptain
+                ]);
+            }
+            DB::commit();
+            $this->dispatch('nextSuccess')->to(InternShipRegister::class);
+        } catch (\Exception $exception) {
+            Log::error('create group', [
+                'message' => $exception->getMessage(),
+            ]);
+            $this->dispatch('alert', type: "error", message: "Tạo nhóm thực tập thất bại");
+            DB::rollBack();
+        }
+    }
 }

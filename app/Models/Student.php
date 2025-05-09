@@ -22,20 +22,20 @@ class Student extends Model
         return $this->belongsTo(Campaign::class);
     }
 
-    // public function group(): BelongsTo
-    // {
-    //     return $this->belongsTo(Group::class);
-    // }
+    public function group(): BelongsTo
+    {
+        return $this->belongsTo(Group::class);
+    }
 
     public function course(): BelongsTo
     {
         return $this->belongsTo(Course::class);
     }
 
-    // public function groupStudent(): HasOne
-    // {
-    //     return $this->hasOne(GroupStudent::class);
-    // }
+    public function groupStudent(): HasOne
+    {
+        return $this->hasOne(GroupStudent::class);
+    }
 
     // public function studentGroupOfficial(): HasOne
     // {

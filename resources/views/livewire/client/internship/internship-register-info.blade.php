@@ -78,24 +78,6 @@
 
                     {{-- Thông tin đề tài & giáo viên --}}
                     <div class="card mb-4">
-                        {{-- <div class="card-header bg-light d-flex justify-content-between align-items-center">
-                            <h6 class="mb-0 fw-semibold">Đề tài & giáo viên hướng dẫn</h6>
-                            <div class="dropdown">
-                                <button class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown">
-                                    <i class="ph-list-checks me-1"></i> GVHD & Công ty
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-end">
-                                    <li><button type="button" class="dropdown-item text-success" data-bs-toggle="modal"
-                                            data-bs-target="#teachersModal">
-                                            <i class="ph-chalkboard-teacher me-1"></i> Danh sách giảng viên
-                                        </button></li>
-                                    <li><button type="button" class="dropdown-item text-primary" data-bs-toggle="modal"
-                                            data-bs-target="#companiesModal">
-                                            <i class="ph-briefcase me-1"></i> Danh sách công ty
-                                        </button></li>
-                                </ul>
-                            </div>
-                        </div> --}}
                         <div class="card-header bg-light d-flex flex-wrap justify-content-between align-items-center">
                             <h6 class="mb-2 fw-semibold w-100 w-sm-auto">Đề tài & giáo viên hướng dẫn</h6>
 

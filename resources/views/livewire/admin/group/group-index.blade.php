@@ -7,8 +7,8 @@
                 </div>
             </div>
             <div class="gap-2 d-flex flex-wrap">
-                <p>Số nhóm : <b> $groups->total() </b></p>
-                <p>Số sinh viên đăng ký: <b> $studentRegister</b></p>
+                <p>Số nhóm : <b> {{$groups->total()}}</b></p>
+                <p>Số sinh viên đăng ký: <b> {{$studentRegister}}</b></p>
             </div>
             <div class="gap-2 d-flex">
                 <div>
@@ -39,7 +39,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                {{-- @forelse($groups as $group)
+                @forelse($groups as $group)
                     <tr class=" cursor-pointer">
                         <td data-bs-toggle="collapse" class="bold"
                             data-bs-target="#st{{$group->id}}">{{ $loop->index + 1 + $groups->perPage() * ($groups->currentPage() - 1) }}</td>
@@ -49,16 +49,6 @@
                             data-bs-target="#st{{$group->id}}">{{ $group->supervisor ?: "Chưa có" }}</td>
                         <td data-bs-toggle="collapse"
                             data-bs-target="#st{{$group->id}}">{{ $group->students->count() }}</td>
-                        <td>
-                            @if(isset($group->groupKey) && $group->groupKey->active && !$group->groupKey->isExpired())
-                                <a href="{{route('internship.edit', $group->groupKey->key)}}"
-                                   data-link="{{route('internship.edit', $group->groupKey->key)}}">
-                                    <i class="ph-arrow-square-out"></i> Link chỉnh sửa
-                                </a>
-                            @else
-                                Không có
-                            @endif
-                        </td>
                         <td data-bs-toggle="collapse"
                             data-bs-target="#st{{$group->id}}">{{ $group->created_at->format('H:i d/m/Y') }}</td>
 
@@ -79,18 +69,18 @@
                     </tr>
                     <tr id="st{{$group->id}}" class="accordion-collapse collapse" wire:ignore.self>
                         <td colspan="7">
-                            <livewire:group.group-member-index :group="$group" wire:key="group-{{ $group->id }}"/>
+                            <livewire:admin.group.group-member-index :group="$group" wire:key="group-{{ $group->id }}"/>
                         </td>
                     </tr>
 
                 @empty
-                    <x-table-empty :colspan="7"/>
-                @endforelse --}}
+                    <x-table.table-empty :colspan="7" />
+                @endforelse
                 </tbody>
             </table>
         </div>
     </div>
-    {{-- {{ $groups->links('vendor.pagination.groups') }} --}}
+    {{ $groups->links('vendor.pagination.groups') }}
 </div>
 
 @script
