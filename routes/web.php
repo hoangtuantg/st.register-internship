@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Client\ClientDashboardController;
 use App\Http\Controllers\Client\ClientCampaignController;
 use App\Http\Controllers\Client\RegisterController;
+use App\Http\Controllers\Client\ResearchController;
 
 Route::get('/auth/callback', [AuthenticateController::class, 'handleCallback'])->name('sso.callback');
 Route::get('/auth/redirect', [AuthenticateController::class, 'redirectToSSO'])->name('sso.redirect');
@@ -68,5 +69,6 @@ Route::middleware('auth.sso')->group(function (): void {
         Route::get('/', [ClientDashboardController::class, 'index'])->name('client.dashboard');
         Route::get('/campaigns', [ClientCampaignController::class, 'index'])->name('client.campaigns.index');
         Route::get('internship/{campaign}/register', [RegisterController::class, 'index'])->name('internship.register');
+        Route::get('internship/{campaign}/research', [ResearchController::class, 'index'])->name('internship.research');
     });
 });

@@ -45,17 +45,6 @@
                 </li>
 
                 <li class="nav-item-header">
-                    <div class="text-uppercase fs-sm lh-sm opacity-50 sidebar-resize-hide">Thông tin nhóm thực tập</div>
-                    <i class="ph-dots-three sidebar-resize-show"></i>
-                </li>
-                <li class="nav-item">
-                    <a href="" class="nav-link">
-                        <i class="ph-magnifying-glass"></i>
-                        <span>Tra cứu thông tin</span>
-                    </a>
-                </li>
-
-                <li class="nav-item-header">
                     <div class="text-uppercase fs-sm lh-sm opacity-50 sidebar-resize-hide">Báo cáo tổng kết</div>
                     <i class="ph-dots-three sidebar-resize-show"></i>
                 </li>
