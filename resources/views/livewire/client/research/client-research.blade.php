@@ -88,12 +88,12 @@
                             </div>
                             @if ($this->student->groupStudent->is_captain && $campaign->isExpired())
                                 <div class="mt-2">
-                                    <button wire:loading class="btn btn-primary" wire:target="sendMailEdit">
-                                        <i class="ph-note-pencil spinner"></i>
+                                    <button wire:loading class="btn btn-primary" wire:target="editGroup">
+                                        <i class="ph-circle-notch spinner"></i>
                                         &nbsp;Chỉnh sửa thông tin nhóm
                                     </button>
 
-                                    <button wire:loading.remove class="btn btn-primary" wire:click="sendMailEdit">
+                                    <button wire:loading.remove class="btn btn-primary" wire:click="editGroup">
                                         <i class="ph-note-pencil"></i>
                                         &nbsp;Chỉnh sửa thông tin nhóm
                                     </button>

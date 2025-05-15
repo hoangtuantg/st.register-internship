@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Campaign;
 use App\Models\GroupOfficial;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Group;
 
 class ResearchController extends Controller
 {

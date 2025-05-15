@@ -14,6 +14,7 @@ use App\Http\Controllers\Client\ClientDashboardController;
 use App\Http\Controllers\Client\ClientCampaignController;
 use App\Http\Controllers\Client\RegisterController;
 use App\Http\Controllers\Client\ResearchController;
+use App\Http\Controllers\Client\EditGroupController;
 
 Route::get('/auth/callback', [AuthenticateController::class, 'handleCallback'])->name('sso.callback');
 Route::get('/auth/redirect', [AuthenticateController::class, 'redirectToSSO'])->name('sso.redirect');
@@ -50,7 +51,7 @@ Route::middleware('auth.sso')->group(function (): void {
             Route::get('/{campaign}/show', [CompanyController::class, 'companyCampaignShow'])->name('admin.company-campaign.show');
             Route::get('/{campaign}/edit/{company}', [CompanyController::class, 'companyCampaignEdit'])->name('admin.company-campaign.edit');
         });
-        Route::resource('roles', RoleController::class)->only(['index','create','edit']);
+        Route::resource('roles', RoleController::class)->only(['index', 'create', 'edit']);
 
         Route::prefix('report')->group(function (): void {
             Route::get('/', [ReportController::class, 'index'])->name('admin.reports.index');
@@ -59,16 +60,17 @@ Route::middleware('auth.sso')->group(function (): void {
         Route::resource('users', UserController::class)->only(['index', 'show']);
         Route::resource('teachers', TeacherController::class)->only(['index']);
     });
-    
-    
+
+
     Route::get('/faculty/select', function () {
         return view('livewire.commons.faculty-selected');
     })->name('faculty.select');
 
-    Route::prefix('/')->group(function (): void {    
+    Route::prefix('/')->group(function (): void {
         Route::get('/', [ClientDashboardController::class, 'index'])->name('client.dashboard');
         Route::get('/campaigns', [ClientCampaignController::class, 'index'])->name('client.campaigns.index');
         Route::get('internship/{campaign}/register', [RegisterController::class, 'index'])->name('internship.register');
         Route::get('internship/{campaign}/research', [ResearchController::class, 'index'])->name('internship.research');
+        Route::get('internship/{key}/edit', [EditGroupController::class, 'index'])->name('internship.edit');
     });
 });

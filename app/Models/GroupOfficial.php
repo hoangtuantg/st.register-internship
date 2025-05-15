@@ -29,10 +29,10 @@ class GroupOfficial extends Model
         return $this->belongsTo(Teacher::class);
     }
 
-    // public function groupKey(): MorphOne
-    // {
-    //     return $this->morphOne(GroupKey::class, 'groupkeyable', 'group_type', 'group_id')->orderBy('created_at', 'desc');
-    // }
+    public function groupKey(): MorphOne
+    {
+        return $this->morphOne(GroupKey::class, 'groupkeyable', 'group_type', 'group_id')->orderBy('created_at', 'desc');
+    }
 
     public function scopeSearch($query, $search)
     {

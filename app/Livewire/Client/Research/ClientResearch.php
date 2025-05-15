@@ -4,8 +4,6 @@ namespace App\Livewire\Client\Research;
 
 use Livewire\Component;
 use App\Common\Constants;
-use App\Jobs\SendRequestEditMailJob;
-use App\Mail\RequestEditMail;
 use App\Models\Campaign;
 use App\Models\Group;
 use App\Models\GroupKey;
@@ -13,7 +11,6 @@ use App\Models\PlanDetail;
 use App\Models\Student;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Validate;
 use App\Services\SsoService;
@@ -70,6 +67,36 @@ class ClientResearch extends Component
             'planName' => $campaign->planTemplate->name ?? 'Chưa có kế hoạch',
         ]);
     }
+
+    public function editGroup()
+    {
+        if (! $this->student->groupStudent->is_captain) {
+            return;
+        }
+
+        if (! $this->isLoading) {
+            $this->isLoading = true;
+            try {
+                $groupKey = GroupKey::create([
+                    'group_id' => $this->group->id,
+                    'key' => Str::random(),
+                    'group_type' => Group::class,
+                ]);
+
+                $groupKey->active = true;
+                $groupKey->save();
+                
+                return redirect()->route('internship.edit', ['key' => $groupKey->key]);
+            } catch (\Exception $exception) {
+                Log::error('Redirect to edit with group key failed', [
+                    'message' => $exception->getMessage(),
+                ]);
+                $this->dispatch('alert', type: 'error', message: 'Có lỗi sảy ra vui lòng thử lại sau!');
+            }
+            $this->isLoading = false;
+        }
+    }
+
 
     public function openPlanModal()
     {
