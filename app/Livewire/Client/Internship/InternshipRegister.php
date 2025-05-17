@@ -37,6 +37,15 @@ class InternshipRegister extends Component
     {
         $this->campaignId = $campaignId;
         $this->code = app(SsoService::class)->getStudentCode();
+
+        //redirect nếu sinh viên đã có nhóm
+        $student = Student::where('code', $this->code)
+            ->where('campaign_id', $campaignId)
+            ->first();
+
+        if ($student->group_id) {
+            return redirect()->route('internship.research', $campaignId);
+        }
     }
 
     public function render()
@@ -44,7 +53,8 @@ class InternshipRegister extends Component
         $campaign = Campaign::query()
             ->where('id', $this->campaignId)
             ->first();
-        return view('livewire.client.internship.internship-register',
+        return view(
+            'livewire.client.internship.internship-register',
             [
                 'campaign' => $campaign,
             ]
