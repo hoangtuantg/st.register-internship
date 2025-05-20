@@ -37,10 +37,10 @@ class Student extends Model
         return $this->hasOne(GroupStudent::class);
     }
 
-    // public function studentGroupOfficial(): HasOne
-    // {
-    //     return $this->hasOne(StudentGroupOfficial::class, 'student_id');
-    // }
+    public function studentGroupOfficial(): HasOne
+    {
+        return $this->hasOne(StudentGroupOfficial::class, 'student_id');
+    }
 
     public function scopeSearch($query, $search)
     {

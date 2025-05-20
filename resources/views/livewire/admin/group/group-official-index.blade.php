@@ -7,8 +7,8 @@
                 </div>
             </div>
             <div class="gap-2 d-flex flex-wrap">
-                <p>Số nhóm : <b> $groups->total() </b></p>
-                <p>Số sinh viên đăng ký: <b> $studentRegister </b></p>
+                <p>Số nhóm : <b> {{$groups->total()}} </b></p>
+                <p>Số sinh viên đăng ký: <b> {{$studentRegister}} </b></p>
             </div>
             <div class="gap-2 d-flex">
                 <div>
@@ -17,14 +17,14 @@
                         <i class="px-1 ph-microsoft-excel-logo"></i><span>Import danh sách</span>
                     </button>
 
-                    {{-- @if (count($groups) > 0)
+                    @if (count($groups) > 0)
                         <button  wire:loading wire:target="export" type="button" class="px-2 btn btn-success btn-icon" >
                             <i class="px-1 ph-circle-notch spinner"></i><span>Export danh sách</span>
                         </button  >
                         <button wire:loading.remove type="button" class="px-2 btn btn-success btn-icon" wire:click="export()">
                             <i class="px-1 ph-microsoft-excel-logo"></i><span>Export danh sách</span>
                         </button>
-                    @endif --}}
+                    @endif
 
                     <button type="button" class="px-2 btn btn-light btn-icon" wire:click="$refresh">
                         <i class="px-1 ph-arrows-clockwise"></i><span>Tải lại</span>
@@ -46,7 +46,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {{-- @forelse($groups as $group)
+                    @forelse($groups as $group)
                         <tr class=" cursor-pointer">
 
                             <td data-bs-toggle="collapse" class="bold" data-bs-target="#st{{ $group->id }}">
@@ -64,22 +64,22 @@
                                 {{ $group->created_at->format('H:i d/m/Y') }}</td>
 
                         </tr>
-                        <tr id="st{{ $group->id }}" class="accordion-collapse collapse" wire:ignore.self>
+                        {{-- <tr id="st{{ $group->id }}" class="accordion-collapse collapse" wire:ignore.self>
                             <td colspan="7">
                                 <livewire:group.group-official-member-index :group="$group"
                                     wire:key="group-{{ $group->id }}" />
                             </td>
-                        </tr>
+                        </tr> --}}
 
                     @empty
-                        <x-table-empty :colspan="7" />
-                    @endforelse --}}
+                        <x-table.table-empty :colspan="7" />
+                    @endforelse
                 </tbody>
             </table>
         </div>
     </div>
     {{-- {{ $groups->links('vendor.pagination.groups-official') }} --}}
-    {{-- <livewire:group.group-official-import :campaignId="$campaignId" /> --}}
+    <livewire:admin.group.group-official-import :campaignId="$campaignId" />
 
 </div>
 

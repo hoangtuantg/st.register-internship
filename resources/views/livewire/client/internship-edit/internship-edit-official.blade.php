@@ -8,7 +8,7 @@
                             <img src="{{ asset('assets/images/FITA.png') }}" class="h-64px" alt="">
                             <img src="{{ asset('assets/images/logoST.jpg') }}" class="h-64px" alt="">
                         </div>
-                        <span class="d-block text-muted">Thông tin nhóm</span>
+                        <span class="d-block text-muted">Thông tin nhóm chính thức</span>
                         <h5 class="mb-0 p-2">{{ $campaign?->name }}</h5>
                     </div>
 
@@ -95,6 +95,54 @@
                                                                     @enderror
                                                                 </div>
                                                             </div>
+                                                            <div class="row mb-3">
+                                                                <label class="col-form-label col-lg-3">Cán bộ hướng dẫn
+                                                                    tại công ty thực tập</label>
+                                                                <div class="col-lg-9">
+                                                                    <input type="text"
+                                                                        wire:model.live="dataStudent.{{ $student?->code }}.supervisor_company"
+                                                                        class="form-control" required>
+                                                                    @error('dataStudent.' . $student?->code .
+                                                                        '.supervisor_company')
+                                                                        <label
+                                                                            id="error-{{ $student?->code }}-supervisor_company"
+                                                                            class="validation-error-label text-danger"
+                                                                            for="internship_company-{{ $student?->code }}">{{ $message }}</label>
+                                                                    @enderror
+                                                                </div>
+                                                            </div>
+                                                            <div class="row mb-3">
+                                                                <label class="col-form-label col-lg-3">Email của cán bộ
+                                                                    hướng dẫn</label>
+                                                                <div class="col-lg-9">
+                                                                    <input type="text"
+                                                                        wire:model.live="dataStudent.{{ $student?->code }}.supervisor_company_email"
+                                                                        class="form-control" required>
+                                                                    @error('dataStudent.' . $student?->code .
+                                                                        '.supervisor_company_email')
+                                                                        <label
+                                                                            id="error-{{ $student?->code }}-supervisor_company_email"
+                                                                            class="validation-error-label text-danger"
+                                                                            for="internship_company-{{ $student?->code }}">{{ $message }}</label>
+                                                                    @enderror
+                                                                </div>
+                                                            </div>
+                                                            <div class="row mb-3">
+                                                                <label class="col-form-label col-lg-3">Số điện thoại của
+                                                                    cán bộ hướng dẫn</label>
+                                                                <div class="col-lg-9">
+                                                                    <input type="text"
+                                                                        wire:model.live="dataStudent.{{ $student?->code }}.supervisor_company_phone"
+                                                                        class="form-control" required>
+                                                                    @error('dataStudent.' . $student?->code .
+                                                                        '.supervisor_company_phone')
+                                                                        <label
+                                                                            id="error-{{ $student?->code }}-supervisor_company_phone"
+                                                                            class="validation-error-label text-danger"
+                                                                            for="internship_company-{{ $student?->code }}">{{ $message }}</label>
+                                                                    @enderror
+                                                                </div>
+                                                            </div>
                                                             <!-- /maximum number -->
                                                         </div>
                                                     </form>
@@ -131,7 +179,8 @@
                                             <label class="col-form-label col-lg-3">Giáo viên đã nhận hướng dẫn
                                             </label>
                                             <div class="col-lg-9">
-                                                <input type="text" wire:model.live="supervisor" class="form-control">
+                                                <input type="text" wire:model.live="supervisor"
+                                                    class="form-control">
                                             </div>
                                         </div>
                                     </div>

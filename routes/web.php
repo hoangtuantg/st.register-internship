@@ -71,6 +71,7 @@ Route::middleware('auth.sso')->group(function (): void {
         Route::get('/campaigns', [ClientCampaignController::class, 'index'])->name('client.campaigns.index');
         Route::get('internship/{campaign}/register', [RegisterController::class, 'index'])->name('internship.register');
         Route::get('internship/{campaign}/research', [ResearchController::class, 'index'])->name('internship.research');
+        Route::get('internship/{campaign}/research-official', [ResearchController::class, 'official'])->name('internship.research-official');
         Route::get('internship/{key}/edit', [EditGroupController::class, 'index'])->name('internship.edit');
     });
 });

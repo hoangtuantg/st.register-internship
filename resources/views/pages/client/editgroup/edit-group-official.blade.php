@@ -1,7 +1,7 @@
-<x-client-layout>
+<x-layouts.client-layout>
     <div class="content d-flex justify-content-center align-items-center">
 
-        <livewire:client.intern-ship-official-edit  :keyEdit="$key" />
+        <livewire:client.internship-edit.internship-edit-official  :keyEdit="$key" />
 
     </div>
-</x-client-layout>
+</x-layouts.client-layout>
