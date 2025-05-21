@@ -22,8 +22,7 @@ class UserIndex extends Component
     public function render()
     {
         $users = $this->fetchData();
-
-        return view('livewire.admin.user.user-index' , [
+        return view('livewire.admin.user.user-index', [
             'users' => $users,
         ]);
     }
@@ -46,7 +45,6 @@ class UserIndex extends Component
         }
 
         $responses = app(SsoService::class)->get("/api/faculties/{$facultyId}/users", $params);
-
         $this->page = @$responses['meta']['current_page'] ?? 1;
         $this->totalPages = @$responses['meta']['last_page'] ?? 1;
         $usersFromApi = @$responses['data'] ?? [];

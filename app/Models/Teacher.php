@@ -10,5 +10,7 @@ class Teacher extends Model
         'status',
         'faculty_id',
         'user_id',
+        'code',
+        'name',
     ];
 }

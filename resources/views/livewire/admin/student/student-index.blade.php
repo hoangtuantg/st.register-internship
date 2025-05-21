@@ -1,5 +1,5 @@
-<div>
-    <div class="card">
+<div style="max-width: 100%; overflow-x: hidden;">
+    <div class="card" style="overflow-x: auto; max-width: 100%; padding: 1rem;">
         <div class="py-3 card-header d-flex justify-content-between align-items-center">
             <div class="gap-2 d-flex">
                 <div>
@@ -18,7 +18,7 @@
             </div>
         </div>
 
-        <div class="table-responsive-md">
+        <div class="table-responsive-md" style="width: max-content; min-width: 100%; white-space: nowrap;">
             <table class="table fs-table">
                 <thead>
                 <tr class="table-light">

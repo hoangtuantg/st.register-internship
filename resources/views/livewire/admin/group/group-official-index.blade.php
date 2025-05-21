@@ -64,12 +64,12 @@
                                 {{ $group->created_at->format('H:i d/m/Y') }}</td>
 
                         </tr>
-                        {{-- <tr id="st{{ $group->id }}" class="accordion-collapse collapse" wire:ignore.self>
+                        <tr id="st{{ $group->id }}" class="accordion-collapse collapse" wire:ignore.self>
                             <td colspan="7">
-                                <livewire:group.group-official-member-index :group="$group"
+                                <livewire:admin.group.group-official-member-index :group="$group"
                                     wire:key="group-{{ $group->id }}" />
                             </td>
-                        </tr> --}}
+                        </tr>
 
                     @empty
                         <x-table.table-empty :colspan="7" />

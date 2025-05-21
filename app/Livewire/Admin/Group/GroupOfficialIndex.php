@@ -56,8 +56,8 @@ class GroupOfficialIndex extends Component
         $this->dispatch('open-import-group-modal');
     }
 
-    // public function export()
-    // {
-    //     return Excel::download(new ExportGroupOfficialStudent($this->campaignId), 'kq-chinh-thuc-nhom-thuc-tap.xlsx');
-    // }
+    public function export()
+    {
+        return Excel::download(new ExportGroupOfficialStudent($this->campaignId), 'kq-chinh-thuc-nhom-thuc-tap.xlsx');
+    }
 }

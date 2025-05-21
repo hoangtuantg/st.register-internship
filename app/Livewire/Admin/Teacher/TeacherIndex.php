@@ -22,9 +22,9 @@ class TeacherIndex extends Component
     public ?string $search = '';
 
     public function render()
-    {  
+    {
         $teachers = $this->fetchData();
-        return view('livewire.admin.teacher.teacher-index' , [
+        return view('livewire.admin.teacher.teacher-index', [
             'teachers' => $teachers,
         ]);
     }
@@ -37,35 +37,34 @@ class TeacherIndex extends Component
     public function fetchData()
     {
         $facultyId = app(SsoService::class)->getFacultyId();
-    
+
         $params = [
             'page' => $this->page,
         ];
-    
+
         if ($this->search) {
             $params['search'] = $this->search;
         }
-    
+
         $responses = app(SsoService::class)->get("/api/faculties/{$facultyId}/teachers", $params);
-    
         $this->page = @$responses['meta']['current_page'] ?? 1;
         $this->totalPages = @$responses['meta']['last_page'] ?? 1;
         $teachersFromApi = @$responses['data'] ?? [];
-    
+
         $ssoIds = collect($teachersFromApi)->pluck('id')->toArray();
-    
+
         // Lấy user dựa trên sso_id
         $localUsers = User::whereIn('sso_id', $ssoIds)->get()->keyBy('sso_id');
-    
+
         $teachers = collect($teachersFromApi)->map(function ($teacher) use ($localUsers, $facultyId) {
             $localUser = $localUsers[$teacher['id']] ?? null;
-        
+
             if ($localUser) {
                 // Kiểm tra lại thông tin user_id và faculty_id
                 if (!$localUser->id || !$facultyId) {
                     logger("Lỗi: Không có user_id hoặc faculty_id", ['user_id' => $localUser->id, 'faculty_id' => $facultyId]);
                 }
-        
+
                 // Nếu user đã có, thì tạo teacher nếu chưa có
                 $teacherRecord = Teacher::firstOrCreate([
                     'user_id' => $localUser->id,
@@ -73,8 +72,10 @@ class TeacherIndex extends Component
                     'user_id'    => $localUser->id,
                     'faculty_id' => $facultyId,
                     'status'     => TeacherStatusEnum::Accept->value,
+                    'code'       => $teacher['code'] ?? null,
+                    'name'       => $teacher['full_name'] ?? null,
                 ]);
-        
+
                 // Kiểm tra xem bản ghi đã được tạo hay chưa
                 if ($teacherRecord->wasRecentlyCreated) {
                     logger("Đã tạo mới giảng viên: " . $localUser->id);
@@ -86,11 +87,11 @@ class TeacherIndex extends Component
             }
             return $teacher;
         })->toArray();
-        
-    
+
+
         return $teachers;
     }
-    
+
 
     #[On('onPageChange')]
     public function onUpdatePage($page): void
@@ -102,31 +103,31 @@ class TeacherIndex extends Component
     {
         // Tìm user theo sso_id
         $user = User::where('sso_id', $teacherId)->first();
-        
+
         if ($user) {
             // Tìm giảng viên theo user_id
             $teacher = Teacher::where('user_id', $user->id)->first();
-            
+
             if ($teacher) {
                 // Cập nhật trạng thái
                 $teacher->update(['status' => TeacherStatusEnum::Accept->value]);
             }
         }
     }
-    
+
     public function pause($teacherId)
     {
         // Tìm user theo sso_id
         $user = User::where('sso_id', $teacherId)->first();
-        
+
         if ($user) {
             // Tìm giảng viên theo user_id
             $teacher = Teacher::where('user_id', $user->id)->first();
-            
+
             if ($teacher) {
                 // Cập nhật trạng thái
                 $teacher->update(['status' => TeacherStatusEnum::Refuse->value]);
             }
-        } 
+        }
     }
 }
