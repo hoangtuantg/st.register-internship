@@ -65,14 +65,14 @@ class InternshipRegisterInfo extends Component
             ->where('campaign_id', $this->campaignId)->get();
         $campaign = Campaign::find($this->campaignId);
 
-        // $teachers = Teacher::query()
-        //     ->where('status', \App\Enums\TeacherStatusEnum::Accept->value)
-        //     ->orderBy('name')
-        //     ->get();
+        $teachers = Teacher::query()
+            ->where('status', \App\Enums\TeacherStatusEnum::Accept->value)
+            ->orderBy('name')
+            ->get();
         return view('livewire.client.internship.internship-register-info', [
             'students' => $students,
             'campaign' => $campaign,
-            // 'teachers' => $teachers,
+            'teachers' => $teachers,
         ]);
     }
 
@@ -103,25 +103,30 @@ class InternshipRegisterInfo extends Component
         }
     }
 
+    public function updateSupervisor($value)
+    {
+        $this->supervisor = $value;
+    }
+
     public function nextStepFinish()
     {
         $this->validate();
         DB::beginTransaction();
         try {
 
-            // $supervisorName = null;
-            // if ($this->supervisor !== 'none' && $this->supervisor !== '') {
-            //     $teacher = Teacher::where('code', $this->supervisor)->first();
-            //     if ($teacher) {
-            //         $supervisorName = $teacher->name;
-            //     }
-            // }
+            $supervisorName = null;
+            if ($this->supervisor !== 'none' && $this->supervisor !== '') {
+                $teacher = Teacher::where('code', $this->supervisor)->first();
+                if ($teacher) {
+                    $supervisorName = $teacher->name;
+                }
+            }
 
-            // $teacher = Teacher::where('code', $this->supervisor)->first();
+            $teacher = Teacher::where('code', $this->supervisor)->first();
 
             $group = Group::create([
                 'topic' => $this->topic,
-                    // 'supervisor' => $supervisorName,
+                'supervisor' => $supervisorName,
                 'campaign_id' => $this->campaignId,
             ]);
             $captainCode = app(SsoService::class)->getStudentCode();
@@ -153,7 +158,7 @@ class InternshipRegisterInfo extends Component
                 ]);
             }
             DB::commit();
-            $this->dispatch('nextSuccess')->to(InternShipRegister::class);
+            $this->dispatch('nextSuccess')->to(InternshipRegister::class);
         } catch (\Exception $exception) {
             Log::error('create group', [
                 'message' => $exception->getMessage(),

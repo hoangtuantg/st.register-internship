@@ -19,7 +19,7 @@ class InternshipEditOfficial extends Component
     public string|int $campaignId;
 
     public string $topic = '';
-    // public string $supervisor = '';
+    public string $supervisor = '';
 
     public array $dataStudent = [];
 
@@ -71,7 +71,7 @@ class InternshipEditOfficial extends Component
         $group = GroupOfficial::query()->where('id', $groupKey->group_id)->first();
         $students = $group->students;
         $this->topic = $group->topic;
-        // $this->supervisor = $group->supervisor ?? '';
+        $this->supervisor = $group->supervisor ?? '';
         $this->campaignId = $group->campaign_id;
         foreach ($students as $student) {
             $this->dataStudent[$student->code] = [
@@ -95,7 +95,7 @@ class InternshipEditOfficial extends Component
 
             GroupOfficial::where('id', $groupKey->group_id)->update([
                 'topic' => $this->topic,
-                // 'supervisor' => $this->supervisor,
+                'supervisor' => $this->supervisor,
             ]);
 
             foreach ($this->dataStudent as $code => $item) {

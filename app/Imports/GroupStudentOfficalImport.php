@@ -92,18 +92,18 @@ class GroupStudentOfficalImport implements ToCollection, WithStartRow, WithHeadi
                     $group = GroupOfficial::create([
                         'code' => $row['nhom'],
                         'campaign_id' => $this->campaignId,
-                        //'department' => $row['bo_mon_quan_ly'],
+                        'department' => $row['bo_mon_quan_ly'],
                         //'teacher_id' => $teacher->id,
-                        //'supervisor' => $row['giao_vien_huong_dan_da_nhan_sinh_vien'],
+                        'supervisor' => $row['giao_vien_huong_dan_da_nhan_sinh_vien'],
                         'topic' => $row['de_tai_thuc_tap']
                     ]);
                 } else {
                     GroupOfficial::where('id', $group->id)->update([
                         'code' => $row['nhom'],
                         'campaign_id' => $this->campaignId,
-                        //'department' => $row['bo_mon_quan_ly'],
+                        'department' => $row['bo_mon_quan_ly'],
                         //'teacher_id' => $teacher->id,
-                        //'supervisor' => $row['giao_vien_huong_dan_da_nhan_sinh_vien'],
+                        'supervisor' => $row['giao_vien_huong_dan_da_nhan_sinh_vien'],
                         'topic' => $row['de_tai_thuc_tap']
                     ]);
                 }

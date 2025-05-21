@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\Campaign;
 use App\Services\SsoService;
 use App\Models\Student;
+use App\Enums\StatusEnum;
 
 class CampaignIndex extends Component
 {
@@ -17,7 +18,9 @@ class CampaignIndex extends Component
 
         $campaignIds = Student::where('code', $studentCode)->pluck('campaign_id');
 
-        $this->campaigns = Campaign::whereIn('id', $campaignIds)->get();
+        $this->campaigns = Campaign::whereIn('id', $campaignIds)
+            ->where('status', StatusEnum::Active->value)
+            ->get();
     }
 
     public function goToCampaign($campaignId)

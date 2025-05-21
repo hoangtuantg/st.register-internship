@@ -77,6 +77,11 @@ class InternshipRegister extends Component
     //     $this->dispatch('$refresh');
     // }
 
+    public function nextSuccess()
+    {
+        $this->step = StepRegisterEnum::StepFour;
+    }
+
     public function preStepOne()
     {
         $this->step = StepRegisterEnum::StepOne;

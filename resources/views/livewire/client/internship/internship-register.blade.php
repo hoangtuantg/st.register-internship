@@ -33,16 +33,14 @@
     @endif
 
     @if ($step == StepRegisterEnum::StepTwo)
-        <livewire:client.internship.internship-register-member 
-            :code="$code" 
-            :campaignId="$campaignId"
-            :studentChecked="$studentChecked" />
+        <livewire:client.internship.internship-register-member :code="$code" :campaignId="$campaignId" :studentChecked="$studentChecked" />
     @endif
 
     @if ($step == StepRegisterEnum::StepThree)
-        <livewire:client.internship.internship-register-info 
-            :code="$code" 
-            :campaignId="$campaignId"
-            :studentChecked="$studentChecked" />
+        <livewire:client.internship.internship-register-info :code="$code" :campaignId="$campaignId" :studentChecked="$studentChecked" />
+    @endif
+
+    @if ($step == StepRegisterEnum::StepFour)
+        <livewire:client.internship.internship-register-success />
     @endif
 </div>

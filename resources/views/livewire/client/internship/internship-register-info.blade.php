@@ -127,7 +127,7 @@
                                 </div>
                                 <div class="col-md-12" wire:ignore>
                                     <label class="form-label">Giáo viên hướng dẫn</label>
-                                    {{-- <div class="container-teacher">
+                                    <div class="container-teacher">
                                     <select wire:model="supervisor" class="form-select" id="teacher">
                                         <option value=""></option>
                                         @foreach ($teachers as $teacher)
@@ -137,7 +137,7 @@
                                     @error('supervisor')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
-                                </div> --}}
+                                </div>
                                 </div>
                             </div>
                         </div>
