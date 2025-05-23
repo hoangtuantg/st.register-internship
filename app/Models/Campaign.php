@@ -13,17 +13,27 @@ class Campaign extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'start', 'end', 'max_student_group', 'official_end', 'plan_id', 'faculty_id'];
+    protected $fillable =
+    [
+        'name',
+        'start',
+        'end',
+        'max_student_group',
+        'official_end',
+        'plan_id',
+        'faculty_id',
+        'report_deadline',
+    ];
 
     public function students(): HasMany
     {
         return $this->hasMany(Student::class);
     }
 
-    // public function groups(): HasMany
-    // {
-    //     return $this->hasMany(Group::class);
-    // }
+    public function groups(): HasMany
+    {
+        return $this->hasMany(Group::class);
+    }
 
     public function planTemplate(): BelongsTo
     {
@@ -71,24 +81,24 @@ class Campaign extends Model
         return $end < $now;
     }
 
-    // public static function boot()
-    // {
-    //     parent::boot();
+    public static function boot()
+    {
+        parent::boot();
 
-    //     static::deleting(function ($campaign) {
-    //         GroupStudent::query()
-    //             ->whereIn('student_id', $campaign->students->pluck('id')->toArray())
-    //             ->delete();
+        static::deleting(function ($campaign) {
+            GroupStudent::query()
+                ->whereIn('student_id', $campaign->students->pluck('id')->toArray())
+                ->delete();
 
-    //         Student::query()->where('campaign_id', $campaign->id)->delete();
-    //         GroupKey::query()->whereIn('group_id', $campaign->groups->pluck('id')->toArray())->delete();
-    //         Group::query()->where('campaign_id', $campaign->id)->delete();
-    //     });
-    // }
+            Student::query()->where('campaign_id', $campaign->id)->delete();
+            GroupKey::query()->whereIn('group_id', $campaign->groups->pluck('id')->toArray())->delete();
+            Group::query()->where('campaign_id', $campaign->id)->delete();
+        });
+    }
 
-    // public function officialGroups(): HasMany
-    // {
-    //     return $this->hasMany(GroupOfficial::class);
-    // }
+    public function officialGroups(): HasMany
+    {
+        return $this->hasMany(GroupOfficial::class);
+    }
 
 }

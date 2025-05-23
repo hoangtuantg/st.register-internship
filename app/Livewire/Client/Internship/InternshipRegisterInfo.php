@@ -65,8 +65,11 @@ class InternshipRegisterInfo extends Component
             ->where('campaign_id', $this->campaignId)->get();
         $campaign = Campaign::find($this->campaignId);
 
+        $facultyId = app(SsoService::class)->getFacultyId();
+
         $teachers = Teacher::query()
             ->where('status', \App\Enums\TeacherStatusEnum::Accept->value)
+            ->where('faculty_id', $facultyId)
             ->orderBy('name')
             ->get();
         return view('livewire.client.internship.internship-register-info', [

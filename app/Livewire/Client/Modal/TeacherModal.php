@@ -12,8 +12,7 @@ class TeacherModal extends Component
 
     public function mount(SSOService $ssoService)
     {
-        $studentFacultyId = $ssoService->getFacultyId(); 
-        // dd($studentFacultyId);
+        $studentFacultyId = app(SsoService::class)->getFacultyId(); 
         $this->teachers = Teacher::where('faculty_id', $studentFacultyId)->get();
     }
 

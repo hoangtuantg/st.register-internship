@@ -73,5 +73,6 @@ Route::middleware('auth.sso')->group(function (): void {
         Route::get('internship/{campaign}/research', [ResearchController::class, 'index'])->name('internship.research');
         Route::get('internship/{campaign}/research-official', [ResearchController::class, 'official'])->name('internship.research-official');
         Route::get('internship/{key}/edit', [EditGroupController::class, 'index'])->name('internship.edit');
+        Route::get('internship/{key}/report', [EditGroupController::class, 'report'])->name('internship.report');
     });
 });

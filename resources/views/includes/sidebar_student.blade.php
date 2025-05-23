@@ -44,7 +44,7 @@
                     </a>
                 </li>
 
-                <li class="nav-item-header">
+                {{-- <li class="nav-item-header">
                     <div class="text-uppercase fs-sm lh-sm opacity-50 sidebar-resize-hide">Báo cáo tổng kết</div>
                     <i class="ph-dots-three sidebar-resize-show"></i>
                 </li>
@@ -53,7 +53,7 @@
                         <i class="ph-file-doc"></i>
                         <span>Nộp báo cáo</span>
                     </a>
-                </li>
+                </li> --}}
             </ul>
         </div>
         <!-- /main navigation -->

@@ -35,7 +35,7 @@
                             <div class="card">
                                 <div class="card-header d-flex gap-2">
                                     <div>
-                                        <div>Thông tin nhóm nguyện vọng TTNN/KLTN</div>
+                                        <div>Thông tin nhóm chính thức TTNN/KLTN</div>
                                         <b>Học phần {{ $this->student?->course?->name }}
                                             - {{ $this->student?->course?->code }}</b>
                                     </div>
@@ -95,19 +95,129 @@
                                     <div>Tên GVHD: <b>{{ $groupOfficial->supervisor ?: 'Chưa có' }}</b></div>
                                 </div>
                             </div>
-                            @if ($this->student->studentGroupOfficial->is_captain && !$campaign->isEditOfficialExpired())
-                                <div class="mt-2">
-                                    <button wire:loading class="btn btn-primary" wire:target="editGroupOfficial">
-                                        <i class="ph-circle-notch spinner"></i>
-                                        &nbsp;Chỉnh sửa thông tin nhóm
-                                    </button>
 
-                                    <button wire:loading.remove class="btn btn-primary" wire:click="editGroupOfficial">
-                                        <i class="ph-note-pencil"></i>
-                                        &nbsp;Chỉnh sửa thông tin nhóm
-                                    </button>
+                            {{-- <div class="card">
+                                <div class="card-header">
+                                    Trạng thái báo cáo tổng kết
                                 </div>
-                            @endif
+                                <div class="card-body p-2">
+                                    @if (is_null($groupOfficial->report_file))
+                                        <span class="badge bg-secondary bg-opacity-20 text-secondary">
+                                            Chưa nộp báo cáo
+                                        </span>
+                                    @else
+                                        @if ($groupOfficial->report_status === \App\Enums\ReportStatusEnum::PENDING->value)
+                                            <span class="badge bg-warning bg-opacity-20 text-warning">
+                                                Báo cáo đã được nộp. Vui lòng chờ duyệt ...
+                                            </span>
+                                        @elseif($groupOfficial->report_status === \App\Enums\ReportStatusEnum::APPROVED->value)
+                                            <span class="badge bg-success bg-opacity-20 text-success">
+                                                Tuyệt vời!!! Báo cáo đã được duyệt
+                                            </span>
+                                        @elseif($groupOfficial->report_status === \App\Enums\ReportStatusEnum::REJECTED->value)
+                                            <span class="badge bg-danger bg-opacity-20 text-danger">
+                                                Báo cáo chưa đáp ứng yêu cầu. Vui lòng chỉnh sửa và nộp lại !!!
+                                            </span>
+                                        @endif
+                                    @endif
+                                </div>
+                            </div> --}}
+                            <div class="card">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <h6 class="mb-0">
+                                        <i class="fas fa-file-alt me-1 text-primary"></i> Trạng thái báo cáo tổng kết
+                                    </h6>
+
+                                    @if (!is_null($groupOfficial->report_file))
+                                        <button data-bs-toggle="modal"
+                                            data-bs-target="#previewModal-{{ $groupOfficial->id }}"
+                                            onclick="loadDocxFile('{{ asset('storage/' . $groupOfficial->report_file) }}', '{{ $groupOfficial->id }}')"
+                                            class="btn btn-sm btn-outline-primary">
+                                            <i class="ph-eye"></i> &nbsp;Xem báo cáo
+                                        </button>
+                                        <!-- Modal xem trước -->
+                                        <div class="modal fade" id="previewModal-{{ $groupOfficial->id }}" tabindex="-1"
+                                            aria-hidden="true">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Xem trước báo cáo</h5>
+                                                        <button type="button" class="btn-close"
+                                                            data-bs-dismiss="modal"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div id="word-preview-{{ $groupOfficial->id }}"
+                                                            style="max-height: 600px; overflow-y: auto; padding: 10px; border: 1px solid #ddd;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
+                                </div>
+
+                                <div class="card-body py-3 px-4">
+                                    @if (is_null($groupOfficial->report_file))
+                                        <div class="alert alert-secondary d-flex align-items-center mb-0"
+                                            role="alert">
+                                            <i class="ph-x-circle me-2"></i>
+                                            Chưa nộp báo cáo. Đừng quên hạn nộp là ngày
+                                            <strong class="ms-1">{{ $reportDeadline }}</strong>
+                                            &nbsp;nhé !!!
+                                        </div>
+                                    @else
+                                        @if ($groupOfficial->report_status === \App\Enums\ReportStatusEnum::PENDING->value)
+                                            <div class="alert alert-warning d-flex align-items-center mb-0"
+                                                role="alert">
+                                                <i class="ph-hourglass-high me-2"></i>
+                                                Báo cáo đã được nộp. Vui lòng chờ duyệt ...
+                                            </div>
+                                        @elseif ($groupOfficial->report_status === \App\Enums\ReportStatusEnum::APPROVED->value)
+                                            <div class="alert alert-success d-flex align-items-center mb-0"
+                                                role="alert">
+                                                <i class="ph-check-circle me-2"></i>
+                                                Tuyệt vời!!! Báo cáo đã được duyệt
+                                            </div>
+                                        @elseif ($groupOfficial->report_status === \App\Enums\ReportStatusEnum::REJECTED->value)
+                                            <div class="alert alert-danger d-flex align-items-center mb-0"
+                                                role="alert">
+                                                <i class="ph-warning me-2"></i>
+                                                Báo cáo chưa đáp ứng yêu cầu. Vui lòng chỉnh sửa và nộp lại !!!
+                                            </div>
+                                        @endif
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="mt-2 d-flex justify-content-between align-items-center flex-wrap gap-2">
+                                @if ($this->student->studentGroupOfficial->is_captain && !$campaign->isEditOfficialExpired())
+                                    <div class="mt-2">
+                                        <button wire:loading class="btn btn-primary" wire:target="editGroupOfficial">
+                                            <i class="ph-circle-notch spinner"></i>
+                                            &nbsp;Chỉnh sửa thông tin nhóm
+                                        </button>
+
+                                        <button wire:loading.remove class="btn btn-primary"
+                                            wire:click="editGroupOfficial">
+                                            <i class="ph-note-pencil"></i>
+                                            &nbsp;Chỉnh sửa thông tin nhóm
+                                        </button>
+                                    </div>
+                                @endif
+                                @if (!$campaign->isReportDeadlineExpired() && $this->student->studentGroupOfficial->is_captain)
+                                    <div class="mt-2">
+                                        <button wire:loading class="btn btn-teal" wire:target="sendReport">
+                                            <i class="ph-circle-notch spinner"></i>
+                                            &nbsp;Nộp báo cáo
+                                        </button>
+
+                                        <button wire:loading.remove class="btn btn-teal" wire:click="sendReport">
+                                            <i class="ph-file-doc"></i>
+                                            &nbsp;Nộp báo cáo
+                                        </button>
+                                    </div>
+                                @endif
+                            </div>
                         </div>
                     @endif
                 </div>
@@ -168,4 +278,3 @@
         })
     </script>
 @endscript
-

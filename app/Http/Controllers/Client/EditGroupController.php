@@ -42,36 +42,36 @@ class EditGroupController extends Controller
         ]);
     }
 
-    // public function report(string $key)
-    // {
-    //     $groupKey = GroupKey::query()->where('key', $key)->firstOrFail();
+    public function report(string $key)
+    {
+        $groupKey = GroupKey::query()->where('key', $key)->firstOrFail();
 
-    //     $firstKey = GroupKey::query()
-    //         ->where('group_id', $groupKey->group_id)
-    //         ->where('active', true)
-    //         ->orderBy('created_at', 'desc')
-    //         ->first();
+        $firstKey = GroupKey::query()
+            ->where('group_id', $groupKey->group_id)
+            ->where('active', true)
+            ->orderBy('created_at', 'desc')
+            ->first();
 
-    //     if (!$firstKey && $firstKey?->key != $key) {
-    //         abort(419);
-    //     }
+        if (!$firstKey && $firstKey?->key != $key) {
+            abort(419);
+        }
 
-    //     if (!$groupKey->active) {
-    //         abort(419);
-    //     }
+        if (!$groupKey->active) {
+            abort(419);
+        }
 
-    //     if ($groupKey->isExpired()) {
-    //         abort(419);
-    //     }
+        if ($groupKey->isExpired()) {
+            abort(419);
+        }
 
-    //     // $view = 'pages.client.report-group';
+        $view = 'pages.client.report-group';
 
-    //     if ($firstKey->group_type == GroupOfficial::class) {
-    //         $view = 'pages.client.report-group';
-    //     }
+        if ($firstKey->group_type == GroupOfficial::class) {
+            $view = 'pages.client.report-group';
+        }
 
-    //     return view($view, [
-    //         'key' => $key,
-    //     ]);
-    // }
+        return view($view, [
+            'key' => $key,
+        ]);
+    }
 }

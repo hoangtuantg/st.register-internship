@@ -33,6 +33,8 @@ class ClientResearchOfficial extends Component
 
     public string $code = '';
 
+    public $reportDeadline;
+
     public function mount($campaignId)
     {
         $this->campaignId = $campaignId;
@@ -55,6 +57,10 @@ class ClientResearchOfficial extends Component
             ->first();
 
         $this->isCaptain = $this->groupOfficial->captain->code;
+
+        $this->reportDeadline = $campaignId
+            ? Carbon::parse($this->student->campaign->report_deadline)->format('d/m/Y')
+            : null;
     }
 
     public function render()
@@ -67,6 +73,7 @@ class ClientResearchOfficial extends Component
             'campaign' => $campaign,
             'plans' => $plans,
             'planName' => $campaign->planTemplate->name ?? 'Chưa có kế hoạch',
+            'reportDeadline' => $this->reportDeadline,
         ]);
     }
 
@@ -99,6 +106,36 @@ class ClientResearchOfficial extends Component
                     'message' => $exception->getMessage(),
                 ]);
                 $this->dispatch('alert', type: 'error', message: 'Có lỗi xảy ra vui lòng thử lại sau!');
+            }
+            $this->isLoading = false;
+        }
+    }
+
+    public function sendReport()
+    {
+        if (! $this->student->studentGroupOfficial->is_captain) {
+            return;
+        }
+        if (!$this->isLoading) {
+            $this->isLoading = true;
+            try {
+                $groupKey = GroupKey::create([
+                    'group_id' => $this->groupOfficial->id,
+                    'key' => Str::random(),
+                    'group_type' => GroupOfficial::class
+                ]);
+
+                $groupKey->active = true;
+                $groupKey->save();
+
+                return redirect()->route('internship.report', ['key' => $groupKey->key]);
+
+                $this->dispatch('alert', type: "success", message: "Hệ thống đã gửi yêu cầu nộp báo cáo. Vui lòng check email bạn đã đăng ký để có thể nhận mã yêu cầu!");
+            } catch (\Exception $exception) {
+                Log::error('Redirect to send report with group official key failed', [
+                    'message' => $exception->getMessage(),
+                ]);
+                $this->dispatch('alert', type: "error", message: "Có lỗi sảy ra vui lòng thử lại sau!");
             }
             $this->isLoading = false;
         }
