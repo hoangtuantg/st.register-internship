@@ -161,4 +161,23 @@ return [
         'code' => 'user.assign-role',
         'group' => 'user'
     ],
+
+    //Báo cáo
+    [
+        'name' => 'Xem đợt đăng ký',
+        'code' => 'report.index',
+        'group' => 'report'
+    ],
+    [
+        'name' => 'Xem báo cáo trong đợt đăng ký',
+        'code' => 'report.show',
+        'group' => 'report'
+    ],
+
+    //Giảng viên
+    [
+        'name' => 'Xem danh sách giảng viên',
+        'code' => 'teacher.index',
+        'group' => 'teacher'
+    ],
 ];

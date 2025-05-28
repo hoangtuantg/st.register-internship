@@ -31,5 +31,13 @@ return  [
         'name' => 'Phân công công ty theo đợt',
         'code' => 'company-campaign'
     ],
+    [
+        'name'=> 'Báo cáo',
+        'code' => 'report'
+    ],
+    [
+        'name' => 'Giảng viên',
+        'code' => 'teacher',
+    ]
     
 ];

@@ -22,9 +22,13 @@
                         <tr>
                             <td width="5%">{{ $loop->index + 1 + $campaigns->perPage() * ($campaigns->currentPage() - 1) }}</td>
                             <td width="50%">
+                                @can('view', \App\Models\GroupOfficial::class)
                                 <a href="{{ route('admin.reports.show', $campaign->id) }}">
                                     {{ $campaign->name }}
                                 </a>
+                                @else
+                                    {{ $campaign->name }}
+                                @endcan
                             </td>
                             <td width="15%">
                                 {{ \Carbon\Carbon::parse($campaign->report_deadline)->format('d/m/Y') }}
