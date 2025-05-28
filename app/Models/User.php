@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Session;
 use Laravel\Passport\HasApiTokens;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
@@ -68,23 +69,32 @@ class User extends Authenticatable
             return true;
         }
         //is_super_admin_true ==> full quyền
-        if ($this->isSuperAdmin()) {
-            return true;
-        }
+        // if ($this->isSuperAdmin()) {
+        //     return true;
+        // }
 
         return $this->userRoles()->whereHas('permissions', function ($query) use ($permissionCode): void {
             $query->where('code', $permissionCode);
         })->exists();
     }
 
-    public function isSuperAdmin(): bool
-    {
-        return $this->userRoles()->wherePivot('is_super_admin', true)->exists();
-    }
+    // public function isSuperAdmin(): bool
+    // {
+    //     return $this->userRoles()->wherePivot('is_super_admin', true)->exists();
+    // }
 
 
     public function getRoleNameAttribute(): string
     {
         return $this->userRoles()->pluck('name')->implode(', ');
+    }
+
+    public function isSuperAdmin(): bool
+    {
+        return DB::table('user_role')
+            ->join('roles', 'roles.id', '=', 'user_role.role_id')
+            ->where('user_role.user_id', $this->id)
+            ->where('roles.name', 'Super Admin')
+            ->exists();
     }
 }

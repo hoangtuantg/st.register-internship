@@ -20,7 +20,7 @@ Route::get('/auth/callback', [AuthenticateController::class, 'handleCallback'])-
 Route::get('/auth/redirect', [AuthenticateController::class, 'redirectToSSO'])->name('sso.redirect');
 Route::post('/logout', [AuthenticateController::class, 'logout'])->name('handleLogout');
 
-Route::middleware('auth.sso')->group(function (): void {
+Route::middleware(['auth.sso', 'redirect.by.sso'])->group(function (): void {
     Route::prefix('admin')->group(function (): void {
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
         Route::prefix('campaigns')->group(function (): void {

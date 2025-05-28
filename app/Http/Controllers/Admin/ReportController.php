@@ -13,8 +13,9 @@ class ReportController extends Controller
         return view('pages.admin.report.index');
     }
 
-    public function show(Request $request, $campaign)
+    public function show($campaignId)
     {
+        $campaign = Campaign::findOrFail($campaignId);
         return view('pages.admin.report.show', compact('campaign'));
     }
 }

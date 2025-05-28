@@ -65,7 +65,7 @@ class GroupStudentOfficalImport implements ToCollection, WithStartRow, WithHeadi
                     ->where('campaign_id', $this->campaignId)
                     ->first();
 
-                // $teacher = Teacher::query()->where('code', $row['ma_gv'])->first();
+                $teacher = Teacher::query()->where('code', $row['ma_gv'])->first();
 
 
                 // $dataTeacher = [
@@ -93,7 +93,7 @@ class GroupStudentOfficalImport implements ToCollection, WithStartRow, WithHeadi
                         'code' => $row['nhom'],
                         'campaign_id' => $this->campaignId,
                         'department' => $row['bo_mon_quan_ly'],
-                        //'teacher_id' => $teacher->id,
+                        'teacher_id' => $teacher->id,
                         'supervisor' => $row['giao_vien_huong_dan_da_nhan_sinh_vien'],
                         'topic' => $row['de_tai_thuc_tap']
                     ]);
@@ -102,7 +102,7 @@ class GroupStudentOfficalImport implements ToCollection, WithStartRow, WithHeadi
                         'code' => $row['nhom'],
                         'campaign_id' => $this->campaignId,
                         'department' => $row['bo_mon_quan_ly'],
-                        //'teacher_id' => $teacher->id,
+                        'teacher_id' => $teacher->id,
                         'supervisor' => $row['giao_vien_huong_dan_da_nhan_sinh_vien'],
                         'topic' => $row['de_tai_thuc_tap']
                     ]);

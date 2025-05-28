@@ -27,7 +27,6 @@
         </div>
         <!-- /sidebar header -->
 
-        @if ($userData['role'] === UserRoleEnum::Student->value)
         <!-- Main navigation -->
         <div class="sidebar-section">
             <ul class="nav nav-sidebar" data-nav-type="accordion">
@@ -57,7 +56,6 @@
             </ul>
         </div>
         <!-- /main navigation -->
-        @endif
 
     </div>
     <!-- /sidebar content -->

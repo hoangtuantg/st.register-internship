@@ -78,7 +78,7 @@
             </table>
         </div>
     </div>
-    {{-- {{ $groups->links('vendor.pagination.groups-official') }} --}}
+    {{ $groups->links('vendor.pagination.groups-official') }}
     <livewire:admin.group.group-official-import :campaignId="$campaignId" />
 
 </div>

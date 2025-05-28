@@ -7,7 +7,7 @@
             <div class="page-header-content d-lg-flex">
                 <div class="d-flex">
                     <h4 class="mb-0 page-title">
-                        Đợt đăng ký - <span class="fw-normal">Danh sách đợt đăng ký</span>
+                        Báo cáo - <span class="fw-normal">Danh sách đợt đăng ký</span>
                     </h4>
 
                     <a href="#page_header"
@@ -23,7 +23,7 @@
                 <div class="d-flex">
                     <div class="py-2 breadcrumb">
                         <a href="" class="breadcrumb-item"><i class="ph-house"></i></a>
-                        <a href="" class="breadcrumb-item">Đợt đăng ký</a>
+                        <a href="" class="breadcrumb-item">Báo cáo</a>
                         <span class="breadcrumb-item active">Danh sách đợt đăng ký</span>
                     </div>
 
