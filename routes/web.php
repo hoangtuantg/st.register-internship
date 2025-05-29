@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\TeacherController;
+use App\Http\Controllers\Admin\TopicController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Client\ClientDashboardController;
 use App\Http\Controllers\Client\ClientCampaignController;
@@ -59,6 +60,11 @@ Route::middleware(['auth.sso', 'redirect.by.sso'])->group(function (): void {
         });
         Route::resource('users', UserController::class)->only(['index', 'show']);
         Route::resource('teachers', TeacherController::class)->only(['index']);
+        Route::prefix('topic')->group(function (): void {
+            Route::get('/', [TopicController::class, 'index'])->name('admin.topics.index');
+            Route::get('/create', [TopicController::class, 'create'])->name('admin.topics.create');
+            Route::get('/{topic}/edit', [TopicController::class, 'edit'])->name('admin.topics.edit');
+        });
     });
 
 

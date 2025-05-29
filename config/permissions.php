@@ -180,4 +180,26 @@ return [
         'code' => 'teacher.index',
         'group' => 'teacher'
     ],
+
+    //Đề tài
+    [
+        'name' => 'Xem danh sách đề tài',
+        'code' => 'topic.index',
+        'group' => 'topic'
+    ],
+    [
+        'name' => 'Thêm đề tài',
+        'code' => 'topic.create',
+        'group' => 'topic'
+    ],
+    [
+        'name' => 'Sửa đề tài',
+        'code' => 'topic.edit',
+        'group' => 'topic'
+    ],
+    [
+        'name' => 'Xóa đề tài',
+        'code' => 'topic.delete',
+        'group' => 'topic'
+    ],
 ];

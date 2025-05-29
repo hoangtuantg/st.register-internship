@@ -76,21 +76,31 @@
                     </li>
                 @endcan
 
-                @if (Auth::user()->can('viewAny', \App\Models\Teacher::class) )
-                <li class="nav-item-header">
-                    <div class="text-uppercase fs-sm lh-sm opacity-50 sidebar-resize-hide">Quản lý giảng viên</div>
-                    <i class="ph-dots-three sidebar-resize-show"></i>
+                @if (Auth::user()->can('viewAny', \App\Models\Topic::class))
+                <li class="nav-item">
+                    <a href="{{route('admin.topics.index')}}"
+                        class="nav-link {{ request()->routeIs('admin.topics.*') ? 'active' : '' }}">
+                        <i class="ph-books"></i>
+                        <span>Đề tài</span>
+                    </a>
                 </li>
                 @endif
 
+                @if (Auth::user()->can('viewAny', \App\Models\Teacher::class))
+                    <li class="nav-item-header">
+                        <div class="text-uppercase fs-sm lh-sm opacity-50 sidebar-resize-hide">Quản lý giảng viên</div>
+                        <i class="ph-dots-three sidebar-resize-show"></i>
+                    </li>
+                @endif
+
                 @can('viewAny', \App\Models\Teacher::class)
-                <li class="nav-item">
-                    <a href="{{ route('teachers.index') }}"
-                        class="nav-link {{ request()->routeIs('teachers.*') ? 'active' : '' }}">
-                        <i class="ph-chalkboard-teacher"></i>
-                        <span>Giảng viên</span>
-                    </a>
-                </li>
+                    <li class="nav-item">
+                        <a href="{{ route('teachers.index') }}"
+                            class="nav-link {{ request()->routeIs('teachers.*') ? 'active' : '' }}">
+                            <i class="ph-chalkboard-teacher"></i>
+                            <span>Giảng viên</span>
+                        </a>
+                    </li>
                 @endcan
 
                 @if (Auth::user()->can('viewAny', \App\Models\Company::class))
@@ -112,21 +122,21 @@
                     </li>
                 @endcan
 
-                @if (Auth::user()->can('viewAny', \App\Models\User::class) )
-                <li class="nav-item-header">
-                    <div class="text-uppercase fs-sm lh-sm opacity-50 sidebar-resize-hide">Quản lý người dùng</div>
-                    <i class="ph-dots-three sidebar-resize-show"></i>
-                </li>
+                @if (Auth::user()->can('viewAny', \App\Models\User::class))
+                    <li class="nav-item-header">
+                        <div class="text-uppercase fs-sm lh-sm opacity-50 sidebar-resize-hide">Quản lý người dùng</div>
+                        <i class="ph-dots-three sidebar-resize-show"></i>
+                    </li>
                 @endif
 
                 @can('viewAny', \App\Models\User::class)
-                <li class="nav-item">
-                    <a href="{{ route('users.index') }}"
-                        class="nav-link {{ request()->routeIs('users.*') ? 'active' : '' }}">
-                        <i class="ph-users"></i>
-                        <span>Người dùng</span>
-                    </a>
-                </li>
+                    <li class="nav-item">
+                        <a href="{{ route('users.index') }}"
+                            class="nav-link {{ request()->routeIs('users.*') ? 'active' : '' }}">
+                            <i class="ph-users"></i>
+                            <span>Người dùng</span>
+                        </a>
+                    </li>
                 @endcan
 
                 @if (Auth::user()->can('viewAny', \App\Models\Role::class))

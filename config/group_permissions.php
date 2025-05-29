@@ -38,6 +38,10 @@ return  [
     [
         'name' => 'Giảng viên',
         'code' => 'teacher',
+    ],
+    [
+        'name' => 'Đề tài',
+        'code' => 'topic'
     ]
     
 ];
