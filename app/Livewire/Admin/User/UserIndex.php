@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Services\SsoService;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
+use App\Common\Constants;
 
 class UserIndex extends Component
 {
@@ -21,7 +22,16 @@ class UserIndex extends Component
 
     public function render()
     {
-        $users = $this->fetchData();
+        $facultyId = app(SsoService::class)->getFacultyId();
+
+        $users = User::query()
+            ->with('userRoles')
+            ->where('faculty_id', $facultyId)
+            ->orderBy('created_at', 'desc')
+            ->search($this->search)
+            ->paginate(Constants::PER_PAGE_ADMIN);
+        // $users = $this->fetchData();
+
         return view('livewire.admin.user.user-index', [
             'users' => $users,
         ]);
@@ -55,13 +65,23 @@ class UserIndex extends Component
 
         $users = collect($usersFromApi)->map(function ($user) use ($localUsers) {
             $localUser = $localUsers[$user['id']] ?? null;
+            $userData = [
+                'sso_id'     => $user['id'],
+                'full_name'  => $user['full_name'] ?? null,
+                'code'       => $user['code'] ?? null,
+                'faculty_id' => $user['faculty_id'] ?? null,
+                'role'       => $user['role'] ?? null,
+                'user_data'  => json_encode($user),
+                'status'     => StatusEnum::Active->value,
+            ];
+
             if (!$localUser) {
-                $localUser = User::create([
-                    'sso_id' => $user['id'],
-                    'status' => StatusEnum::Active->value
-                ]);
+                $localUser = User::create($userData);
+            } else {
+                $localUser->update($userData);
             }
-            $user['local_user'] = $localUser ? $localUser->toArray() : null;
+
+            $user['local_user'] = $localUser->toArray();
             return $user;
         })->toArray();
 

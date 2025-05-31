@@ -11,6 +11,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Session;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Support\Facades\DB;
+use App\Enums\UserType;
 
 class User extends Authenticatable
 {
@@ -28,6 +29,13 @@ class User extends Authenticatable
     protected $fillable = [
         'sso_id',
         'status',
+        'full_name',
+        'code',
+        'access_token',
+        'user_data',
+        'faculty_id',
+        'role',
+        'type',
     ];
 
     /**
@@ -47,6 +55,8 @@ class User extends Authenticatable
      */
     protected $casts = [
         'status' => StatusEnum::class,
+        'user_data' => 'array',
+        'type' => UserType::class,
     ];
 
     protected $appends = ['role_name'];
@@ -96,5 +106,14 @@ class User extends Authenticatable
             ->where('user_role.user_id', $this->id)
             ->where('roles.name', 'Super Admin')
             ->exists();
+    }
+
+    public function scopeSearch($query, $search)
+    {
+        if ($search) {
+            $query->where('full_name', 'like', '%' . $search . '%');
+        }
+
+        return $query;
     }
 }

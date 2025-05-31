@@ -13,10 +13,7 @@ use Illuminate\Http\RedirectResponse;
 
 class UserController extends Controller
 {
-    public function __construct(private SsoService $ssoService) 
-    {
-
-    }
+    public function __construct(private SsoService $ssoService) {}
 
 
     public function index(): View|Application|Factory|RedirectResponse
@@ -32,8 +29,15 @@ class UserController extends Controller
 
         $response = $this->ssoService->get('/api/users/' . $user->sso_id);
 
-        $userData = $response['data'];
-
+        $userData = $response['data'] ?? $user['user_data'];
+        if (is_string($userData)) {
+            $decoded = json_decode($userData, true);
+            if (json_last_error() === JSON_ERROR_NONE) {
+                $userData = $decoded;
+            } else {
+                $userData = []; // fallback nếu JSON lỗi
+            }
+        }
         return view('pages.admin.user.show', compact('user', 'userData'));
     }
 }
