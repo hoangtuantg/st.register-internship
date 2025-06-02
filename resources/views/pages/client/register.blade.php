@@ -38,6 +38,6 @@
 
         <livewire:client.internship.internship-register campaignId="{{ $campaignId }}" />
         <livewire:client.modal.teacher-modal campaignId="{{ $campaignId }}" />
-        <livewire:client.modal.company-modal />
+        <livewire:client.modal.company-modal campaignId="{{ $campaignId }}"/>
     </div>
 </x-layouts.client-layout>

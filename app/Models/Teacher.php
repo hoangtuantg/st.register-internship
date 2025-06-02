@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Teacher extends Model
 {
@@ -12,6 +13,7 @@ class Teacher extends Model
         'user_id',
         'code',
         'name',
+        'email',
     ];
 
     public function scopeSearch($query, $search)
@@ -21,5 +23,10 @@ class Teacher extends Model
         }
 
         return $query;
+    }
+
+    public function topics(): HasMany
+    {
+        return $this->hasMany(Topic::class, 'teacher_id');
     }
 }

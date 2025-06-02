@@ -104,6 +104,7 @@ class TeacherIndex extends Component
                         'code'       => $teacherData['code'] ?? $teacher->code,
                         'name'       => $teacherData['full_name'] ?? $teacher->name,
                         'faculty_id' => $teacher->faculty_id ?? $facultyId,
+                        'email'     => $teacherData['email'] ?? $teacher->email,
                     ]);
                 } else {
                     // Nếu chưa có thì tạo mới
@@ -113,6 +114,7 @@ class TeacherIndex extends Component
                         'status'     => TeacherStatusEnum::Accept->value,
                         'code'       => $teacherData['code'] ?? null,
                         'name'       => $teacherData['full_name'] ?? null,
+                        'email'      => $teacherData['email'] ?? null,
                     ]);
                 }
             }

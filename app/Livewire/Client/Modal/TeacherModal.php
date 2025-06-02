@@ -9,11 +9,17 @@ use App\Services\SSOService;
 class TeacherModal extends Component
 {
     public $teachers;
+    public $campaignId;
 
-    public function mount(SSOService $ssoService)
+    public function mount($campaignId)
     {
-        $studentFacultyId = app(SsoService::class)->getFacultyId(); 
-        $this->teachers = Teacher::where('faculty_id', $studentFacultyId)->get();
+        $this->campaignId = $campaignId;
+        $studentFacultyId = app(SsoService::class)->getFacultyId();
+        $this->teachers = Teacher::where('faculty_id', $studentFacultyId)
+            ->with(['topics' => function ($query) {
+                $query->where('campaign_id', $this->campaignId);
+            }])
+            ->get();
     }
 
     public function render()

@@ -56,7 +56,7 @@ class TopicUpdate extends Component
     public function update()
     {
         $topic = Topic::findOrFail($this->topicId);
-        Gate::authorize('updatse', $topic);
+        Gate::authorize('update', $topic);
         $this->validate();
 
         $topic->update([

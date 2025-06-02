@@ -23,24 +23,18 @@
                                         <div class="col-3 fw-bold text-muted">Email:</div>
                                         <div class="col">{{ $teacher->email }}</div>
                                     </div>
-                                    <div class="row mb-1 align-items-center">
-                                        <div class="col-3 fw-bold text-muted">Số điện thoại:
-                                        </div>
-                                        <div class="col">{{ $teacher->phone }}</div>
-                                    </div>
-                                    {{-- <div class="mt-3">
+                                    <div class="mt-3">
                                         <h6 class="fw-bold text-primary">Danh sách đề tài:</h6>
                                         <ul class="list-group">
                                             @forelse ($teacher->topics as $topic)
                                                 <li class="list-group-item">
                                                     <strong>{{ $topic->title }}</strong>
-                                                    <p class="text-muted mb-0">{{ $topic->description }}</p>
                                                 </li>
                                             @empty
                                                 <li class="list-group-item text-muted">Hiện chưa có đề tài nào.</li>
                                             @endforelse
                                         </ul>
-                                    </div> --}}
+                                    </div>
                                 </div>
                             </div>
                         </div>
