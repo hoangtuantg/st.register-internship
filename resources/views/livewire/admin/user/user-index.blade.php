@@ -74,5 +74,5 @@
 
         </div>
     </div>
-    {{ $users->links() }}
+    {{ $users->links('vendor.pagination.theme') }}
 </div>

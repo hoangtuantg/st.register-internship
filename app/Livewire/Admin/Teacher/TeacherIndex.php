@@ -9,10 +9,13 @@ use App\Enums\TeacherStatusEnum;
 use App\Models\User;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
-
+use App\Common\Constants;
+use Livewire\WithPagination;
 
 class TeacherIndex extends Component
 {
+    use WithPagination;
+
     #[Url]
     public int $page = 1;
 
@@ -23,7 +26,15 @@ class TeacherIndex extends Component
 
     public function render()
     {
-        $teachers = $this->fetchData();
+        $facultyId = app(SsoService::class)->getFacultyId();
+
+        $teachers = Teacher::query()
+            ->where('faculty_id', $facultyId)
+            ->orderBy('created_at', 'desc')
+            ->search($this->search)
+            ->paginate(Constants::PER_PAGE_ADMIN);
+
+        // $teachers = $this->fetchData();
         return view('livewire.admin.teacher.teacher-index', [
             'teachers' => $teachers,
         ]);
@@ -92,6 +103,23 @@ class TeacherIndex extends Component
         return $teachers;
     }
 
+    public function accept($teacherId): void
+    {
+        $teacher = Teacher::find($teacherId);
+        if ($teacher) {
+            $teacher->status = TeacherStatusEnum::Accept->value;
+            $teacher->save();
+        }
+    }
+
+    public function pause($teacherId): void
+    {
+        $teacher = Teacher::find($teacherId);
+        if ($teacher) {
+            $teacher->status = TeacherStatusEnum::Refuse->value;
+            $teacher->save();
+        }
+    }
 
     #[On('onPageChange')]
     public function onUpdatePage($page): void
@@ -99,35 +127,35 @@ class TeacherIndex extends Component
         $this->page = (int) $page;
     }
 
-    public function accept($teacherId)
-    {
-        // Tìm user theo sso_id
-        $user = User::where('sso_id', $teacherId)->first();
+    // public function accept($teacherId)
+    // {
+    //     // Tìm user theo sso_id
+    //     $user = User::where('sso_id', $teacherId)->first();
 
-        if ($user) {
-            // Tìm giảng viên theo user_id
-            $teacher = Teacher::where('user_id', $user->id)->first();
+    //     if ($user) {
+    //         // Tìm giảng viên theo user_id
+    //         $teacher = Teacher::where('user_id', $user->id)->first();
 
-            if ($teacher) {
-                // Cập nhật trạng thái
-                $teacher->update(['status' => TeacherStatusEnum::Accept->value]);
-            }
-        }
-    }
+    //         if ($teacher) {
+    //             // Cập nhật trạng thái
+    //             $teacher->update(['status' => TeacherStatusEnum::Accept->value]);
+    //         }
+    //     }
+    // }
 
-    public function pause($teacherId)
-    {
-        // Tìm user theo sso_id
-        $user = User::where('sso_id', $teacherId)->first();
+    // public function pause($teacherId)
+    // {
+    //     // Tìm user theo sso_id
+    //     $user = User::where('sso_id', $teacherId)->first();
 
-        if ($user) {
-            // Tìm giảng viên theo user_id
-            $teacher = Teacher::where('user_id', $user->id)->first();
+    //     if ($user) {
+    //         // Tìm giảng viên theo user_id
+    //         $teacher = Teacher::where('user_id', $user->id)->first();
 
-            if ($teacher) {
-                // Cập nhật trạng thái
-                $teacher->update(['status' => TeacherStatusEnum::Refuse->value]);
-            }
-        }
-    }
+    //         if ($teacher) {
+    //             // Cập nhật trạng thái
+    //             $teacher->update(['status' => TeacherStatusEnum::Refuse->value]);
+    //         }
+    //     }
+    // }
 }

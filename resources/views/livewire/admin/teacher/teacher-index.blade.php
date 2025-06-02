@@ -5,7 +5,7 @@
 
                 <div class="flex-wrap gap-2 d-flex">
                     <div>
-                        <input wire:model.live.debounce.500ms="search" type="text" class="form-control"
+                        <input wire:model.live.debounc="search" type="text" class="form-control"
                             placeholder="Tìm kiếm...">
                     </div>
                 </div>
@@ -19,11 +19,11 @@
         </div>
 
         <div class="table-responsive">
-            <div wire:loading class="my-3 text-center w-100">
+            {{-- <div wire:loading class="my-3 text-center w-100">
                 <span class="spinner-border spinner-border-sm"></span> Đang tải dữ liệu...
-            </div>
+            </div> --}}
 
-            <table class="table fs-table" wire:loading.remove>
+            <table class="table fs-table">
                 <thead>
                     <tr class="table-light">
                         <th width="5%">STT</th>
@@ -33,18 +33,19 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($teachers as $key =>  $item)
+                    @forelse($teachers as $item)
                         <tr>
-                            <td class="text-center" width="5%">{{ $key + 1 + 10 * ($page - 1) }}</td>
+                            <td class="text-center" width="5%">
+                                {{ $loop->index + 1 + $teachers->perPage() * ($teachers->currentPage() - 1) }}</td>
                             <td width="30%">
                                 <a class="fw-semibold" href="">
                                     <div class="gap-2 d-flex align-items-center">
 
-                                        <img src="{{ Avatar::create($item['full_name'])->toBase64() }}"
-                                            class="w-32px h-32px" alt="">
+                                        <img src="{{ Avatar::create($item['name'])->toBase64() }}" class="w-32px h-32px"
+                                            alt="">
                                         <div class="flex-grow-1">
                                             <div>
-                                                {{ $item['full_name'] }}
+                                                {{ $item['name'] }}
                                             </div>
 
                                             <div class="text-muted">
@@ -55,11 +56,11 @@
                                 </a>
                             </td>
                             <td>
-                                @if ($item['local_status'] == App\Enums\TeacherStatusEnum::Accept->value)
+                                @if ($item['status'] == App\Enums\TeacherStatusEnum::Accept->value)
                                     <span class="badge bg-success bg-opacity-20 text-success">
                                         {{ \App\Enums\TeacherStatusEnum::Accept->description() }}
                                     </span>
-                                @elseif($item['local_status'] == App\Enums\TeacherStatusEnum::Refuse->value)
+                                @elseif($item['status'] == App\Enums\TeacherStatusEnum::Refuse->value)
                                     <span class="badge bg-danger bg-opacity-20 text-danger">
                                         {{ \App\Enums\TeacherStatusEnum::Refuse->description() }}
                                     </span>
@@ -96,5 +97,5 @@
 
         </div>
     </div>
-    <livewire:commons.pagination :currentPage="$page" :totalPages="$totalPages" />
+    {{ $teachers->links('vendor.pagination.theme') }}
 </div>

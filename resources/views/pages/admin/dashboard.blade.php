@@ -94,7 +94,72 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="card bg-teal text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <h1 class="mb-0">{{ $campaign }}</h1>
+                            </div>
+                            <div>
+                                <i class="ph-telegram-logo fs-1"
+                                    style="transform: scale(2.9); margin-right: 20px; color: rgba(255, 255, 255, 0.5);"></i>
+                            </div>
+                        </div>
 
+                        <div>
+                            <h3>Đợt đăng ký đang mở</h3>
+                            <div class="fs-sm opacity-75">TTNN & KLTN</div>
+                        </div>
+                    </div>
 
+                    <div class="rounded-bottom overflow-hidden mx-3" id="members-online"></div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card bg-pink text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <h1 class="mb-0">{{ $submittedPercent }}% </h1>
+                            </div>
+                            <div>
+                                <i class="ph-file-doc fs-1"
+                                    style="transform: scale(2.9); margin-right: 20px; color: rgba(255, 255, 255, 0.5);"></i>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3>Nhóm đã nộp báo cáo</h3>
+                            <div class="fs-sm opacity-75"> Đã có {{ $submittedGroupCount }} nhóm nộp báo cáo</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card bg-primary text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <h1 class="mb-0">{{ $approvedPercent }}%</h1>
+                            </div>
+                            <div>
+                                <i class="ph-circle-wavy-check fs-1"
+                                    style="transform: scale(2.9); margin-right: 20px; color: rgba(255, 255, 255, 0.5);"></i>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3>Báo cáo đã được duyệt</h3>
+                            <div class="fs-sm opacity-75">Đã duyệt {{ $approvedReportCount }} báo cáo</div>
+                        </div>
+                    </div>
+
+                    <div class="rounded-bottom overflow-hidden" id="today-revenue"></div>
+                </div>
+            </div>
+        </div>
     </div>
 </x-layouts.admin-layout>

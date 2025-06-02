@@ -9,9 +9,12 @@ use App\Services\SsoService;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
 use App\Common\Constants;
+use Livewire\WithPagination;
 
 class UserIndex extends Component
 {
+    use WithPagination;
+    
     #[Url]
     public int $page = 1;
 

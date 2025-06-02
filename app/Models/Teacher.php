@@ -13,4 +13,13 @@ class Teacher extends Model
         'code',
         'name',
     ];
+
+    public function scopeSearch($query, $search)
+    {
+        if ($search) {
+            $query->where('name', 'like', '%' . $search . '%');
+        }
+
+        return $query;
+    }
 }
