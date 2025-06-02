@@ -11,7 +11,9 @@
                 </div>
                 <div class="gap-2 d-flex">
                     <div>
-
+                        <button type="button" class="px-2 btn btn-light btn-icon" wire:click="syncFromSso">
+                            <i class="px-1 ph-arrows-clockwise"></i><span>Cập nhật danh sách</span>
+                        </button>
                     </div>
                 </div>
             </div>

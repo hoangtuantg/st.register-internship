@@ -45,64 +45,6 @@ class TeacherIndex extends Component
         return view('components.placeholders.table-placeholder');
     }
 
-    public function fetchData()
-    {
-        $facultyId = app(SsoService::class)->getFacultyId();
-
-        $params = [
-            'page' => $this->page,
-        ];
-
-        if ($this->search) {
-            $params['search'] = $this->search;
-        }
-
-        $responses = app(SsoService::class)->get("/api/faculties/{$facultyId}/teachers", $params);
-        $this->page = @$responses['meta']['current_page'] ?? 1;
-        $this->totalPages = @$responses['meta']['last_page'] ?? 1;
-        $teachersFromApi = @$responses['data'] ?? [];
-
-        $ssoIds = collect($teachersFromApi)->pluck('id')->toArray();
-
-        // Lấy user dựa trên sso_id
-        $localUsers = User::whereIn('sso_id', $ssoIds)->get()->keyBy('sso_id');
-
-        $teachers = collect($teachersFromApi)->map(function ($teacher) use ($localUsers, $facultyId) {
-            $localUser = $localUsers[$teacher['id']] ?? null;
-
-            if ($localUser) {
-                // Kiểm tra lại thông tin user_id và faculty_id
-                if (!$localUser->id || !$facultyId) {
-                    logger("Lỗi: Không có user_id hoặc faculty_id", ['user_id' => $localUser->id, 'faculty_id' => $facultyId]);
-                }
-
-                // Nếu user đã có, thì tạo teacher nếu chưa có
-                $teacherRecord = Teacher::firstOrCreate([
-                    'user_id' => $localUser->id,
-                ], [
-                    'user_id'    => $localUser->id,
-                    'faculty_id' => $facultyId,
-                    'status'     => TeacherStatusEnum::Accept->value,
-                    'code'       => $teacher['code'] ?? null,
-                    'name'       => $teacher['full_name'] ?? null,
-                ]);
-
-                // Kiểm tra xem bản ghi đã được tạo hay chưa
-                if ($teacherRecord->wasRecentlyCreated) {
-                    logger("Đã tạo mới giảng viên: " . $localUser->id);
-                } else {
-                    logger("Giảng viên đã tồn tại: " . $localUser->id);
-                }
-                //Status nhận/ dừng nhận hướng dẫn trên local
-                $teacher['local_status'] = $teacherRecord->status;
-            }
-            return $teacher;
-        })->toArray();
-
-
-        return $teachers;
-    }
-
     public function accept($teacherId): void
     {
         $teacher = Teacher::find($teacherId);
@@ -127,35 +69,55 @@ class TeacherIndex extends Component
         $this->page = (int) $page;
     }
 
-    // public function accept($teacherId)
-    // {
-    //     // Tìm user theo sso_id
-    //     $user = User::where('sso_id', $teacherId)->first();
+    public function syncFromSso(): void
+    {
+        $facultyId = app(SsoService::class)->getFacultyId();
 
-    //     if ($user) {
-    //         // Tìm giảng viên theo user_id
-    //         $teacher = Teacher::where('user_id', $user->id)->first();
+        $page = 1;
+        $allTeachersFromApi = [];
 
-    //         if ($teacher) {
-    //             // Cập nhật trạng thái
-    //             $teacher->update(['status' => TeacherStatusEnum::Accept->value]);
-    //         }
-    //     }
-    // }
+        do {
+            $responses = app(SsoService::class)->get("/api/faculties/{$facultyId}/teachers", ['page' => $page]);
+            $teachersFromApi = @$responses['data'] ?? [];
+            $meta = @$responses['meta'] ?? [];
 
-    // public function pause($teacherId)
-    // {
-    //     // Tìm user theo sso_id
-    //     $user = User::where('sso_id', $teacherId)->first();
+            $allTeachersFromApi = array_merge($allTeachersFromApi, $teachersFromApi);
+            $page++;
+        } while (!empty($teachersFromApi) && $meta['current_page'] < $meta['last_page']);
 
-    //     if ($user) {
-    //         // Tìm giảng viên theo user_id
-    //         $teacher = Teacher::where('user_id', $user->id)->first();
+        $ssoIds = collect($allTeachersFromApi)->pluck('id')->toArray();
 
-    //         if ($teacher) {
-    //             // Cập nhật trạng thái
-    //             $teacher->update(['status' => TeacherStatusEnum::Refuse->value]);
-    //         }
-    //     }
-    // }
+        // Lấy user theo sso_id
+        $localUsers = User::whereIn('sso_id', $ssoIds)->get()->keyBy('sso_id');
+
+        foreach ($allTeachersFromApi as $teacherData) {
+            $ssoId = $teacherData['id'];
+            $localUser = $localUsers[$ssoId] ?? null;
+
+            if ($localUser) {
+                // Kiểm tra giảng viên đã tồn tại chưa
+                $teacher = Teacher::where('user_id', $localUser->id)->first();
+
+                if ($teacher) {
+                    // Giữ nguyên status, chỉ cập nhật thông tin khác nếu cần
+                    $teacher->update([
+                        'code'       => $teacherData['code'] ?? $teacher->code,
+                        'name'       => $teacherData['full_name'] ?? $teacher->name,
+                        'faculty_id' => $teacher->faculty_id ?? $facultyId,
+                    ]);
+                } else {
+                    // Nếu chưa có thì tạo mới
+                    Teacher::create([
+                        'user_id'    => $localUser->id,
+                        'faculty_id' => $facultyId,
+                        'status'     => TeacherStatusEnum::Accept->value,
+                        'code'       => $teacherData['code'] ?? null,
+                        'name'       => $teacherData['full_name'] ?? null,
+                    ]);
+                }
+            }
+        }
+
+        $this->dispatch('alert', type: 'success', message: 'Cập nhật thành công!');
+    }
 }
