@@ -176,11 +176,11 @@
                                         </div>
 
                                         <div class="row mb-3">
-                                            <label class="col-form-label col-lg-3">Giáo viên đã nhận hướng dẫn
+                                            <label class="col-form-label col-lg-3">Giáo viên hướng dẫn
                                             </label>
                                             <div class="col-lg-9">
                                                 <input type="text" wire:model.live="supervisor"
-                                                    class="form-control">
+                                                    class="form-control" disabled>
                                             </div>
                                         </div>
                                     </div>

@@ -24,7 +24,7 @@
             <img src="{{ asset('assets/images/success.png') }}" alt="Thành công" class="mb-4" style="width: 100%; max-width: 300px">
 
             <h4 class="fw-bold text-success mb-3">🎉 Đăng ký nhóm thành công!</h4>
-            <p class="text-muted mb-4">Bạn đã đăng ký nhóm nguyện vọng thực tập/KLTN thành công.</p>
+            <p class="text-muted mb-4">Bạn đã đăng ký nhóm nguyện vọng TTNN/KLTN thành công.</p>
         </div>
     </div>
 </div>
