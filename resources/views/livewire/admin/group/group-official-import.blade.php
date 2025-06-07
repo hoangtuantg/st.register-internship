@@ -17,7 +17,7 @@
                         <label id="error-name" class="validation-error-label text-danger"
                                for="name">{{ $message }}</label>
                         @enderror
-                        <a class="cursor-pointer text-primary d-inline-block mt-2" target="_blank" href="/templates/student.xlsx" download>Tải file mẫu</a>
+                        <a class="cursor-pointer text-primary d-inline-block mt-2" target="_blank" href="/templates/official-group-student.xlsx" download>Tải file mẫu</a>
                     </div>
                 </div>
             </div>
