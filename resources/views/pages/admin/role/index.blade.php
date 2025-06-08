@@ -22,7 +22,7 @@
             <div class="page-header-content d-lg-flex border-top">
                 <div class="d-flex">
                     <div class="py-2 breadcrumb">
-                        <a href="" class="breadcrumb-item"><i class="ph-house"></i></a>
+                        <a href="{{ route('dashboard') }}" class="breadcrumb-item"><i class="ph-house"></i></a>
                         <a href="" class="breadcrumb-item">Vai trò</a>
                         <span class="breadcrumb-item active">Danh sách </span>
                     </div>
