@@ -9,6 +9,7 @@ use App\Models\Campaign;
 use App\Services\SsoService;
 use App\Models\GroupOfficial;
 use App\Enums\ReportStatusEnum;
+use App\Models\Student;
 
 class DashboardController extends Controller
 {
@@ -16,43 +17,92 @@ class DashboardController extends Controller
     {
         $facultyId = app(SsoService::class)->getFacultyId();
 
-        //Số lượng chiến dịch đang hoạt động
-        $campaign = Campaign::query()
+        // Lấy tất cả các campaign đang hoạt động
+        $activeCampaigns = Campaign::query()
             ->where('faculty_id', $facultyId)
             ->where('status', StatusEnum::Active->value)
-            ->count();
+            ->get();
 
-        //Tổng số nhóm chính thức
-        $totalGroups = GroupOfficial::query()
-            ->whereHas('campaign', function ($query) use ($facultyId) {
-                $query->where('faculty_id', $facultyId)
-                    ->where('status', StatusEnum::Active->value);
-            })
-            ->count();
+        //Số lượng chiến dịch đang hoạt động
+        $campaign = $activeCampaigns->count();
 
-        //Số lượng báo cáo đã nộp
-        $submittedGroupCount = GroupOfficial::query()
-            ->whereHas('campaign', function ($query) use ($facultyId) {
-                $query->where('faculty_id', $facultyId)
-                    ->where('status', StatusEnum::Active->value);
-            })
-            ->whereNotNull('report_file')
-            ->count();
-            
-        //Tính tỷ lệ phần trăm báo cáo đã nộp
+        // Tạo dữ liệu cho từng campaign
+        $campaignData = [];
+        foreach ($activeCampaigns as $activeCampaign) {
+            //Tổng số nhóm chính thức của campaign này
+            $totalGroups = GroupOfficial::query()
+                ->where('campaign_id', $activeCampaign->id)
+                ->count();
+
+            //Số lượng báo cáo đã nộp của campaign này
+            $submittedGroupCount = GroupOfficial::query()
+                ->where('campaign_id', $activeCampaign->id)
+                ->whereNotNull('report_file')
+                ->count();
+
+            //Số lượng báo cáo đã duyệt của campaign này
+            $approvedReportCount = GroupOfficial::query()
+                ->where('campaign_id', $activeCampaign->id)
+                ->where('report_status', ReportStatusEnum::APPROVED->value)
+                ->whereNotNull('report_file')
+                ->count();
+            //Số lượng báo cáo bị từ chối của campaign này
+            $rejectedReportCount = GroupOfficial::query()
+                ->where('campaign_id', $activeCampaign->id)
+                ->where('report_status', ReportStatusEnum::REJECTED->value)
+                ->whereNotNull('report_file')
+                ->count();
+            //Số lượng báo cáo chờ duyệt của campaign này
+            $pendingReportCount = GroupOfficial::query()
+                ->where('campaign_id', $activeCampaign->id)
+                ->where('report_status', ReportStatusEnum::PENDING->value)
+                ->whereNotNull('report_file')
+                ->count();
+
+            //Tính tỷ lệ phần trăm
+            $submittedPercent = $totalGroups > 0 ? round($submittedGroupCount / $totalGroups * 100) : 0;
+            $approvedPercent = $totalGroups > 0 ? round($approvedReportCount / $totalGroups * 100) : 0;
+            $rejectedPercent = $totalGroups > 0 ? round($rejectedReportCount / $totalGroups * 100) : 0;
+            $pendingPercent = $totalGroups > 0 ? round($pendingReportCount / $totalGroups * 100) : 0;
+
+            // Sinh viên đã đăng ký thực tập
+            $totalStudents = Student::where('campaign_id', $activeCampaign->id)->count();
+            $registeredStudents = Student::where('campaign_id', $activeCampaign->id)
+                ->whereNotNull('group_id')->count();
+            $unregisteredStudents = $totalStudents - $registeredStudents;
+            $campaignData[] = [
+                'id' => $activeCampaign->id,
+                'name' => $activeCampaign->name,
+                'totalGroups' => $totalGroups,
+                'submittedGroupCount' => $submittedGroupCount,
+                'approvedReportCount' => $approvedReportCount,
+                'submittedPercent' => $submittedPercent,
+                'approvedPercent' => $approvedPercent,
+                'notSubmitted' => $totalGroups - $submittedGroupCount,
+                'notApproved' => $submittedGroupCount - $approvedReportCount,
+                'rejectedReportCount' => $rejectedReportCount,
+                'rejectedPercent' => $rejectedPercent,
+                'pendingReportCount' => $pendingReportCount,
+                'pendingPercent' => $pendingPercent,
+                'report_deadline' => $activeCampaign->report_deadline,
+                'register_end' => $activeCampaign->end,
+
+
+
+                'totalStudents' => $totalStudents,
+                'registeredStudents' => $registeredStudents,
+                'unregisteredStudents' => $unregisteredStudents,
+
+            ];
+        }
+
+        // Tính tổng cho tất cả campaigns
+        $totalGroups = collect($campaignData)->sum('totalGroups');
+        $submittedGroupCount = collect($campaignData)->sum('submittedGroupCount');
+        $approvedReportCount = collect($campaignData)->sum('approvedReportCount');
         $submittedPercent = $totalGroups > 0 ? round($submittedGroupCount / $totalGroups * 100) : 0;
-
-        //Số lượng báo cáo đã duyệt
-        $approvedReportCount = GroupOfficial::query()
-            ->whereHas('campaign', function ($query) use ($facultyId) {
-                $query->where('faculty_id', $facultyId)
-                    ->where('status', StatusEnum::Active->value);
-            })
-            ->where('report_status', ReportStatusEnum::APPROVED->value)
-            ->count();
-
-        //Tính tỷ lệ phần trăm báo cáo đã duyệt
         $approvedPercent = $totalGroups > 0 ? round($approvedReportCount / $totalGroups * 100) : 0;
+
         return view(
             'pages/admin/dashboard',
             [
@@ -62,6 +112,8 @@ class DashboardController extends Controller
                 'submittedPercent' => $submittedPercent,
                 'approvedReportCount' => $approvedReportCount,
                 'approvedPercent' => $approvedPercent,
+                'activeCampaigns' => $activeCampaigns->pluck('name'),
+                'campaignData' => $campaignData,
             ]
         );
     }

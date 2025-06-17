@@ -17,6 +17,9 @@
 <script src="{{ asset('assets/js/app.js') }}"></script>
 <script src="{{ asset('assets/js/vendor/editors/ckeditor/ckeditor_classic.js') }}"></script>
 <script src="{{ asset('assets/js/vendor/forms/selects/select2.min.js') }}"></script>
+{{-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> --}}
+<script src="{{ asset('assets/js/chart.js') }}"></script>
+
 
 {{--<!-- /theme JS files -->--}}
 

@@ -27,6 +27,17 @@
         <!-- Main navigation -->
         <div class="sidebar-section">
             <ul class="nav nav-sidebar" data-nav-type="accordion">
+                <li class="nav-item-header">
+                    <div class="text-uppercase fs-sm lh-sm opacity-50 sidebar-resize-hide">Quản lý chung</div>
+                    <i class="ph-dots-three sidebar-resize-show"></i>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('dashboard') }}"
+                        class="nav-link">
+                        <i class="ph-house"></i>
+                        <span>Bảng điều khiển</span>
+                    </a>
+                </li>
                 @if (Auth::user()->can('viewAny', \App\Models\Campaign::class) ||
                         Auth::user()->can('viewAny', \App\Models\Plan::class) ||
                         Auth::user()->can('viewAny', \App\Models\GroupOfficial::class))
@@ -77,13 +88,13 @@
                 @endcan
 
                 @if (Auth::user()->can('viewAny', \App\Models\Topic::class))
-                <li class="nav-item">
-                    <a href="{{route('admin.topics.index')}}"
-                        class="nav-link {{ request()->routeIs('admin.topics.*') ? 'active' : '' }}">
-                        <i class="ph-books"></i>
-                        <span>Đề tài</span>
-                    </a>
-                </li>
+                    <li class="nav-item">
+                        <a href="{{ route('admin.topics.index') }}"
+                            class="nav-link {{ request()->routeIs('admin.topics.*') ? 'active' : '' }}">
+                            <i class="ph-books"></i>
+                            <span>Đề tài</span>
+                        </a>
+                    </li>
                 @endif
 
                 @if (Auth::user()->can('viewAny', \App\Models\Teacher::class))

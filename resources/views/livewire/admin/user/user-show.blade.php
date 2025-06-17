@@ -23,12 +23,12 @@
                         </a>
                     </li>
 
-                    <li class="nav-item-divider"></li>
+                    {{-- <li class="nav-item-divider"></li>
                     <li class="nav-item" role="presentation">
                         <a href="{{ config('auth.sso.uri') }}/users/{{ $userData['id'] }}" class="nav-link">
                             <i class="mr-2 ph-note-pencil"></i><span>Chỉnh sửa</span>
                         </a>
-                    </li>
+                    </li> --}}
                 </ul>
             </div>
             <!-- /navigation -->

@@ -9,7 +9,7 @@
                     @if (!$groupOfficial)
                         <div class="login-image-wrapper">
                             <div class="alert alert-danger text-center" style="border-radius: 12px;">
-                                Tìm đồng đội của mình nào! <br>
+                                Ồ! <br>
                                 Hiện tại bạn đang không nằm trong nhóm chính thức nào
                             </div>
                             <img class="login-image" src="{{ asset('assets/images/search.jpg') }}" alt="login">

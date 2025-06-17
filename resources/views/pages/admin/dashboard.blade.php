@@ -13,27 +13,26 @@
         $icon = 'ph-moon text-info';
     }
 
-    $quotes = [
-        'Mỗi ngày là một cơ hội mới để thành công.',
-        'Hãy bắt đầu bằng những việc nhỏ, nhưng đừng bao giờ từ bỏ.',
-        'Bạn giỏi hơn bạn nghĩ nhiều đấy!',
-        'Thành công không đến từ may mắn, mà từ sự kiên trì.',
-        'Không bao giờ là quá muộn để bắt đầu một điều mới.',
-        'Thành công là kết quả của sự kiên trì mỗi ngày.',
-        'Nếu bạn mệt, hãy nghỉ – đừng bỏ cuộc.',
-        'Hôm nay bạn chưa giỏi, nhưng bạn đang tốt hơn ngày hôm qua.',
-        'Người thành công không hơn bạn, họ chỉ bắt đầu sớm hơn.',
-        'Đừng chờ cơ hội – hãy tạo ra nó.',
-        'Tốc độ không quan trọng, miễn là bạn không dừng lại.',
-        'Hãy là phiên bản tốt nhất của chính mình – không phải bản sao của ai khác.',
-        'Chỉ cần bắt đầu. Hành động sẽ tạo ra động lực.',
-        'Bạn mạnh mẽ hơn những gì bạn nghĩ.',
-        'Thất bại không phải là kết thúc, nó là bài học cho lần tới.',
-        'Mỗi ngày là một cơ hội để viết lại câu chuyện của bạn.',
-        'Không có bí quyết nào cho thành công ngoài chăm chỉ và bền bỉ.',
-    ];
-    $quote = $quotes[array_rand($quotes)];
+    // $quotes = [
+    //     'Lãnh đạo là nghệ thuật khiến người khác muốn làm điều bạn cần họ làm.',
+    //     'Thay đổi không phải là mối đe dọa, mà là cơ hội để phát triển.',
+    //     'Giá trị thật sự của một người không nằm ở địa vị, mà ở tác động họ tạo ra.',
+    //     'Tư duy chiến lược bắt đầu từ việc nhìn xa hơn lợi ích cá nhân.',
+    //     'Thành công lớn đến từ việc làm tốt những điều nhỏ nhặt.',
+    //     'Sự khác biệt giữa lãnh đạo và quản lý là cảm hứng và kiểm soát.',
+    //     'Quản trị tốt không nằm ở việc kiểm soát mọi thứ, mà ở việc xây dựng hệ thống bền vững.',
+    //     'Người giỏi là người làm được, người xuất sắc là người làm người khác cùng làm được.',
+    //     'Đôi khi, điều đúng đắn nhất là việc khó làm nhất.',
+    //     'Người lãnh đạo giỏi tạo ra nhiều người lãnh đạo khác, không chỉ là người theo sau.',
+    //     'Tầm nhìn không phải là dự đoán tương lai, mà là kiến tạo nó.',
+    //     'Thời gian là tài sản duy nhất không thể lấy lại – hãy dùng nó khôn ngoan.',
+    //     'Thành công bền vững đến từ việc kiên định với giá trị cốt lõi.',
+    //     'Một tổ chức mạnh là tổ chức biết học hỏi từ thất bại.',
+    // ];
+
+    // $quote = $quotes[array_rand($quotes)];
 @endphp
+
 <x-layouts.admin-layout>
     <x-slot name="header">
         <div class="page-header page-header-light shadow">
@@ -81,19 +80,19 @@
                 </div>
             </div>
         </div>
-        <div class="card shadow-sm border-0 mt-3" style="background: linear-gradient(to right, #dfe9f3, #ffffff);">
+        {{-- <div class="card shadow-sm border-0 mt-3" style="background: linear-gradient(to right, #dfe9f3, #ffffff);">
             <div class="card-body d-flex align-items-start">
                 <div class="me-3">
                     <i class="ph-quotes text-primary" style="font-size: 3rem;"></i>
                 </div>
                 <div>
                     <blockquote class="blockquote mb-0">
-                        <p class="fs-5 fst-italic text-dark">“{{ $quote }}”</p>
+                        <p class="fs-5 fst-italic text-dark">"{{ $quote }}"</p>
                         <footer class="blockquote-footer mt-2 text-muted">Lời nhắn dành cho bạn </footer>
                     </blockquote>
                 </div>
             </div>
-        </div>
+        </div> --}}
         <div class="row">
             <div class="col-lg-4">
                 <div class="card bg-teal text-white">
@@ -110,7 +109,22 @@
 
                         <div>
                             <h3>Đợt đăng ký đang mở</h3>
-                            <div class="fs-sm opacity-75">TTNN & KLTN</div>
+                            <div class="fs-sm opacity-75">
+                                <a data-bs-toggle="collapse" href="#campaignList" role="button" aria-expanded="false"
+                                    aria-controls="campaignList"
+                                    class="text-white text-decoration-none d-inline-flex align-items-center">
+                                    TTNN & KLTN
+                                    <i class="ph-caret-down ms-2"></i>
+                                </a>
+                                <div class="collapse fs-sm opacity-75 {{ count($activeCampaigns) > 1 ? 'show' : '' }}"
+                                    id="campaignList">
+                                    @forelse ($activeCampaigns as $campaignName)
+                                        <div>{{ $campaignName }}</div>
+                                    @empty
+                                        <div>Không có đợt đăng ký nào đang mở</div>
+                                    @endforelse
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -135,6 +149,14 @@
                             <h3>Nhóm đã nộp báo cáo</h3>
                             <div class="fs-sm opacity-75"> Đã có {{ $submittedGroupCount }} nhóm nộp báo cáo</div>
                         </div>
+                        <div class="progress mt-3" style="height: 15px;">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-success text-white"
+                                role="progressbar"
+                                style="width: {{ $submittedPercent }}%; font-size: 0.5rem; font-weight: bold;"
+                                aria-valuenow="{{ $submittedPercent }}" aria-valuemin="0" aria-valuemax="100">
+                                {{ $submittedPercent }}% hoàn thành
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -155,11 +177,178 @@
                             <h3>Báo cáo đã được duyệt</h3>
                             <div class="fs-sm opacity-75">Đã duyệt {{ $approvedReportCount }} báo cáo</div>
                         </div>
+                        <div class="progress mt-3" style="height: 15px;">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-success text-white"
+                                role="progressbar"
+                                style="width: {{ $approvedPercent }}%; font-size: 0.5rem; font-weight: bold;"
+                                aria-valuenow="{{ $approvedPercent }}" aria-valuemin="0" aria-valuemax="100">
+                                {{ $approvedPercent }}% hoàn thành
+                            </div>
+                        </div>
                     </div>
 
                     <div class="rounded-bottom overflow-hidden" id="today-revenue"></div>
                 </div>
             </div>
         </div>
+        @if (count($campaignData) > 0)
+            <div class="row mt-3">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5><i class="ph-chart-pie me-2"></i>Chi tiết các đợt đăng ký đang mở</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                @foreach ($campaignData as $campaign)
+                                    <div class="col-lg-12 col-md-6 mb-">
+                                        <div class="card border">
+                                            <div class="card-header bg-light">
+                                                <h6 class="mb-0 text-truncate" title="{{ $campaign['name'] }}">
+                                                    {{ $campaign['name'] }}
+                                                </h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <div
+                                                    class="d-flex flex-row justify-content-around align-items-start flex-wrap">
+                                                    {{-- Biểu đồ sinh viên đăng ký thực tập --}}
+                                                    <div class="text-center px-2" style="width: 250px;">
+                                                        <h6 class="mt-2">Sinh viên đăng ký</h6>
+                                                        <canvas id="studentChart{{ $campaign['id'] }}" width="250"
+                                                            height="250"
+                                                            style="max-width:220px; max-height:220px;"></canvas>
+                                                        <small class="text-muted d-block mt-2">
+                                                            Tổng sinh viên: {{ $campaign['totalStudents'] ?? 0 }}
+                                                        </small>
+                                                        <small class="text-muted d-block mt-2">
+                                                            Hạn đăng ký: 
+                                                            {{ $campaign['register_end'] ? \Carbon\Carbon::parse($campaign['register_end'])->format('d/m/Y') : 'Chưa có' }}
+                                                        </small>
+                                                    </div>
+
+                                                    {{-- Biểu đồ báo cáo thực tập --}}
+                                                    <div class="text-center px-2" style="width: 270px;">
+                                                        <h6 class="mt-2">Báo cáo tổng kết</h6>
+                                                        <canvas id="campaignChart{{ $campaign['id'] }}"
+                                                            width="250" height="250"
+                                                            style="max-width:250px; max-height:250px;"></canvas>
+                                                        <small class="text-muted d-block">
+                                                            Tổng: {{ $campaign['totalGroups'] }} nhóm
+                                                        </small>
+                                                        <small class="text-muted">
+                                                            Hạn nộp:
+                                                            {{ $campaign['report_deadline'] ? \Carbon\Carbon::parse($campaign['report_deadline'])->format('d/m/Y') : 'Chưa có' }}
+                                                        </small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
     </div>
 </x-layouts.admin-layout>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const campaignData = @json($campaignData);
+
+        campaignData.forEach(function(campaign) {
+            const ctx = document.getElementById(`campaignChart${campaign.id}`).getContext('2d');
+
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Đã duyệt', 'Chờ duyệt', 'Đã hủy', 'Chưa nộp'],
+                    datasets: [{
+                        data: [
+                            campaign.approvedReportCount,
+                            // campaign.notApproved,
+                            campaign.pendingReportCount,
+                            campaign.rejectedReportCount,
+                            campaign.notSubmitted
+                        ],
+                        backgroundColor: ['#4CAF50', '#FF9800', '#9E9E9E', '#F44336'],
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                boxWidth: 12,
+                                padding: 15,
+                                font: {
+                                    size: 11
+                                }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const value = context.parsed;
+                                    const total = campaign.totalGroups;
+                                    const percent = total > 0 ? (value / total * 100)
+                                        .toFixed(1) : 0;
+                                    return `${context.label}: ${value} (${percent}%)`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            // Biểu đồ sinh viên:
+            const ctx2 = document.getElementById(`studentChart${campaign.id}`);
+            if (ctx2) {
+                new Chart(ctx2, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Đã đăng ký', 'Chưa đăng ký'],
+                        datasets: [{
+                            data: [campaign.registeredStudents, campaign
+                                .unregisteredStudents
+                            ],
+                            backgroundColor: ['#2196F3', '#B0BEC5'], // xanh & xám
+                            hoverOffset: 6
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    boxWidth: 12,
+                                    padding: 10,
+                                    font: {
+                                        size: 11
+                                    }
+                                }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        const val = context.parsed;
+                                        const total = campaign.registeredStudents + campaign
+                                            .unregisteredStudents;
+                                        const pct = total > 0 ? (val / total * 100).toFixed(
+                                            1) : 0;
+                                        return `${context.label}: ${val} (${pct}%)`;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    });
+</script>
