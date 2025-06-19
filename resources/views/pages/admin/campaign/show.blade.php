@@ -14,7 +14,7 @@
                 <div class="d-flex">
                     <div class="py-2 breadcrumb">
                         <a href="{{ route('dashboard') }}" class="breadcrumb-item"><i class="ph-house"></i></a>
-                        <a href="{{ route('admin.campaigns.index') }}" class="breadcrumb-item">Chiến dịch</a>
+                        <a href="{{ route('admin.campaigns.index') }}" class="breadcrumb-item">Đợt đăng ký</a>
                         <span class="breadcrumb-item active">Thông tin</span>
                     </div>
 

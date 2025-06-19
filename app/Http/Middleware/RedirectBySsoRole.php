@@ -19,7 +19,7 @@ class RedirectBySsoRole
     {
         $userData = app(SsoService::class)->getDataUser();
         $role = $userData['role'];
-        $path = $request->path(); // ví dụ: "admin", "admin/campaigns", "", "internship/campaign"
+        $path = $request->path();
 
         //Nếu là admin (super_admin, officer) mà vào route không phải admin
         if (

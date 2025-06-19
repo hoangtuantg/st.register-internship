@@ -24,7 +24,7 @@
                     <div class="py-2 breadcrumb">
                         <a href="{{ route('dashboard') }}" class="breadcrumb-item"><i class="ph-house"></i></a>
                         <a href="{{ route('admin.reports.index')}}" class="breadcrumb-item">Báo cáo</a>
-                        <span class="breadcrumb-item active">Danh sách báo cáo tổng kết</span>
+                        <span class="breadcrumb-item active">{{$campaign->name}}</span>
                     </div>
 
                     <a href="#breadcrumb_elements"

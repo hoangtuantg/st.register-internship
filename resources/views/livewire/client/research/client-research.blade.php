@@ -9,8 +9,8 @@
                     @if (!$group)
                         <div class="login-image-wrapper">
                             <div class="alert alert-danger text-center" style="border-radius: 12px;">
-                                Tìm đồng đội của mình nào! <br>
-                                Hiện tại bạn đang không nằm trong nhóm nguyện vọng thực tập nào
+                                Ồ, đã hết hạn đăng ký thực tập rồi! <br>
+                                Hẹn gặp lại bạn vào đợt đăng ký thực tập lần sau nhé!
                             </div>
                             <img class="login-image" src="{{ asset('assets/images/search.jpg') }}" alt="login">
                             <div class="line"></div>

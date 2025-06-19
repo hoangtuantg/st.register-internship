@@ -23,6 +23,7 @@ class PlanIndex extends Component
         $plans = Plan::query()
         ->search($this->search)
         ->where('faculty_id', $facultyId)
+        ->orderBy('created_at', 'desc')
         ->paginate(Constants::PER_PAGE_ADMIN);
         return view('livewire.admin.plan.plan-index', [
             'plans' => $plans,

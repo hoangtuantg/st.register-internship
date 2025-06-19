@@ -22,7 +22,7 @@ class CampaignUpdate extends Component
 {
     public int|string $campaignId;
 
-    #[Validate(as: 'tên đợt chiến dịch')]
+    #[Validate(as: 'tên đợt đợt đăng ký')]
     public string $name = '';
 
     #[Validate('required', as: 'ngày bắt đầu')]

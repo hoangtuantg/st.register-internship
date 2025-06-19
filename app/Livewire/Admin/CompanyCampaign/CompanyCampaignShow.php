@@ -54,7 +54,7 @@ class CompanyCampaignShow extends Component
         $campaign = Campaign::find($this->campaignId);
 
         if (!$campaign) {
-            session()->flash('error', 'Không tìm thấy chiến dịch.');
+            session()->flash('error', 'Không tìm thấy đợt đăng ký.');
             return;
         }
 

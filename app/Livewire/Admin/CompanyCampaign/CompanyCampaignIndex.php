@@ -18,6 +18,7 @@ class CompanyCampaignIndex extends Component
         $campaigns = Campaign::query()
         ->search($this->search)
         ->where('faculty_id', $facultyId)
+        ->orderBy('created_at', 'desc')
         ->paginate(Constants::PER_PAGE_ADMIN);
         return view('livewire.admin.company-campaign.company-campaign-index', [
             'campaigns' => $campaigns,

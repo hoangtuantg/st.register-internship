@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use App\Services\SsoService;
 use App\Models\Teacher;
 use App\Models\User;
+use App\Models\PlanDetail;
 
 class ReportShow extends Component
 {
@@ -44,8 +45,15 @@ class ReportShow extends Component
             })
             ->search($this->search)
             ->paginate(Constants::PER_PAGE_ADMIN);
+        $campaign = \App\Models\Campaign::with('planTemplate')->find($this->campaignId);
+
+        $plans = PlanDetail::query()
+            ->where('plan_id', $campaign->planTemplate->id ?? null)
+            ->paginate(Constants::PER_PAGE_ADMIN);
         return view('livewire.admin.report.report-show', [
-            'groups' => $groups
+            'groups' => $groups,
+            'plans' => $plans,
+            'planName' => $campaign->planTemplate->name ?? 'Chưa có kế hoạch',
         ]);
     }
 
@@ -75,5 +83,10 @@ class ReportShow extends Component
     {
         $group = GroupOfficial::findOrFail($groupId);
         $group->update(['report_status' => \App\Enums\ReportStatusEnum::REJECTED->value]);
+    }
+
+    public function openPlanModal()
+    {
+        $this->dispatch('open-plan-modal');
     }
 }

@@ -40,6 +40,7 @@ class TopicIndex extends Component
         
         $topics = Topic::where('teacher_id', $this->teacherId)
             ->search($this->search)
+            ->orderBy('created_at', 'desc')
             ->paginate(Constants::PER_PAGE_ADMIN);
         return view('livewire.admin.topic.topic-index', [
             'topics' => $topics,
