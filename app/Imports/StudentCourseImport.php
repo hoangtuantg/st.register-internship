@@ -19,8 +19,8 @@ class StudentCourseImport implements ToCollection, WithStartRow, WithHeadingRow
     {
     }
 
-    public const START_ROW = 4;
-    public const HEADER_INDEX = 3;
+    public const START_ROW = 3;
+    public const HEADER_INDEX = 2;
 
     /**
      * @param Collection $collection
