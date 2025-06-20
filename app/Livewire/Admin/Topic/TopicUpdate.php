@@ -63,6 +63,7 @@ class TopicUpdate extends Component
             'title' => $this->title,
             'campaign_id' => $this->campaign_id,
             'teacher_id' => $this->teacherId,
+            'description' => $this->description,
         ]);
 
         session()->flash('success', 'Cập nhật đề tài thành công!');
@@ -74,7 +75,7 @@ class TopicUpdate extends Component
         return [
             'title' => 'required',
             'campaign_id' => 'required',
-            'description' => 'max:100',
+            'description' => 'max:600',
         ];
     }
 }

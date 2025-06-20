@@ -37,7 +37,7 @@ class TopicIndex extends Component
         if ($teacher) {
             $this->teacherId = $teacher->id;
         }
-        
+
         $topics = Topic::where('teacher_id', $this->teacherId)
             ->search($this->search)
             ->orderBy('created_at', 'desc')
@@ -57,5 +57,29 @@ class TopicIndex extends Component
     {
         Topic::destroy($this->topicId);
         $this->dispatch('alert', type: 'success', message: 'Xóa thành công');
+    }
+
+    public $selectedTopic = null;
+
+    public function topicDetail($id): void
+    {
+        $this->selectedTopic = Topic::find($id);
+    }
+
+    public function copy($id)
+    {
+        $original = Topic::find($id);
+
+        if (!$original) {
+            $this->dispatch('alert', type: 'error', message: 'Không tìm thấy đề tài.');
+            return;
+        }
+
+        // Gửi dữ liệu sang component tạo mới
+        session()->flash('copied_title', $original->title);
+        session()->flash('copied_description', $original->description);
+
+        // Redirect sang route tạo đề tài
+        return redirect()->route('admin.topics.create');
     }
 }

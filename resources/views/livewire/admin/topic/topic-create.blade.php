@@ -20,6 +20,15 @@
                 </div>
                 <div class="form-group">
                     <label class="form-label mt-1">
+                        Mô tả:
+                    </label>
+                    <textarea class="form-control" wire:model.live="description"></textarea>
+                    @error('description')
+                        <label class="text-danger mt-1">{{ $message }}</label>
+                    @enderror
+                </div>
+                <div class="form-group">
+                    <label class="form-label mt-1">
                         Đợt đăng ký: <span class="text-danger">*</span>
                     </label>
                     <select id="campaign" class="form-control" wire:model.live="campaign_id">
@@ -51,4 +60,3 @@
     </div>
 
 </div>
-

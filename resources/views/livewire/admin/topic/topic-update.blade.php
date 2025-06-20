@@ -20,6 +20,15 @@
                 </div>
                 <div class="form-group">
                     <label class="form-label mt-1">
+                        Mô tả:
+                    </label>
+                    <textarea class="form-control" wire:model.live="description"></textarea>
+                    @error('description')
+                        <label class="text-danger mt-1">{{ $message }}</label>
+                    @enderror
+                </div>
+                <div class="form-group">
+                    <label class="form-label mt-1">
                         Đợt đăng ký: <span class="text-danger">*</span>
                     </label>
                     <select id="campaign" class="form-control" wire:model.live="campaign_id">
@@ -42,7 +51,8 @@
                 Hành động
             </div>
             <div class="card-body d-flex align-items-center gap-1">
-                <button wire:click="update" class="btn btn-primary" type="submit"><i class="ph-floppy-disk"></i>Chỉnh sửa
+                <button wire:click="update" class="btn btn-primary" type="submit"><i class="ph-floppy-disk"></i>Chỉnh
+                    sửa
                 </button>
                 <a href="{{ route('admin.topics.index') }}" type="button" class="btn btn-warning"><i
                         class="ph-arrow-counter-clockwise"></i> Trở lại</a>
@@ -51,4 +61,3 @@
     </div>
 
 </div>
-

@@ -21,6 +21,9 @@ class TopicCreate extends Component
     #[Validate(as: 'đợt đăng ký')]
     public $campaign_id;
 
+    #[Validate(as: 'mô tả')]
+    public $description;
+
     public function render()
     {
         $facultyId = app(SsoService::class)->getFacultyId();
@@ -31,6 +34,13 @@ class TopicCreate extends Component
             'campaigns' => $campaigns,
         ]);
     }
+
+    public function mount(): void
+    {
+        $this->title = session('copied_title', '');
+        $this->description = session('copied_description', '');
+    }
+
 
     public function store()
     {
@@ -53,6 +63,7 @@ class TopicCreate extends Component
             'title' => $this->title,
             'campaign_id' => $this->campaign_id,
             'teacher_id' => $this->teacherId,
+            'description' => $this->description,
         ]);
 
         session()->flash('success', 'Tạo chủ đề thành công!');
@@ -64,6 +75,7 @@ class TopicCreate extends Component
         return [
             'title' => 'required',
             'campaign_id' => 'required',
+            'description' => 'max:600',
         ];
     }
 }

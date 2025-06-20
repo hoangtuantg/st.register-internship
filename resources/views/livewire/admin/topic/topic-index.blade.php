@@ -9,11 +9,11 @@
             <div class="d-flex gap-1">
                 <div>
                     @can('create', \App\Models\Topic::class)
-                    <a href="{{route('admin.topics.create')}}" class="btn btn-teal">
-                        <i class="ph-plus-circle me-1">
+                        <a href="{{ route('admin.topics.create') }}" class="btn btn-teal">
+                            <i class="ph-plus-circle me-1">
                             </i> Tạo mới
-                    </a>
-                    @endcan                
+                        </a>
+                    @endcan
                 </div>
             </div>
         </div>
@@ -40,19 +40,37 @@
                                         <i class="ph-list"></i>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-end">
-                                        @can('update', $topic)
-                                        <a href="{{route('admin.topics.edit',  ['topic' => $topic->id])}}" class="dropdown-item">
-                                            <i class="ph-pencil me-2"></i>
-                                            Chỉnh sửa
-                                        </a>
-                                        @endcan
-
-                                        @can('delete', $topic)
-                                        <button type="button" wire:click="openDeleteModal({{ $topic->id }})" class="dropdown-item text-danger">
-                                            <i class="ph-trash me-2"></i>
-                                            Xóa
+                                        <button type="button" wire:click="topicDetail({{ $topic->id }})"
+                                            class="dropdown-item" data-bs-toggle="modal" data-bs-target="#topicModal">
+                                            <i class="ph-eye me-2"></i>
+                                            Xem chi tiết
                                         </button>
-                                        @endcan
+                                        @unless ($topic->campaign->isEditOfficialExpired())
+                                            @can('update', $topic)
+                                                <a href="{{ route('admin.topics.edit', ['topic' => $topic->id]) }}"
+                                                    class="dropdown-item">
+                                                    <i class="ph-pencil me-2"></i>
+                                                    Chỉnh sửa
+                                                </a>
+                                            @endcan
+                                        @endunless
+
+                                        @unless ($topic->campaign->isEditOfficialExpired())
+                                            @can('delete', $topic)
+                                                <button type="button" wire:click="openDeleteModal({{ $topic->id }})"
+                                                    class="dropdown-item text-danger">
+                                                    <i class="ph-trash me-2"></i>
+                                                    Xóa
+                                                </button>
+                                            @endcan
+                                        @endunless
+
+                                        @if($topic->campaign->isEditOfficialExpired())
+                                        <a type="button" wire:click="copy({{ $topic->id }})" class="dropdown-item">
+                                            <i class="ph-copy me-2"></i>
+                                            Sao chép
+                                        </a>
+                                        @endif
                                     </div>
                                 </div>
                             </td>
@@ -63,28 +81,59 @@
                 </tbody>
             </table>
         </div>
+        <div wire:ignore.self class="modal fade" id="topicModal" tabindex="-1" aria-labelledby="topicsModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="companyModalLabel">
+                            Thông tin chi tiết đề tài
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        @if ($selectedTopic)
+                            <div class="row mb-3">
+                                <div class="col-md-4 fw-bold">Tên đề tài:</div>
+                                <div class="col-md-8">{{ $selectedTopic->title }}</div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-4 fw-bold">Tên đợt đăng ký:</div>
+                                <span
+                                    class="badge bg-primary bg-opacity-20 text-primary w-auto">{{ $selectedTopic->campaign->name }}
+                                    </sp>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-4 fw-bold">Mô tả:</div>
+                                <div class="col-md-8">{{ $selectedTopic->description }}</div>
+                            </div>
+                        @endif
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     {{ $topics->links('vendor.pagination.theme') }}
 </div>
 
 @script
-<script>
-
-    window.addEventListener('openDeleteModal', () => {
-        new swal({
-            title: "Bạn có chắc chắn?",
-            text: "Dữ liệu sau khi xóa không thể phục hồi!",
-            showCancelButton: true,
-            confirmButtonColor: "#FF7043",
-            confirmButtonText: "Đồng ý!",
-            cancelButtonText: "Đóng!"
-        }).then((value) => {
-            if (value.isConfirmed) {
-                Livewire.dispatch('deleteTopic')
-            }
+    <script>
+        window.addEventListener('openDeleteModal', () => {
+            new swal({
+                title: "Bạn có chắc chắn?",
+                text: "Dữ liệu sau khi xóa không thể phục hồi!",
+                showCancelButton: true,
+                confirmButtonColor: "#FF7043",
+                confirmButtonText: "Đồng ý!",
+                cancelButtonText: "Đóng!"
+            }).then((value) => {
+                if (value.isConfirmed) {
+                    Livewire.dispatch('deleteTopic')
+                }
+            })
         })
-    })
-
-
-</script>
+    </script>
 @endscript
