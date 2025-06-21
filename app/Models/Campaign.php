@@ -23,6 +23,7 @@ class Campaign extends Model
         'plan_id',
         'faculty_id',
         'report_deadline',
+        'status',
     ];
 
     public function students(): HasMany

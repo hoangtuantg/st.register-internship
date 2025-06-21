@@ -29,6 +29,7 @@
                                             @forelse ($teacher->topics as $topic)
                                                 <li class="list-group-item">
                                                     <strong>{{ $topic->title }}</strong>
+                                                    <p class="text-muted mb-0">{{ $topic->description }}</p>
                                                 </li>
                                             @empty
                                                 <li class="list-group-item text-muted">Hiện chưa có đề tài nào.</li>
