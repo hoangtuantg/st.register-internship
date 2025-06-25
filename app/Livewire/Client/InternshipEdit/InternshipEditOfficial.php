@@ -18,7 +18,7 @@ class InternshipEditOfficial extends Component
     public string $key;
     public string|int $campaignId;
 
-    public string $topic = '';
+    public ?string $topic = '';
     public string $supervisor = '';
 
     public array $dataStudent = [];

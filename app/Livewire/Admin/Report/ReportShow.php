@@ -33,6 +33,7 @@ class ReportShow extends Component
         if ($teacher) {
             $this->teacherId = $teacher->id;
         }
+        $this->search = request()->query('search', '');
     }
 
     public function render()

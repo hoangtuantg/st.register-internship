@@ -23,7 +23,7 @@
                             <td width="5%">{{ $loop->index + 1 + $campaigns->perPage() * ($campaigns->currentPage() - 1) }}</td>
                             <td width="50%">
                                 @can('view', \App\Models\GroupOfficial::class)
-                                <a href="{{ route('admin.reports.show', $campaign->id) }}">
+                                <a href="{{ route('admin.reports.show', $campaign->id) }}?search={{ urlencode($search) }}">
                                     {{ $campaign->name }}
                                 </a>
                                 @else
