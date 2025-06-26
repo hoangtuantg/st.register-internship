@@ -16,7 +16,8 @@ class ReportIndex extends Component
         $facultyId = app(SsoService::class)->getFacultyId();
         $campaigns = Campaign::query()
         ->search($this->search)
-        ->where('faculty_id', $facultyId)   
+        ->where('faculty_id', $facultyId)
+        ->orderBy('created_at', 'desc')
         ->paginate(Constants::PER_PAGE_ADMIN);
         return view('livewire.admin.report.report-index', [
             'campaigns' => $campaigns,
