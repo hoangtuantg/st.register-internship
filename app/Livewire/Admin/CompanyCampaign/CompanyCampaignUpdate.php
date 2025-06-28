@@ -68,7 +68,7 @@ class CompanyCampaignUpdate extends Component
                 'amount' => $this->amount,
                 'job_description' => $this->jobDescription,
             ]);
-
-        $this->dispatch('alert', type: 'success', message: 'Cập nhật thành công! Hãy bấm tải lại dữ liệu');
+        session()->flash('success', 'Cập nhật thông tin công ty thành công!');
+        return redirect()->route('admin.company-campaign.show',['campaign' => $this->campaignId]);
     }
 }

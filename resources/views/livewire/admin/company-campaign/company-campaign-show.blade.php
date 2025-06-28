@@ -3,8 +3,7 @@
         <div class="card-body">
             <div class="row d-flex justify-content-between">
                 <div class="col-md-9 col-12">
-                    <h6 class="fw-semibold text-primary"><a
-                            href="{{ route('admin.company-campaign.index') }}">{{ $campaign?->name }}</a></h6>
+                    <h6 class="fw-semibold text-primary">{{ $campaign?->name }}</h6>
                     <p class="mb-3"><b class="text-muted">Thời gian</b>:
                         {{ \Carbon\Carbon::make($campaign->start)->format('d/m/Y') }} -
                         {{ \Carbon\Carbon::make($campaign->end)->format('d/m/Y') }}</a></p>
@@ -21,7 +20,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>  
     <div wire:ignore.self class="card collapse" id="collapsed_item1" data-bs-parent="#accordion_collapsed">
         <div class="card-body">
             <h6 class="fw-bold">Danh sách công ty:</h6>

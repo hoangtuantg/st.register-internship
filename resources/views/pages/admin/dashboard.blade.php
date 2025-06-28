@@ -12,25 +12,6 @@
         $greeting = 'Chào buổi tối';
         $icon = 'ph-moon text-info';
     }
-
-    // $quotes = [
-    //     'Lãnh đạo là nghệ thuật khiến người khác muốn làm điều bạn cần họ làm.',
-    //     'Thay đổi không phải là mối đe dọa, mà là cơ hội để phát triển.',
-    //     'Giá trị thật sự của một người không nằm ở địa vị, mà ở tác động họ tạo ra.',
-    //     'Tư duy chiến lược bắt đầu từ việc nhìn xa hơn lợi ích cá nhân.',
-    //     'Thành công lớn đến từ việc làm tốt những điều nhỏ nhặt.',
-    //     'Sự khác biệt giữa lãnh đạo và quản lý là cảm hứng và kiểm soát.',
-    //     'Quản trị tốt không nằm ở việc kiểm soát mọi thứ, mà ở việc xây dựng hệ thống bền vững.',
-    //     'Người giỏi là người làm được, người xuất sắc là người làm người khác cùng làm được.',
-    //     'Đôi khi, điều đúng đắn nhất là việc khó làm nhất.',
-    //     'Người lãnh đạo giỏi tạo ra nhiều người lãnh đạo khác, không chỉ là người theo sau.',
-    //     'Tầm nhìn không phải là dự đoán tương lai, mà là kiến tạo nó.',
-    //     'Thời gian là tài sản duy nhất không thể lấy lại – hãy dùng nó khôn ngoan.',
-    //     'Thành công bền vững đến từ việc kiên định với giá trị cốt lõi.',
-    //     'Một tổ chức mạnh là tổ chức biết học hỏi từ thất bại.',
-    // ];
-
-    // $quote = $quotes[array_rand($quotes)];
 @endphp
 
 <x-layouts.admin-layout>
@@ -80,19 +61,6 @@
                 </div>
             </div>
         </div>
-        {{-- <div class="card shadow-sm border-0 mt-3" style="background: linear-gradient(to right, #dfe9f3, #ffffff);">
-            <div class="card-body d-flex align-items-start">
-                <div class="me-3">
-                    <i class="ph-quotes text-primary" style="font-size: 3rem;"></i>
-                </div>
-                <div>
-                    <blockquote class="blockquote mb-0">
-                        <p class="fs-5 fst-italic text-dark">"{{ $quote }}"</p>
-                        <footer class="blockquote-footer mt-2 text-muted">Lời nhắn dành cho bạn </footer>
-                    </blockquote>
-                </div>
-            </div>
-        </div> --}}
         <div class="row">
             <div class="col-lg-4">
                 <div class="card bg-teal text-white">
