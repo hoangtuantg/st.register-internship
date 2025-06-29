@@ -66,8 +66,10 @@
                         </tr>
                         <tr id="st{{ $group->id }}" class="accordion-collapse collapse" wire:ignore.self>
                             <td colspan="7">
+                                <div class="d-flex justify-content-center">
                                 <livewire:admin.group.group-official-member-index :group="$group"
                                     wire:key="group-{{ $group->id }}" />
+                                </div>
                             </td>
                         </tr>
 

@@ -17,7 +17,7 @@ class PlanDetailUpdate extends Component
     public int|string $planTemplateId;
 
     #[Validate(as: 'ngày bắt đầu')]
-    public string $start= '';
+    public string $start = '';
 
     #[Validate(as: 'ngày kết thúc')]
     public string $end = '';
@@ -100,7 +100,9 @@ class PlanDetailUpdate extends Component
                     'content' => $this->content,
                 ]);
                 $this->isLoading = false;
-                $this->dispatch('alert', type: 'success', message: 'Cập nhật thành công!');
+                // $this->dispatch('alert', type: 'success', message: 'Cập nhật thành công!');
+                session()->flash('success', 'Cập nhật thành công!');
+                return redirect()->route('admin.plans.show',['plan' => $this->planTemplateId]);
             } catch (\Exception $e) {
                 $this->dispatch('alert', type: 'error', message: 'Cập nhật thất bại!');
                 Log::error('Error create plan detail', [

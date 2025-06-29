@@ -181,7 +181,7 @@
                                                     class="d-flex flex-row justify-content-around align-items-start flex-wrap">
                                                     {{-- Biểu đồ sinh viên đăng ký thực tập --}}
                                                     <div class="text-center px-2" style="width: 250px;">
-                                                        <h6 class="mt-2">Sinh viên đăng ký</h6>
+                                                        <h6 class="mt-2">Sinh viên đã đăng ký</h6>
                                                         <canvas id="studentChart{{ $campaign['id'] }}" width="250"
                                                             height="250"
                                                             style="max-width:220px; max-height:220px;"></canvas>

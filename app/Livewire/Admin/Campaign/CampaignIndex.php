@@ -21,6 +21,7 @@ class CampaignIndex extends Component
 
     public function render()
     {
+        // dd(app(SsoService::class)->getDataUser());
         $facultyId = app(SsoService::class)->getFacultyId();
 
         $campaigns = Campaign::query()
