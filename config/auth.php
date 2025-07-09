@@ -124,6 +124,12 @@ return [
     */
     'sso' => [
         'uri' => env('SSO_URL', 'https://st.sso.dev:8882'),
+        //server
+        'ip' => env('SSO_IP', '127.0.0.1:8000'),
+
+        //local
+        // 'ip' => env('SSO_URL', 'https://st.sso.dev:8882'),
+
         'client_id' => env('SSO_CLIENT_ID', 'your-client-id'),
         'client_secret' => env('SSO_CLIENT_SECRET', 'client-secret'),
         'api_key' => env('SSO_API_KEY', 'api_key'),
