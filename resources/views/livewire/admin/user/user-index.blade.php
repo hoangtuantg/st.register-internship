@@ -30,7 +30,7 @@
                     <tr class="table-light">
                         <th width="5%">STT</th>
                         <th width="30%">Họ và tên</th>
-                        <th>Điện thoại</th>
+                        {{-- <th>Điện thoại</th> --}}
                         <th>Loại tài khoản</th>
                         <th>Vai trò</th>
                     </tr>
@@ -56,7 +56,7 @@
                                     </div>
                                 </a>
                             </td>
-                            <td>{{ $item->user_data['phone'] ?? '-' }}</td>
+                            {{-- <td>{{ $item->user_data['phone'] ?? '-' }}</td> --}}
                             <td>
                                 @if($item->role)
                                     <x-user.role-badge :role="$item['role']" />
