@@ -112,7 +112,13 @@ class DashboardController extends Controller
                 'submittedPercent' => $submittedPercent,
                 'approvedReportCount' => $approvedReportCount,
                 'approvedPercent' => $approvedPercent,
-                'activeCampaigns' => $activeCampaigns->pluck('name'),
+                // 'activeCampaigns' => $activeCampaigns->pluck('name'),
+                'activeCampaigns' => $activeCampaigns->map(function ($c) {
+                    return [
+                        'id' => $c->id,
+                        'name' => $c->name,
+                    ];
+                })->values(),
                 'campaignData' => $campaignData,
             ]
         );

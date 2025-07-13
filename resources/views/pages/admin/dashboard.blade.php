@@ -20,7 +20,7 @@
             <div class="page-header-content d-lg-flex">
                 <div class="d-flex">
                     <h4 class="page-title mb-0">
-                        Dashboard
+                        Bảng điều khiển
                     </h4>
 
                     <a href="#page_header"
@@ -36,7 +36,7 @@
                 <div class="d-flex">
                     <div class="breadcrumb py-2">
                         <a href="" class="breadcrumb-item"><i class="ph-house"></i></a>
-                        <span class="breadcrumb-item active">Dashboard</span>
+                        <span class="breadcrumb-item active">Bảng điểu khiển</span>
                     </div>
 
                     <a href="#breadcrumb_elements"
@@ -75,7 +75,7 @@
                             </div>
                         </div>
 
-                        <div>
+                        {{-- <div>
                             <h3>Đợt đăng ký đang mở</h3>
                             <div class="fs-sm opacity-75">
                                 <a data-bs-toggle="collapse" href="#campaignList" role="button" aria-expanded="false"
@@ -93,7 +93,60 @@
                                     @endforelse
                                 </div>
                             </div>
+                        </div> --}}
+                        <div>
+                            <h3>Đợt đăng ký đang mở</h3>
+                            <div>
+                                <button type="button"
+                                    class="btn btn-outline-light text-white d-inline-flex align-items-center px-4 py-2 rounded-2 border-white"
+                                    style="font-weight: 500; font-size: 0.95rem;" data-bs-toggle="modal"
+                                    data-bs-target="#activeCampaignModal">
+                                    <i class="ph-arrow-circle-right me-2 fs-5"></i>
+                                    Danh sách đợt đăng ký
+                                </button>
+                            </div>
                         </div>
+                        <!-- Modal hiển thị danh sách đợt đăng ký đang mở -->
+                        <div class="modal fade" id="activeCampaignModal" tabindex="-1"
+                            aria-labelledby="activeCampaignModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-lg"> <!-- mở rộng khung modal -->
+                                <div class="modal-content border-0 shadow-lg rounded-3 text-primary">
+                                    <div class="modal-header bg-primary text-white rounded-top">
+                                        <h5 class="modal-title" id="activeCampaignModalLabel">
+                                            <i class="ph-telegram-logo me-2"></i> Danh sách đợt đăng ký đang mở
+                                        </h5>
+                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                                            aria-label="Đóng"></button>
+                                    </div>
+
+                                    <div class="modal-body bg-light">
+                                        @forelse ($activeCampaigns as $campaign)
+                                            <a href="{{ route('admin.campaigns.show', $campaign['id']) }}"
+                                                class="text-decoration-none">
+                                                <div
+                                                    class="d-flex align-items-center p-3 mb-2 bg-white rounded shadow-sm hover-scale">
+                                                    <i class="ph-caret-right text-primary me-3 fs-5"></i>
+                                                    <span
+                                                        class="fw-semibold text-primary">{{ $campaign['name'] }}</span>
+                                                </div>
+                                            </a>
+                                        @empty
+                                            <div class="alert alert-warning mb-0">
+                                                Không có đợt đăng ký nào đang mở
+                                            </div>
+                                        @endforelse
+                                    </div>
+                                    <div class="modal-footer bg-light border-top-0">
+                                        <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">
+                                            <i class="ph-x me-1"></i> Đóng
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-2" style="height: -2px; visibility: hidden;">
+                        </div>
+
                     </div>
 
                     <div class="rounded-bottom overflow-hidden mx-3" id="members-online"></div>
@@ -189,7 +242,7 @@
                                                             Tổng sinh viên: {{ $campaign['totalStudents'] ?? 0 }}
                                                         </small>
                                                         <small class="text-muted d-block mt-2">
-                                                            Hạn đăng ký: 
+                                                            Hạn đăng ký:
                                                             {{ $campaign['register_end'] ? \Carbon\Carbon::parse($campaign['register_end'])->format('d/m/Y') : 'Chưa có' }}
                                                         </small>
                                                     </div>
